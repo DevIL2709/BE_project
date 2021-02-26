@@ -160,7 +160,7 @@
           <div class="collapse navbar-collapse justify-content-end">
             <form class="navbar-form">
               <div class="input-group no-border">
-                <input type="text" name="search" id="search" class="form-control" placeholder="Search..." onkeyup="searchItem()">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
                 <button type="button" class="btn btn-white btn-round btn-just-icon">
                 <i class="material-icons">search</i>
                 <div class="ripple-container"></div>
@@ -237,7 +237,7 @@
                     </thead>
                     <tbody>
                     <?php while($array = mysqli_fetch_assoc($result)): ?>
-                      <tr>
+                      <tr class="case">
                         <td><?php echo "Client: ".$array['clientname']; ?><br>
                         <?php echo "Case: ".$array['casetype']; ?></td>
                         <td><?php echo "Court Type: ".$array['courttype']; ?><br>
@@ -472,61 +472,36 @@
     });
   });
 
+$(document).ready(function(){
 
-  function searchItem() {
-    // Declare variables
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
+// Search all columns
+$('#search').keyup(function(){
+  // Search Text
+  var search = $(this).val();
 
-    // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[1];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[2];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[3];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-    }
+  // Hide all table tbody rows
+  $('table tbody tr').hide();
+
+  // Count total search result
+  var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+  if(len > 0){
+    // Searching text in columns and show match row
+    $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+      $(this).closest('tr').show();
+    });
+  }else{
+    $('.notfound').show();
   }
+
+});
+// Case-insensitive searching (Note - remove the below script for Case sensitive search )
+$.expr[":"].contains = $.expr.createPseudo(function(arg) {
+   return function( elem ) {
+     return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+   };
+});
+});
 
     function showdiv(){
       var status = document.getElementById("status").value;
