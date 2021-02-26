@@ -160,8 +160,8 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
           <div class="collapse navbar-collapse justify-content-end">
             <form class="navbar-form">
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search..." onkeyup="searchItem()">
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
                   <i class="material-icons">search</i>
                   <div class="ripple-container"></div>
                 </button>
@@ -226,7 +226,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <p class="card-category">Total Appointments</p>
                 </div>
                 <div class="card-body table-responsive">
-                  <table class="table table-hover">
+                  <table class="table table-hover" id="myTable">
                     <thead class="text-primary">
                       <th>No.</th>
                       <th>Client Name</th>
@@ -395,6 +395,30 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <script>
+  
+  function searchItem() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[1];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+
+
   console.log("here");
   function fetchstatus(id){
     console.log(id);
