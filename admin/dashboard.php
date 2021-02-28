@@ -179,6 +179,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
         <div class="container-fluid">
           <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
+            <a href="./client.php">
               <div class="card card-stats">
                 <div class="card-header card-header-warning card-header-icon">
                   <div class="card-icon">
@@ -193,8 +194,10 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </div>
                 </div>
               </div>
+            </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
+            <a href="./cases.php">
               <div class="card card-stats">
                 <div class="card-header card-header-success card-header-icon">
                   <div class="card-icon">
@@ -209,8 +212,10 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </div>
                 </div>
               </div>
+            </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
+            <a href="./appointment.php">
               <div class="card card-stats">
                 <div class="card-header card-header-danger card-header-icon">
                   <div class="card-icon">
@@ -225,8 +230,10 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </div>
                 </div>
               </div>
+            </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
+            <a href="./task.php">
               <div class="card card-stats">
                 <div class="card-header card-header-info card-header-icon">
                   <div class="card-icon">
@@ -242,6 +249,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 </div>
               </div>
             </div>
+          </a>
           </div>
           <div class="row">
             <div class="col-lg-12 col-md-12">
