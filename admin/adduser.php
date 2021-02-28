@@ -228,8 +228,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <script src="../assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
@@ -254,44 +252,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
-  <script>
-    $(document).ready(function() {
-      $().ready(function() {
-        $sidebar = $('.sidebar');
-
-        $sidebar_responsive = $('body > .navbar-collapse');
-
-        window_width = $(window).width();
-
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-            $('.fixed-plugin .dropdown').addClass('open');
-          }
-
-        }
-
-        $('.fixed-plugin a').click(function(event) {
-          if ($(this).hasClass('switch-trigger')) {
-            if (event.stopPropagation) {
-              event.stopPropagation();
-            } else if (window.event) {
-              window.event.cancelBubble = true;
-            }
-          }
-        });
-  </script>
-  <script>
-    $(document).ready(function() {
-      md.initDashboardPageCharts();
-
-    });
-  </script>
 </body>
 
 </html>
