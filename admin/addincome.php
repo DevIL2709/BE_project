@@ -1,6 +1,10 @@
 <?php
 session_start();
 if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
+  require_once "../functions/database_functions.php";
+  $conn = db_connect();
+  $query = "SELECT * from clients";
+  $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -162,25 +166,30 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="in" class="pl-3">Organization Name/Individual Name</label>
-                        <input type="text" class="form-control" name="in">
+                      <label for="in">Select Client</label>
+                        <select class="form-control" name="in">
+                        <option></option>
+                        <?php while($array = mysqli_fetch_assoc($result)): ?>
+                        <option><?php echo $array['name']; ?></option>
+                        <?php endwhile; ?>
+                        </select>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="date" class="pl-3">Date</label>
+                        <label for="date">Date</label>
                         <input type="date" class="form-control" name="date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="total" class="pl-3">Total</label>
+                        <label for="total">Total</label>
                         <input type="text" class="form-control" name="total_amount">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="amount" class="pl-3">Amount Paid</label>
+                        <label for="amount">Amount Paid</label>
                         <input type="text" class="form-control" name="amount_paid">
                       </div>
                     </div>
