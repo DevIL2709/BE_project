@@ -170,6 +170,7 @@
                 <tr><td><?php echo "Client"?></td><td> : </td><td><?php echo $array['clientname']; ?></tr>
                 <tr><td><?php echo "Client Type"?></td><td> : </td><td><?php echo $array['clienttype']; ?></td></tr>
                 <tr><td><?php echo "Opposition Name"?></td><td> : </td><td><?php echo $array['oppositionname']; ?></td></tr>
+                <tr><td><?php echo "Opposition Advocate Name"?></td><td> : </td><td><?php echo $array['oppositionadvocate']; ?></td></tr>
                 <tr><td><?php echo "Case Number"?></td><td> : </td><td><?php echo $array['casenumber']; ?></td></tr>
                 <tr><td><?php echo "Case"?></td><td> : </td><td><?php echo $array['casetype']; ?></td></tr>
                 <tr><td><?php echo "Description"?></td><td> : </td><td><?php echo $array['description']; ?></td></tr>

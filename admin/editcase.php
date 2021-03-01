@@ -8,6 +8,8 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $query = "SELECT * from cases WHERE ID='$id'";
   $result = mysqli_query($conn, $query);
   $array = mysqli_fetch_assoc($result);
+  $query1 = "SELECT * FROM clients";
+  $result1 = mysqli_query($conn, $query1);
   $editid = $id;
 ?>
 <!DOCTYPE html>
@@ -174,8 +176,8 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                         <label for="clientname">Client</label>
                         <select class="form-control" name="clientname">
                         <option><?php echo $array['clientname']; ?></option>
-                        <?php while($array1 = mysqli_fetch_assoc($result)): ?>
-                        <option><?php echo $array1['clientname']; ?></option>
+                        <?php while($array1 = mysqli_fetch_assoc($result1)): ?>
+                        <option><?php echo $array1['name']; ?></option>
                         <?php endwhile; ?>
                         </select>
                       </div>

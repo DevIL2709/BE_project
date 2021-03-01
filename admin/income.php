@@ -172,7 +172,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <table class="table table-hover">
                     <thead class="text-primary">
                       <th>No.</th>
-                      <th>Organization's Name</th>
+                      <th>Client's Name</th>
                       <th>Date</th>
                       <th>Amount Paid</th>
                       <th>Amount Pending</th>
