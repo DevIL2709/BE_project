@@ -1,4 +1,10 @@
 <?php
+require_once "../PHPMailer/src/Exception.php";
+require_once "../PHPMailer/src/PHPMailer.php";
+require_once "../PHPMailer/src/SMTP.php";
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 session_start();
 error_reporting(0);
 if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
@@ -28,6 +34,26 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   //appointment query for dashboard
   $appointmentquery1 = "SELECT * FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 5";
   $appointmentquery = mysqli_query($conn, $appointmentquery1);
+
+  //casenotif query
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifresult = mysqli_query($conn, $casenotifquery);
+  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+
+  //tasknotif query
+  $tasknotifquery = "SELECT related, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
+  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+
+  //appnotif query
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = mysqli_query($conn, $appnotifquery);
+  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
+
+  $clientemailidquery = "SELECT email FROM clients, cases WHERE name = (SELECT clientname FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1)";
+  $clientemailid = mysqli_query($conn, $clientemailidquery);
+  $clientemailid = mysqli_fetch_assoc($clientemailid);
+  $clientemailid = $clientemailid['email'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -146,14 +172,15 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
-                  <span class="notification">2</span>
+                  <span class="notification">3</span>
                   <p class="d-lg-none d-md-block">
                     Notifications
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">New tasks added!</a>
-                  <a class="dropdown-item" href="#">Meeting alert!</a>
+                  <a class="dropdown-item" href="#">Your next hearing date is: <?php echo $casenotifresult['hearingdate']; ?> for client: <?php echo $casenotifresult['clientname']; ?></a>
+                  <a class="dropdown-item" href="#">Task assigned to: <?php echo $tasknotifresult['related']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
+                  <a class="dropdown-item" href="#">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -413,6 +440,38 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 
 </html>
 <?php 
+// if(COUNT($casenotifresult)>0) {
+  
+//   // Instantiation and passing `true` enables exceptions
+//   $mail  = new PHPMailer(true);
+//   $email = 'softwareforadv@gmail.com';
+//   $body  = 'Your next hearing date is: '. $casenotifresult['hearingdate'] .' for client: '. $casenotifresult['clientname'];
+//   try {
+//     //Server settings
+//     $mail->SMTPDebug = 0;                      // Enable verbose debug output
+//     $mail->isSMTP();                                            // Send using SMTP
+//     $mail->Host       = 'smtp.gmail.com';                    // Set the SMTP server to send through
+//     $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
+//     $mail->Username   = 'softwareforadv@gmail.com';                     // SMTP username
+//     $mail->Password   = 'ABC@1234';                               // SMTP password
+//     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
+//     $mail->Port       = 587;                                    // TCP port to connect to
+
+//     //Recipients
+//     $mail->setFrom($email);
+//     $mail->addAddress($email);
+//     $mail->addCC($clientemailid);
+
+//     // Content
+//     $mail->isHTML(true);                                  // Set email format to HTML
+//     $mail->Subject = 'Case Reminder';
+//     $mail->Body    = $body;
+
+//     $mail->send();
+//   } catch (Exception $e) {
+//     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+//   }
+// }
 }
 else {
   header("Location: ../index.php");
