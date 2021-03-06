@@ -5,6 +5,9 @@ require_once "../PHPMailer/src/SMTP.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+// Include the bundled autoload from the Twilio PHP Helper Library
+require_once '../twilio-php-main/src/Twilio/autoload.php';
+use Twilio\Rest\Client;
 session_start();
 error_reporting(0);
 if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
@@ -472,6 +475,26 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 //     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 //   }
 // }
+
+// $text = 'Your next hearing date is: '. $casenotifresult['hearingdate'] .' for client: '.$casenotifresult['clientname'];
+// // Your Account SID and Auth Token from twilio.com/console
+// $account_sid = 'ACde0662d6ecbbfa4c8ae3eac0fff941fd';
+// $auth_token = '26c8c325b16997f6bc582155fc5099cf';
+// // In production, these should be environment variables. E.g.:
+// // $auth_token = $_ENV["TWILIO_ACCOUNT_SID"]
+// // A Twilio number you own with SMS capabilities
+// $twilio_number = "+14157809056";
+// $client = new Client($account_sid, $auth_token);
+// $client->messages->create(
+//     // Where to send a text message (your cell phone?)
+//     '+919870676203',
+//     array(
+//         'from' => $twilio_number,
+//         'body' => $text,
+//     )
+// );
+
+
 }
 else {
   header("Location: ../index.php");
