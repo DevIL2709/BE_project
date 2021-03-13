@@ -20,6 +20,63 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
+  <style>
+    .select {
+      font-size: 16px;
+      position: relative;
+      display: inline-block;
+      margin-left: 30%;
+    }
+    .select select {
+      outline: none;
+      /* -webkit-appearance: none; */
+      display: block;
+      padding: 0.5em 5em 0.5em 0.5em;
+      margin: 0;
+
+      transition: border-color 0.2s;
+      border: 2px solid #822c9c;
+      border-radius: 5px;
+
+      background: #fff;
+      color: #555;
+      line-height: normal;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
+    .select .arr {
+      background: #fff;
+      position: absolute;
+      right: 5px;
+      top: 1.5em;
+      width: 50px;
+      pointer-events: none;
+    }
+    .select .arr:before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 24px;
+      margin-top: -5px;
+      pointer-events: none;
+      border-top: 10px solid #822c9c;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+    }
+
+    .select .arr:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: 28px;
+      margin-top: -5px;
+      pointer-events: none;
+      border-top: 6px solid #fff;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+    }
+  </style>
 </head>
 
 <body class="">
@@ -156,11 +213,48 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          <div class="row justify-content-end">
+          <div class="row">
             <div class="col-2">
               <a href="./addincome.php" class="btn btn-primary" role="button">Add Income</a>
             </div>  
-          </div>  
+            <div class="col-2">
+              <button type="button" class="btn btn-primary" name="dis" id="dis" data-toggle="modal" data-target="#datemodal">Download Income Statement</button>
+              <div class="modal fade" id="datemodal" tabindex="-1">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Download Income Statement</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="d-flex justify-content-center">
+                        <form method="post" action="./incpdf.php">
+                        <div class="row">
+                        <div class="form-group">
+                          <label for="startdate" class="ml-3 mt-3">From: </label>
+                          <input type="date" class="form-control ml-3" name="startdate" id="startdate">
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="form-group">
+                          <label for="enddate" class="ml-3 mt-3">To: </label>
+                          <input type="date" class="form-control ml-3" name="enddate" id="enddate">
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" name='submit' id="submit">Download Statement</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </div>
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="card">
@@ -288,6 +382,36 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <script>
+  // $(document).ready(function(){
+  //   $("#submit").on('click', function(){
+  //     var selectedStartDate = document.getElementById("startdate").value;
+  //     var selectedEndDate = document.getElementById("enddate").value;
+  //     console.log(selectedEndDate + " " + selectedStartDate);
+  //     $.post("incpdf.php", {
+  //       "selectedStartDate": selectedStartDate,
+  //       "selectedEndDate": selectedEndDate,
+  //     }, function(incomepdf){
+  //       if(incomepdf) {
+  //         window.location.href("./incpdf.php");
+  //       }
+  //       else {
+  //         alert("Cannot generate the pdf at the moment. Please try again later!");
+  //         $("#updatestatus").modal('hide');
+  //       }
+  //     });
+  //   });
+  // });
+
+
+    function showdiv(){
+      var status = document.getElementById("status").value;
+      if(status=="POSTPONED") {
+        document.getElementById("date").style.display = "block";
+        document.getElementById("time").style.display = "block";
+      }
+    }
+  </script>
 </body>
 
 </html>

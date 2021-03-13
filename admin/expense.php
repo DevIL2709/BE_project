@@ -156,9 +156,46 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-        <div class="row justify-content-end">
+        <div class="row">
             <div class="col-2">
               <a href="./addexpense.php" class="btn btn-primary" role="button">Add Expense</a>
+            </div>
+            <div class="col-2">
+            <button type="button" class="btn btn-primary" name="des" id="des" data-toggle="modal" data-target="#datemodal">Download Expense Statement</button>
+            </div>
+            <div class="modal fade" id="datemodal" tabindex="-1">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Download Expense Statement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                      <form method="post" action="./exppdf.php">
+                      <div class="row">
+                      <div class="form-group">
+                        <label for="startdate" class="ml-3 mt-3">From: </label>
+                        <input type="date" class="form-control ml-3" name="startdate" id="startdate">
+                      </div>
+                      </div>
+                      <div class="row">
+                      <div class="form-group">
+                        <label for="enddate" class="ml-3 mt-3">To: </label>
+                        <input type="date" class="form-control ml-3" name="enddate" id="enddate">
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" name='submit' id="submit">Download Statement</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
             </div>  
           </div>  
           <div class="row">
