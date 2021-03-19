@@ -205,7 +205,7 @@
                           </div>
                           <div class='col-1 form-group'>
                           <form method= "post" action ="./deleteclient.php">
-                            <button type="submit" rel="tooltip" class="btn btn-danger" name='delete' value="<?php echo $array['ID']; ?>"> 
+                            <button type="submit" rel="tooltip" class="btn btn-danger" name='delete' onclick="return confirm('Are you sure?');" value="<?php echo $array['ID']; ?>"> 
                                 <i class="material-icons">delete</i>
                             </button>
                           </form>

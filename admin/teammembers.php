@@ -184,7 +184,7 @@ $result = mysqli_query($conn, $query);
                         <td><?php echo $array['username']; ?></td>
                         <td><?php echo $array['email']; ?></td>
                         <td><?php echo $array['role']; ?></td>
-                        <td><form method= "post" action ="./deleteuser.php"><button class="btn btn-primary" type="submit" name="delete" value="<?php echo $array['ID']; ?>"><i class="material-icons">delete</i></a></td>
+                        <td><form method= "post" action ="./deleteuser.php"><button class="btn btn-primary" type="submit" name="delete" onclick="return confirm('Are you sure?');" value="<?php echo $array['ID']; ?>"><i class="material-icons">delete</i></a></td>
                       </tr>
                     <?php endwhile; ?>
                     </tbody>
