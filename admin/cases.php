@@ -213,10 +213,15 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-        <div class="row justify-content-end">
+        <div class="row">
             <div class="col-2">
               <a href="./addcase.php" class="btn btn-primary ml-4" role="button">Add Case</a>
             </div>  
+            <div class="col-2">
+            <a href="./uploadevidence.php"> 
+            <button type="button" class="btn btn-primary" name="uploadevidence" id="uploadevidence">Upload Evidence</button>
+            </a>
+            </div>
           </div>  
           <div class="row">
             <div class="col-lg-12 col-md-12">

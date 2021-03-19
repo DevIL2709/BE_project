@@ -1,12 +1,10 @@
 <?php
- session_start();
- if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
- require_once "../functions/database_functions.php";
- $conn = db_connect();
- $id = trim($_POST['view']);
- $query = "SELECT * from cases WHERE ID='$id'";
- $result = mysqli_query($conn, $query);
- $array = mysqli_fetch_assoc($result);
+session_start();
+if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
+  require_once "../functions/database_functions.php";
+  $conn = db_connect();
+  $query = "SELECT * from clients";
+  $result = mysqli_query($conn, $query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +42,7 @@
               <p>Clients</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item active">
             <a class="nav-link" href="./cases.php">
               <i class="material-icons">gavel</i>
               <p>Case</p>
@@ -158,30 +156,41 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="row">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Case Details</h4>
-                  <!-- <p class="card-category">Total Cases</p> -->
+                  <h4 class="card-title">Upload Evidence</h4>
                 </div>
-                <div class="card-body table-responsive">
-                <table class="table table-hover" style="font-size:18px; font-weight:500">
-                <tr><td><?php echo "Client"?></td><td> : </td><td><?php echo $array['clientname']; ?></tr>
-                <tr><td><?php echo "Client Type"?></td><td> : </td><td><?php echo $array['clienttype']; ?></td></tr>
-                <tr><td><?php echo "Opposition Name"?></td><td> : </td><td><?php echo $array['oppositionname']; ?></td></tr>
-                <tr><td><?php echo "Opposition Advocate Name"?></td><td> : </td><td><?php echo $array['oppositionadvocate']; ?></td></tr>
-                <tr><td><?php echo "Case Number"?></td><td> : </td><td><?php echo $array['casenumber']; ?></td></tr>
-                <tr><td><?php echo "Case"?></td><td> : </td><td><?php echo $array['casetype']; ?></td></tr>
-                <tr><td><?php echo "Description"?></td><td> : </td><td><?php echo $array['description']; ?></td></tr>
-                <tr><td><?php echo "Act"?></td><td> : </td><td><?php echo $array['act']; ?></td></tr>
-                <tr><td><?php echo "Court Type"?></td><td> : </td><td><?php echo $array['courttype']; ?></td></tr>
-                <tr><td><?php echo "Judge Name"?></td><td> : </td><td><?php echo $array['judgename']; ?></td></tr>
-                <tr><td><?php echo "Hearing Date"?></td><td> : </td><td><?php echo $array['hearingdate']; ?></td></tr>
-                <tr><td><?php echo "Status"?></td><td> : </td><td><?php echo $array['status']; ?></td></tr>
-                <tr><td><?php echo "Remarks"?></td><td> : </td><td><?php echo $array['remarks']; ?></td></tr>
-                <tr><td><?php echo "Physical Location of the file"?></td><td> : </td><td><?php echo $array['phyloc']; ?></td></tr>
-                </table>
+                <div class="card-body">
+                  <form method="post" enctype="multipart/form-data" action="upload.php">
+                  <div class="row">
+                      <div class="col-6 form-group">
+                      <label for="in">Select Client</label>
+                        <select class="form-control" name="in">
+                        <option></option>
+                        <?php while($array = mysqli_fetch_assoc($result)): ?>
+                        <option><?php echo $array['name']; ?></option>
+                        <?php endwhile; ?>
+                        </select>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                    <div class="form-group form-file-upload form-file-multiple pl-3">
+                        <input type="file" name="files[]" id="files[]" class="inputFileHidden" multiple>
+                        <div class="input-group">
+                            <input type="text" class="form-control inputFileVisible" placeholder="Multiple Files" multiple>
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-fab btn-round btn-primary">
+                                    <i class="material-icons">attach_file</i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -198,20 +207,6 @@
                 </a>
               </li>
               <li>
-                <a href="#">
-                  About Us
-                </a>
-              </li>
-              <!-- <li>
-                <a href="#">
-                  Blog
-                </a>
-              </li> -->
-              <!-- <li>
-                <a href="#">
-                  Licenses
-                </a>
-              </li> -->
             </ul>
           </nav>
           <div class="copyright float-right">
@@ -238,8 +233,6 @@
   <script src="../assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
@@ -258,196 +251,51 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   <!-- Library for adding dinamically elements -->
   <script src="../assets/js/plugins/arrive.min.js"></script>
-  <!--  Google Maps Plugin    -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chartist JS -->
   <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <!-- Material Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
   <script>
-    $(document).ready(function() {
-      $().ready(function() {
-        $sidebar = $('.sidebar');
-
-        $sidebar_img_container = $sidebar.find('.sidebar-background');
-
-        $full_page = $('.full-page');
-
-        $sidebar_responsive = $('body > .navbar-collapse');
-
-        window_width = $(window).width();
-
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-            $('.fixed-plugin .dropdown').addClass('open');
-          }
-
-        }
-
-        $('.fixed-plugin a').click(function(event) {
-          if ($(this).hasClass('switch-trigger')) {
-            if (event.stopPropagation) {
-              event.stopPropagation();
-            } else if (window.event) {
-              window.event.cancelBubble = true;
-            }
-          }
-        });
-
-        $('.fixed-plugin .active-color span').click(function() {
-          $full_page_background = $('.full-page-background');
-
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
-          }
-
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
-          }
-        });
-
-        $('.fixed-plugin .background-color .badge').click(function() {
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('background-color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-background-color', new_color);
-          }
-        });
-
-        $('.fixed-plugin .img-holder').click(function() {
-          $full_page_background = $('.full-page-background');
-
-          $(this).parent('li').siblings().removeClass('active');
-          $(this).parent('li').addClass('active');
-
-
-          var new_image = $(this).find("img").attr('src');
-
-          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            $sidebar_img_container.fadeOut('fast', function() {
-              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-              $sidebar_img_container.fadeIn('fast');
-            });
-          }
-
-          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
-            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-            $full_page_background.fadeOut('fast', function() {
-              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-              $full_page_background.fadeIn('fast');
-            });
-          }
-
-          if ($('.switch-sidebar-image input:checked').length == 0) {
-            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
-            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
-
-            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
-            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
-          }
-        });
-
-        $('.switch-sidebar-image input').change(function() {
-          $full_page_background = $('.full-page-background');
-
-          $input = $(this);
-
-          if ($input.is(':checked')) {
-            if ($sidebar_img_container.length != 0) {
-              $sidebar_img_container.fadeIn('fast');
-              $sidebar.attr('data-image', '#');
-            }
-
-            if ($full_page_background.length != 0) {
-              $full_page_background.fadeIn('fast');
-              $full_page.attr('data-image', '#');
-            }
-
-            background_image = true;
-          } else {
-            if ($sidebar_img_container.length != 0) {
-              $sidebar.removeAttr('data-image');
-              $sidebar_img_container.fadeOut('fast');
-            }
-
-            if ($full_page_background.length != 0) {
-              $full_page.removeAttr('data-image', '#');
-              $full_page_background.fadeOut('fast');
-            }
-
-            background_image = false;
-          }
-        });
-
-        $('.switch-sidebar-mini input').change(function() {
-          $body = $('body');
-
-          $input = $(this);
-
-          if (md.misc.sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
-            md.misc.sidebar_mini_active = false;
-
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-
-          } else {
-
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
-
-            setTimeout(function() {
-              $('body').addClass('sidebar-mini');
-
-              md.misc.sidebar_mini_active = true;
-            }, 300);
-          }
-
-          // we simulate the window Resize so the charts will get updated in realtime.
-          var simulateWindowResize = setInterval(function() {
-            window.dispatchEvent(new Event('resize'));
-          }, 180);
-
-          // we stop the simulation of Window Resize after the animations are completed
-          setTimeout(function() {
-            clearInterval(simulateWindowResize);
-          }, 1000);
-
-        });
-      });
+    // FileInput
+    $('.form-file-simple .inputFileVisible').click(function() {
+      $(this).siblings('.inputFileHidden').trigger('click');
     });
-  </script>
-  <script>
-    $(document).ready(function() {
-      md.initDashboardPageCharts();
 
+    $('.form-file-simple .inputFileHidden').change(function() {
+      var filename = $(this).val().replace(/C:\\fakepath\\/i, '');
+      $(this).siblings('.inputFileVisible').val(filename);
+    });
+
+    $('.form-file-multiple .inputFileVisible, .form-file-multiple .input-group-btn').click(function() {
+      $(this).parent().parent().find('.inputFileHidden').trigger('click');
+      $(this).parent().parent().addClass('is-focused');
+    });
+
+    $('.form-file-multiple .inputFileHidden').change(function() {
+      var names = '';
+      for (var i = 0; i < $(this).get(0).files.length; ++i) {
+        if (i < $(this).get(0).files.length - 1) {
+          names += $(this).get(0).files.item(i).name + ', ';
+        } else {
+          names += $(this).get(0).files.item(i).name;
+        }
+      }
+      $(this).siblings('.input-group').find('.inputFileVisible').val(names);
+    });
+
+    $('.form-file-multiple .btn').on('focus', function() {
+      $(this).parent().siblings().trigger('focus');
+    });
+
+    $('.form-file-multiple .btn').on('focusout', function() {
+      $(this).parent().siblings().trigger('focusout');
     });
   </script>
 </body>
 
 </html>
 <?php
+  
 }
 else {
   header("Location: ../index.php");
