@@ -4,9 +4,15 @@
  require_once "../functions/database_functions.php";
  $conn = db_connect();
  $id = trim($_POST['view']);
- $query = "SELECT * from cases WHERE ID='$id'";
+ $query = "SELECT * FROM cases WHERE ID='$id'";
  $result = mysqli_query($conn, $query);
  $array = mysqli_fetch_assoc($result);
+ $evidencequery = "SELECT files FROM evidence WHERE cid='$id'";
+ $evidenceresult = mysqli_query($conn, $evidencequery);
+ $evidence = mysqli_fetch_assoc($evidenceresult);
+ $evidence = $evidence['files'];
+ $evidencearray = explode(',',$evidence);
+ $count = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -181,6 +187,14 @@
                 <tr><td><?php echo "Status"?></td><td> : </td><td><?php echo $array['status']; ?></td></tr>
                 <tr><td><?php echo "Remarks"?></td><td> : </td><td><?php echo $array['remarks']; ?></td></tr>
                 <tr><td><?php echo "Physical Location of the file"?></td><td> : </td><td><?php echo $array['phyloc']; ?></td></tr>
+                <tr><td><?php echo "Download Evidence Files"?></td><td> : </td><td>
+                <?php
+                  foreach($evidencearray as $filename) {
+                ?>
+                <a href="<?php echo str_replace(str_split('"[]'),"",$filename); ?>"> Download File <?php echo $count; $count++;
+                  }
+                ?>
+                </td></tr>
                 </table>
                 </div>
               </div>

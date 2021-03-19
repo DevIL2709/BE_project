@@ -3,8 +3,10 @@ session_start();
 if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
-  $query = "SELECT * from clients";
+  $query = "SELECT * FROM clients";
   $result = mysqli_query($conn, $query);
+  $casequery = "SELECT * FROM cases";
+  $caseresult = mysqli_query($conn, $casequery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -163,7 +165,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <h4 class="card-title">Upload Evidence</h4>
                 </div>
                 <div class="card-body">
-                  <form method="post" enctype="multipart/form-data" action="upload.php">
+                  <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                   <div class="row">
                       <div class="col-6 form-group">
                       <label for="in">Select Client</label>
@@ -295,7 +297,33 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 
 </html>
 <?php
-  
+  if(isset($_POST['submit'])){
+    $clientname = trim($_POST['in']);
+    $query = "SELECT ID FROM cases WHERE clientname='$clientname'";
+    $result = mysqli_query($conn, $query);
+    $array = mysqli_fetch_assoc($result);
+    $ID = $array['ID'];
+    $finalarray = array();
+    foreach($_FILES['files']['name'] as $key => $name){
+        $newFilename = time() . "_" . $name;
+        move_uploaded_file($_FILES['files']['tmp_name'][$key], 'upload/' . $newFilename);
+        $location = 'upload/' . $newFilename;
+        $temparray = $location;
+        array_push($finalarray, $temparray);
+    }
+    $jsondata = json_encode($finalarray);
+    $finalresult = mysqli_query($conn,"INSERT INTO evidence (cid, files) VALUES ('$ID', '$jsondata')");
+    if(!$finalresult) {
+      echo "<script>alert('Uploading Failed. Please retry again later!');
+            window.location.href='./cases.php';
+		  </script>";
+    }
+    else {
+      echo "<script>alert('Files have been successfully uploaded!');
+			window.location.href='./cases.php';
+		  </script>";
+  }
+}
 }
 else {
   header("Location: ../index.php");
