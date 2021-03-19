@@ -3,10 +3,8 @@ session_start();
 if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
-  $query = "SELECT * FROM clients";
+  $query = "SELECT * FROM cases";
   $result = mysqli_query($conn, $query);
-  $casequery = "SELECT * FROM cases";
-  $caseresult = mysqli_query($conn, $casequery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -172,7 +170,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                         <select class="form-control" name="in">
                         <option></option>
                         <?php while($array = mysqli_fetch_assoc($result)): ?>
-                        <option><?php echo $array['name']; ?></option>
+                        <option><?php echo $array['clientname']; ?></option>
                         <?php endwhile; ?>
                         </select>
                       </div>
