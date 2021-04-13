@@ -29,6 +29,25 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $appointmentquery1 = "SELECT * FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 5";
   $appointmentquery = mysqli_query($conn, $appointmentquery1);
 
+  //casenotif query
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifresult = mysqli_query($conn, $casenotifquery);
+  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+
+  //tasknotif query
+  $tasknotifquery = "SELECT related, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
+  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+
+  //appnotif query
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = mysqli_query($conn, $appnotifquery);
+  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
+
+  $clientemailidquery = "SELECT email FROM clients, cases WHERE name = (SELECT clientname FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1)";
+  $clientemailid = mysqli_query($conn, $clientemailidquery);
+  $clientemailid = mysqli_fetch_assoc($clientemailid);
+  $clientemailid = $clientemailid['email'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
