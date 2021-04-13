@@ -460,7 +460,32 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
     });
   }
 
-  
+  $(document).ready(function(){
+    $("#submit").on('click', function(){
+      let id = $("#submit").val();
+      var selectedStatusValue = $('#status').find(":selected").text();
+      var selectedDateValue = document.getElementById("date1").value;
+      var selectedTimeValue = document.getElementById("time1").value;
+      console.log(id + " " + selectedStatusValue);
+      $.post("updateappointmentstatus.php", {
+        "id": id,
+        "selectedStatusValue": selectedStatusValue,
+        "selectedDateValue": selectedDateValue,
+        "selectedTimeValue": selectedTimeValue,
+      }, function(result){
+        console.log(result);
+        if(result) {
+          alert("Updated status successfully!");
+          $("#updatestatus").modal('hide');
+          location.reload();
+        }
+        else {
+          alert("Error in updating. Please try again later!");
+          $("#updatestatus").modal('hide');
+        }
+      });
+    });
+  });
 
     function showdiv(){
       var status = document.getElementById("status").value;
