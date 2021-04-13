@@ -1,5 +1,6 @@
 <?php
  session_start();
+ error_reporting(0);
  if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
  require_once "../functions/database_functions.php";
  $conn = db_connect();
@@ -13,6 +14,7 @@
  $evidence = $evidence['files'];
  $evidencearray = explode(',',$evidence);
  $count = 1;
+ $number = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -195,6 +197,32 @@
                   }
                 ?>
                 </td></tr>
+                <tr><td><?php echo "Recommendations" ?> </td><td> : </td><td>
+                <?php 
+                  $csv = array();
+                  $comparison = array();
+                  $result = array();
+                  $file = file("../dataset/case_dataset.csv", FILE_IGNORE_NEW_LINES);
+                  foreach ($file as $key=>$value) {
+                      $csv[$key] = str_getcsv($value);
+                  }
+                  for($i=1; $i<sizeof($csv); $i++) {
+                      similar_text($csv[$i][3], $array['description'], $percentage);
+                      array_push($comparison, $percentage);
+                  }  
+                  for($j=0; $j<5; $j++) {
+                      $maxindex = array_search(max($comparison), $comparison);   
+                      array_push($result, $csv[$maxindex][2]);
+                      $comparison[$maxindex]=0;
+                  }
+                  foreach ($result as $links) {
+                      ?><a href="<?php echo $links ?>">
+                      <?php
+                      echo " Case ".$number;
+                      echo "</br>";  
+                      $number++;
+                  }
+                ?></td></tr>
                 </table>
                 </div>
               </div>
@@ -462,6 +490,11 @@
 
 </html>
 <?php
+$csv = array();
+$file = file("case_dataset.csv", FILE_IGNORE_NEW_LINES);
+foreach ($file as $key=>$value) {
+    $csv[$key] = str_getcsv($value);
+}
 }
 else {
   header("Location: ../index.php");
