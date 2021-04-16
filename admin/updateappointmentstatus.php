@@ -9,13 +9,13 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $time = $_POST['selectedTimeValue'];
   $conn = db_connect();
 
-  if($status = "POSTPONED") {
-	$query = "UPDATE appointment SET status='$status', date='$date', time='$time' WHERE ID='$id'";
-	$result = mysqli_query($conn, $query);
+  if($status == "POSTPONED") {
+	  $query = "UPDATE appointment SET status='$status', date='$date', time='$time' WHERE ID='$id'";
+	  $result = mysqli_query($conn, $query);
   }
   else {
-	$query = "UPDATE appointment SET status='$status' WHERE ID='$id'";
-	$result = mysqli_query($conn, $query);
+	  $query = "UPDATE appointment SET status='$status' WHERE ID='$id'";
+	  $result = mysqli_query($conn, $query);
   }
   header('Content-type: application/json');
   echo json_encode($result);
