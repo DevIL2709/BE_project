@@ -80,12 +80,6 @@ $result2 = mysqli_query($conn, $query2);
               <p>Expense</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./settings.php">
-              <i class="material-icons">settings</i>
-              <p>Settings</p>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -145,8 +139,7 @@ $result2 = mysqli_query($conn, $query2);
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="./profile.php">Profile</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="../logout.php">Log out</a>
                 </div>

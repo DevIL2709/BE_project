@@ -78,12 +78,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               <p>Expense</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./settings.php">
-              <i class="material-icons">settings</i>
-              <p>Settings</p>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
