@@ -5,6 +5,20 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $conn = db_connect();
   $query = "SELECT * from income";
   $result = mysqli_query($conn, $query);
+  //casenotif query
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifresult = mysqli_query($conn, $casenotifquery);
+  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+
+  //tasknotif query
+  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
+  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+
+  //appnotif query
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = mysqli_query($conn, $appnotifquery);
+  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -135,12 +149,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               <p>Expense</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./settings.php">
-              <i class="material-icons">settings</i>
-              <p>Settings</p>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -160,7 +168,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
           <div class="collapse navbar-collapse justify-content-end">
             <form class="navbar-form">
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search..." onkeyup="searchItem()">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
                   <i class="material-icons">search</i>
                   <div class="ripple-container"></div>
@@ -179,17 +187,15 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
-                  <span class="notification">0</span>
+                  <span class="notification">3</span>
                   <p class="d-lg-none d-md-block">
                     notifications
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="#">Another Notification</a>
-                  <a class="dropdown-item" href="#">Another One</a> -->
+                  <a class="dropdown-item" href="#">Your next hearing date is: <?php echo $casenotifresult['hearingdate']; ?> for client: <?php echo $casenotifresult['clientname']; ?></a>
+                  <a class="dropdown-item" href="#">Task assigned to: <?php echo $tasknotifresult['assto']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
+                  <a class="dropdown-item" href="#">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -411,6 +417,38 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
         document.getElementById("time").style.display = "block";
       }
     }
+  </script>
+  <script>
+    $(document).ready(function(){
+
+    // Search all columns
+    $('#search').keyup(function(){
+      // Search Text
+      var search = $(this).val();
+
+      // Hide all table tbody rows
+      $('table tbody tr').hide();
+
+      // Count total search result
+      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+      if(len > 0){
+        // Searching text in columns and show match row
+        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+          $(this).closest('tr').show();
+        });
+      }else{
+        $('.notfound').show();
+      }
+
+    });
+    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
+    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+      return function( elem ) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      };
+    });
+    });
   </script>
 </body>
 

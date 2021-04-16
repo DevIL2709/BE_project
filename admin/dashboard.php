@@ -35,7 +35,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
   //tasknotif query
-  $tasknotifquery = "SELECT related, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
   $tasknotifquery = mysqli_query($conn, $tasknotifquery);
   $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
@@ -122,12 +122,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               <p>Expense</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./settings.php">
-              <i class="material-icons">settings</i>
-              <p>Settings</p>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -145,15 +139,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
-                </button>
-              </div>
-            </form>
+            
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="./dashboard.php">
@@ -173,7 +159,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="#">Your next hearing date is: <?php echo $casenotifresult['hearingdate']; ?> for client: <?php echo $casenotifresult['clientname']; ?></a>
-                  <a class="dropdown-item" href="#">Task assigned to: <?php echo $tasknotifresult['related']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
+                  <a class="dropdown-item" href="#">Task assigned to: <?php echo $tasknotifresult['assto']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
                   <a class="dropdown-item" href="#">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
                 </div>
               </li>
