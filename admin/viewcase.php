@@ -199,9 +199,10 @@
                 <?php
                   foreach($evidencearray as $filename) {
                 ?>
-                <a href="<?php echo str_replace(str_split('"[]'),"",$filename); ?>"> Download File <?php echo $count; $count++;
-                  }
-                ?>
+                <?php echo $count; $count++;?>.
+                <a href="<?php echo str_replace(str_split('"[]'),"",$filename); ?>" target="_blank"> 
+                <img src="../assets/img/document.png"></a> &nbsp
+                <?php } ?>
                 </td></tr>
                 <tr><td><?php echo "Recommendations" ?> </td><td> : </td><td>
                 <?php 
@@ -222,13 +223,12 @@
                       $comparison[$maxindex]=0;
                   }
                   foreach ($result as $links) {
-                      ?><a href="<?php echo $links ?>">
+                      echo $number.'. '?><a href="<?php echo $links ?>">
+                      <img src="../assets/img/recommendation.png">
                       <?php
-                      echo " Case ".$number;
-                      echo "</br>";  
+                      echo "</br></br>";  
                       $number++;
-                  }
-                ?></td></tr>
+                  ?></a><?php } ?></td></tr>
                 </table>
                 </div>
               </div>
