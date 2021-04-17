@@ -1,12 +1,12 @@
 <?php
-session_start();
-error_reporting(0);
-if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
-require_once "../functions/database_functions.php";
-$conn = db_connect();
-$query = "SELECT * from users WHERE role!='Client' || role!='CLIENT' || role!='client'";
-$result = mysqli_query($conn, $query);
-//casenotif query
+  session_start();
+  error_reporting(0);
+  if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
+  require_once "../functions/database_functions.php";
+  $conn = db_connect();
+  $query = "SELECT * from users WHERE role!='Client' || role!='CLIENT' || role!='client'";
+  $result = mysqli_query($conn, $query);
+  //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);

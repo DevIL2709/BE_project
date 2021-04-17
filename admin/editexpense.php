@@ -8,6 +8,20 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $query = "SELECT * from expense WHERE ID='$id'";
   $result = mysqli_query($conn, $query);
   $array = mysqli_fetch_assoc($result);
+  //casenotif query
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifresult = mysqli_query($conn, $casenotifquery);
+  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+
+  //tasknotif query
+  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
+  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+
+  //appnotif query
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = mysqli_query($conn, $appnotifquery);
+  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,11 +130,9 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <!-- <a class="dropdown-item" href="#">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="#">Another Notification</a>
-                  <a class="dropdown-item" href="#">Another One</a> -->
+                  <a class="dropdown-item" href="#">Your next hearing date is: <?php echo $casenotifresult['hearingdate']; ?> for client: <?php echo $casenotifresult['clientname']; ?></a>
+                  <a class="dropdown-item" href="#">Task assigned to: <?php echo $tasknotifresult['assto']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
+                  <a class="dropdown-item" href="#">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
                 </div>
               </li>
               <li class="nav-item dropdown">
