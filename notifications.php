@@ -9,6 +9,7 @@
     use PHPMailer\PHPMailer\Exception;
     use Twilio\Rest\Client;
     $conn = db_connect();
+    error_reporting(0);
 
     //casenotif query
     $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
