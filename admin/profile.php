@@ -124,7 +124,7 @@ $appnotifresult = mysqli_fetch_assoc($appnotifquery);
               <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
-                  <span class="notification">0</span>
+                  <span class="notification">3</span>
                   <p class="d-lg-none d-md-block">
                     notifications
                   </p>
