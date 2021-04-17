@@ -229,8 +229,8 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-        <div class="row justify-content-end">
-            <div class="col-2">
+        <div class="row">
+            <div class="col-md-4 col-lg-2">
               <a href="./addappointment.php" class="btn btn-primary" role="button">Add Appointment</a>
             </div>  
           </div>  
@@ -352,11 +352,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               <li>
                 <a>
                   Software for Advocates
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  About Us
                 </a>
               </li>
             </ul>

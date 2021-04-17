@@ -229,11 +229,11 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-        <div class="row">
-            <div class="col-2">
+        <div class="row justify-content">
+            <div class="col-md-4 col-lg-2">
               <a href="./addcase.php" class="btn btn-primary ml-4" role="button">Add Case</a>
             </div>  
-            <div class="col-2">
+            <div class="col-md-4 col-lg-2">
             <a href="./uploadevidence.php"> 
             <button type="button" class="btn btn-primary" name="uploadevidence" id="uploadevidence">Upload Evidence</button>
             </a>

@@ -230,10 +230,10 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-2">
+            <div class="col-md-4 col-lg-2">
               <a href="./addincome.php" class="btn btn-primary" role="button">Add Income</a>
             </div>  
-            <div class="col-2">
+            <div class="col-md-4 col-lg-2">
               <button type="button" class="btn btn-primary" name="dis" id="dis" data-toggle="modal" data-target="#datemodal">Download Income Statement</button>
               <div class="modal fade" id="datemodal" tabindex="-1">
                 <div class="modal-dialog" role="document">
@@ -335,21 +335,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   Software for Advocates
                 </a>
               </li>
-              <li>
-                <a href="#">
-                  About Us
-                </a>
-              </li>
-              <!-- <li>
-                <a href="#">
-                  Blog
-                </a>
-              </li> -->
-              <!-- <li>
-                <a href="#">
-                  Licenses
-                </a>
-              </li> -->
             </ul>
           </nav>
           <div class="copyright float-right">

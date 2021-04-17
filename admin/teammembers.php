@@ -172,8 +172,8 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          <div class="row justify-content-end">
-            <div class="col-2">
+          <div class="row">
+            <div class="col-md-4 col-lg-2">
               <a href="./adduser.php" class="btn btn-primary" role="button">Add User</a>
             </div>  
           </div>  

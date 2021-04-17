@@ -229,8 +229,8 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-        <div class="row justify-content-end">
-            <div class="col-2">
+        <div class="row">
+            <div class="col-md-4 col-lg-2">
               <a href="./addtask.php" class="btn btn-primary ml-4" role="button">Add Task</a>
             </div>  
           </div>  
@@ -354,21 +354,6 @@
                   Software for Advocates
                 </a>
               </li>
-              <li>
-                <a href="#">
-                  About Us
-                </a>
-              </li>
-              <!-- <li>
-                <a href="#">
-                  Blog
-                </a>
-              </li> -->
-              <!-- <li>
-                <a href="#">
-                  Licenses
-                </a>
-              </li> -->
             </ul>
           </nav>
           <div class="copyright float-right">

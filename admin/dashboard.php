@@ -139,7 +139,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="./dashboard.php">
@@ -296,7 +295,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                   </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body table-responsive">
                   <div class="tab-content">
                     <div class="tab-pane active" id="cases">
                       <table class="table">
@@ -419,11 +418,14 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/js/demos.js
-      md.initDashboardPageCharts();
+    <!-- javascript for activating the Perfect Scrollbar -->
+    $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
 
-    });
+    <!-- javascript for detroying the Perfect Scrollbar -->
+    $('.main-panel').perfectScrollbar('destroy');
+
+    <!-- javascript for updating the Perfect Scrollbar when the content of the page is changing -->
+    $('.main-panel').perfectScrollbar('update');
   </script>
 </body>
 
