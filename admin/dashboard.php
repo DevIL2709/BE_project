@@ -417,16 +417,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
-  <script>
-    <!-- javascript for activating the Perfect Scrollbar -->
-    $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-
-    <!-- javascript for detroying the Perfect Scrollbar -->
-    $('.main-panel').perfectScrollbar('destroy');
-
-    <!-- javascript for updating the Perfect Scrollbar when the content of the page is changing -->
-    $('.main-panel').perfectScrollbar('update');
-  </script>
 </body>
 
 </html>
