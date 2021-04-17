@@ -180,13 +180,13 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="taskname" class="pl-3">Task Name</label>
+                        <label for="taskname" class="text-primary">Task Name</label>
                         <input type="text" class="form-control" name="taskname" value="<?php echo $array['taskname'] ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="related">Related To</label>
+                        <label for="related" class="text-primary">Related To</label>
                         <select class="form-control" name="related">
                         <option><?php echo $array['related'] ?></option>
                         <?php while($array1 = mysqli_fetch_assoc($result1)): ?>
@@ -198,17 +198,17 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                     <div class="row pt-3">
                       <div class="col-6 form-group">
-                        <label for="start" class="pl-3">Start Date</label>
+                        <label for="start" class="text-primary">Start Date</label>
                         <input type="date" class="form-control" name="start" value="<?php echo $array['start'] ?>">
                       </div>
                       <div class="col-6 form-group">
-                        <label for="deadline" class="pl-3">Deadline</label>
+                        <label for="deadline" class="text-primary">Deadline</label>
                         <input type="date" class="form-control" name="deadline" value="<?php echo $array['deadline'] ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="assto">Assigned To</label>
+                        <label for="assto" class="text-primary">Assigned To</label>
                         <br>
                         <select class="form-control" name="assto">
                         <option><?php echo $array['assto'] ?></option>

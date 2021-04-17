@@ -173,7 +173,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" enctype="multipart/form-data" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                   <div class="row">
                       <div class="col-6 form-group">
-                      <label for="in">Select Client</label>
+                      <label for="in" class="text-primary">Select Client</label>
                         <select class="form-control" name="in">
                         <option></option>
                         <?php while($array = mysqli_fetch_assoc($result)): ?>

@@ -249,13 +249,13 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                         <form method="post" action="./incpdf.php">
                         <div class="row">
                         <div class="form-group">
-                          <label for="startdate" class="ml-3 mt-3">From: </label>
+                          <label for="startdate" class="ml-3 mt-3 text-primary">From: </label>
                           <input type="date" class="form-control ml-3" name="startdate" id="startdate">
                         </div>
                         </div>
                         <div class="row">
                         <div class="form-group">
-                          <label for="enddate" class="ml-3 mt-3">To: </label>
+                          <label for="enddate" class="ml-3 mt-3 text-primary">To: </label>
                           <input type="date" class="form-control ml-3" name="enddate" id="enddate">
                         </div>
                         </div>

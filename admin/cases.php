@@ -4,7 +4,7 @@
  if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
  require_once "../functions/database_functions.php";
  $conn = db_connect();
- $query = "SELECT * from cases";
+ $query = "SELECT * from cases ORDER BY prioritynumber ASC";
  $result = mysqli_query($conn, $query);
  //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
@@ -254,6 +254,7 @@
                       <th>Petitioner vs Respondent</th>
                       <th>Next Date</th>
                       <th>Status</th>
+                      <th>Priority</th>
                       <th>Action</th>
                     </thead>
                     <tbody>
@@ -327,6 +328,48 @@
                             </div>
                           </div>
                         </td>
+                        <td>
+                          <?php if($array['priority']=='NORMAL') { ?>
+                          <button type="button" class="btn btn-success" onclick="fetchpriority(<?php echo $array['ID']?>);">
+                          <?php echo $array['priority']; ?>
+                          </button>
+                          <?php } else if($array['priority']=='HIGH PRIORITY') { ?>
+                          <button type="button" class="btn btn-danger" onclick="fetchpriority(<?php echo $array['ID']?>);">
+                          <?php echo $array['priority']; ?>
+                          </button>
+                          <?php } else if($array['priority']=='LOW PRIORITY') { ?>
+                          <button type="button" class="btn btn-default" onclick="fetchpriority(<?php echo $array['ID']?>);">
+                          <?php echo $array['priority']; ?>
+                          </button>
+                          <?php } ?>
+                          <div class="modal fade" id="updatepriority" tabindex="-1" data-id="<?php echo $array['ID'] ?>">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Update Case Priority</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form method="post" action="./updatecasepriority.php">
+                                  <div class="select">
+                                  <span class="arr"></span>
+                                  <select for="priority" id="priority" name="priority">
+                                    <option>NORMAL</option>
+                                    <option>HIGH PRIORITY</option>
+                                    <option>LOW PRIORITY</option>
+                                  </select>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary" name='prioritysubmit' id='prioritysubmit'>Save changes</button>
+                                </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
                         <td class="td-actions text-middle">
                           <div class='row'>
                           <div class='col-1 form-group'>
@@ -371,21 +414,6 @@
                   Software for Advocates
                 </a>
               </li>
-              <li>
-                <a href="#">
-                  About Us
-                </a>
-              </li>
-              <!-- <li>
-                <a href="#">
-                  Blog
-                </a>
-              </li> -->
-              <!-- <li>
-                <a href="#">
-                  Licenses
-                </a>
-              </li> -->
             </ul>
           </nav>
           <div class="copyright float-right">
@@ -488,6 +516,55 @@
         else {
           alert("Error in updating. Please try again later!");
           $("#updatestatus").modal('hide');
+        }
+      });
+    });
+  });
+
+  function fetchpriority(id){
+    console.log(id);
+    $(document).ready(function(){
+      $.get("fetchcasepriority.php?id="+id, function(data, status){
+        jQuery.noConflict();
+        console.log("Data: " + data);
+        $("#updatepriority").modal('show');
+        if(data == "NORMAL") {
+            console.log(data);
+            $("#priority").prop("selectedIndex", 0);
+            $("#prioritysubmit").val(id);
+        }
+        if(data == "HIGH PRIORITY") {
+            console.log(data);
+            $("#priority").prop("selectedIndex", 1);
+            $("#prioritysubmit").val(id);
+        }
+        if(data == "LOW PRIORITY") {
+            console.log(data);
+            $("#priority").prop("selectedIndex", 2);
+            $("#prioritysubmit").val(id);
+        }
+      });     
+    });
+  }
+
+  $(document).ready(function(){
+    $("#prioritysubmit").on('click', function(){
+      let id = $("#prioritysubmit").val();
+      var selectedValue = $('#priority').find(":selected").text();
+      console.log(id + " " + selectedValue);
+      $.post("updatecasepriority.php", {
+        "id": id,
+        "selectedValue": selectedValue,
+      }, function(result){
+        console.log(result);
+        if(result) {
+          alert("Updated priority successfully!");
+          $("#updatepriority").modal('hide');
+          location.reload();
+        }
+        else {
+          alert("Error in updating. Please try again later!");
+          $("#updatepriority").modal('hide');
         }
       });
     });

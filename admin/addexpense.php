@@ -173,25 +173,25 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="in" class="pl-3">Name</label>
+                        <label for="in" class="text-primary">Name</label>
                         <input type="text" class="form-control" name="in">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="expense" class="pl-3">Expense</label>
+                        <label for="expense" class="text-primary">Expense</label>
                         <input type="text" class="form-control" name="expense">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="date" class="pl-3">Date</label>
+                        <label for="date" class="text-primary">Date</label>
                         <input type="date" class="form-control" name="date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="note" class="pl-3">Note</label>
+                        <label for="note" class="text-primary">Note</label>
                         <input type="textarea" class="form-control" name="note">
                       </div>
                     </div>

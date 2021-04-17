@@ -509,6 +509,10 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
         document.getElementById("date").style.display = "block";
         document.getElementById("time").style.display = "block";
       }
+      else {
+        document.getElementById("date").style.display = "none";
+        document.getElementById("time").style.display = "none";
+      }
     }
   </script>
 </body>

@@ -114,15 +114,6 @@ $appnotifresult = mysqli_fetch_assoc($appnotifquery);
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
-                </button>
-              </div>
-            </form>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="./dashboard.php">
@@ -186,13 +177,13 @@ $appnotifresult = mysqli_fetch_assoc($appnotifquery);
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                   <div class="row pt-2">
                       <div class="col-12 form-group">
-                        <label for="username" name="username">Username: </label>
+                        <label for="username" name="username" class="text-primary">Username: </label>
                         <input type="text" name="username" value="<?php echo $array['username'] ?>" readonly>
                       </div>
                     </div>
                     <div class="row pt-2">
                       <div class="col-12 form-group">
-                        <label for="newpassword" name="newpassword">New password: </label>
+                        <label for="newpassword" name="newpassword" class="text-primary">New password: </label>
                         <input type="password" name="password" id="password">
                         <i class="far fa-eye" id="togglePassword"></i>  
                       </div>

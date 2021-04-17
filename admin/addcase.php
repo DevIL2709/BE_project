@@ -151,8 +151,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">Settings</a>
+                  <a class="dropdown-item" href="./profile.php">Profile</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="../logout.php">Log out</a>
                 </div>
@@ -174,7 +173,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="clientname">Client</label>
+                        <label for="clientname" class="text-primary">Client</label>
                         <select class="form-control" name="clientname">
                         <option></option>
                         <?php while($array = mysqli_fetch_assoc($result)): ?>
@@ -184,7 +183,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       </div>
                       <div class="col-4 form-group">
                         <div class="form-check form-check-radio">
-                            <label class="form-check-label">
+                            <label class="form-check-label text-primary">
                                 <input class="form-check-input" type="radio" name="clienttype" value="petitioner" checked>
                                 Petitioner
                                 <span class="circle">
@@ -195,7 +194,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       </div>
                       <div class="col-4 form-group">
                         <div class="form-check form-check-radio">
-                            <label class="form-check-label">
+                            <label class="form-check-label text-primary">
                                 <input class="form-check-input" type="radio" name="clienttype" value="respondent">
                                 Respondent
                                 <span class="circle">
@@ -207,150 +206,121 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                     <div class="row"> 
                       <div class="col-6 form-group">
-                        <label for="oppositionname">Opposition Name</label>
+                        <label for="oppositionname" class="text-primary">Opposition Name</label>
                         <input type="text" class="form-control" name="oppositionname">
                       </div>
                       <div class="col-6 form-group">
-                        <label for="oppositionadvocate">Opposition Advocate</label>
+                        <label for="oppositionadvocate" class="text-primary">Opposition Advocate</label>
                         <input type="text" class="form-control" name="oppositionadvocate">
                       </div>
                     </div>
-                    </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header card-header-primary">
-                        <h4 class="card-title">Case Details</h4>
-                      </div>
-                    <div class="card-body">
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Case Details</h4>
+                  </div>
+                  <div class="card-body">
                     <div class="row pt-3"> 
                       <div class="col-6 form-group">
-                        <label for="Case Number">Case Number</label>
+                        <label for="Case Number" class="text-primary">Case Number</label>
                         <input type="number" class="form-control" name="casenumber">
                       </div>
                       <div class="col-6 form-group">
-                        <label for="casetype">Case Type</label>
+                        <label for="casetype" class="text-primary">Case Type</label>
                         <input type="text" class="form-control" name="casetype">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="act" class="pt-3">Act</label>
+                        <label for="act" class="pt-3 text-primary">Act</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="act">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="filingnumber" class="pt-3">Filing Number</label>
+                        <label for="filingnumber" class="pt-3 text-primary">Filing Number</label>
                         <br>
                         <input type="number" class="form-control" name="filingnumber">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="filingdate" class="pt-3">Filing Date</label>
+                        <label for="filingdate" class="pt-3 text-primary">Filing Date</label>
                         <br>
                         <input type="date" class="form-control" name="filingdate">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="regno" class="pt-3">Registration Number</label>
+                        <label for="regno" class="pt-3 text-primary">Registration Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="regno">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="regdate" class="pt-3">Registration Date</label>
+                        <label for="regdate" class="pt-3 text-primary">Registration Date</label>
                         <br>
                         <input type="date" class="form-control" name="regdate">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="hearingdate" class="pt-3">Hearing Date</label>
+                        <label for="hearingdate" class="pt-3 text-primary">Hearing Date</label>
                         <br>
                         <input type="date" class="form-control" name="hearingdate">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="cnrno" class="pt-3">CNR Number</label>
+                        <label for="cnrno" class="pt-3 text-primary">CNR Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="cnrno">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="description" class="pt-3">Description</label>
+                        <label for="description" class="pt-3 text-primary">Description</label>
                         <br>
                         <input type="textarea" class="form-control" name="description">
                       </div>
                     </div>
-                    </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header card-header-primary">
-                        <h4 class="card-title">Court Details</h4>
-                      </div>
-                    <div class="card-body">
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Court Details</h4>
+                  </div>
+                  <div class="card-body">
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="courtno" class="pt-3">Court Number</label>
+                        <label for="courtno" class="pt-3 text-primary">Court Number</label>
                         <br>
                         <input type="number" class="form-control pt-3" name="courtno">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="courttype" class="pt-3">Court Type</label>
+                        <label for="courttype" class="pt-3 text-primary">Court Type</label>
                         <br>
                         <input type="text" class="form-control" name="courttype">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="courtname" class="pt-3">Court</label>
+                        <label for="courtname" class="pt-3 text-primary">Court</label>
                         <br>
                         <input type="text" class="form-control" name="courtname">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="judgename" class="pt-3">Judge Name</label>
+                        <label for="judgename" class="pt-3 text-primary">Judge Name</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="judgename">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="remarks" class="pt-3">Remarks</label>
+                        <label for="remarks" class="pt-3 text-primary">Remarks</label>
                         <br>
                         <input type="textarea" class="form-control" name="remarks">
                       </div>
                     </div>
-                    </div>
-                    </div>
-                    <div class="card">
-                      <div class="card-header card-header-primary">
-                        <h4 class="card-title">Evidence</h4>
-                      </div>
-                    <div class="card-body">
-                    <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="phyloc" class="pt-3">Physical File Location</label>
-                        <br>
-                        <input type="text" class="form-control" name="phyloc">
-                      </div>
-                      <div class="form-group form-file-upload form-file-multiple">
-                        <label for="evidence" class="pt-3">Upload Evidence</label>
-                        <br>
-                        <input type="file" multiple="" name="fileUpload[]" id="chooseFile" class="inputFileHidden">
-                        <div class="input-group">
-                          <input type="text" class="form-control inputFileVisible" placeholder="Upload Evidence Files" multiple>
-                          <span class="input-group-btn">
-                              <button type="button" class="btn btn-fab btn-round btn-primary">
-                                  <i class="material-icons">attach_file</i>
-                              </button>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
                   </div>
-                </div>
-                  <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                </form>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+          </form>
       </div>
+    </div>
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -434,13 +404,16 @@ if(isset($_POST['submit'])) {
   $judgename = trim($_POST['judgename']);
   $remarks = trim($_POST['remarks']);
   $status = "PRE-TRIAL";
+  $priority = "NORMAL";
   $phyloc = trim($_POST['phyloc']);
+
+  $prioritynumbers = 2;
 
   $conn = db_connect();
   $query = "INSERT INTO cases(ID, clientname, clienttype, oppositionname, oppositionadvocate, casenumber, casetype, act, filingnumber, filingdate, regno, 
-  regdate, hearingdate, cnrno, description, courtno, courtname, courttype, judgename, remarks, status, phyloc) 
+  regdate, hearingdate, cnrno, description, courtno, courtname, courttype, judgename, remarks, status, priority, prioritynumber, phyloc) 
   VALUES('', '$clientname', '$clienttype', '$oppositionname', '$oppositionadvocate', '$casenumber', '$casetype', '$act', '$filingnumber', '$filingdate', '$regno',
-  '$regdate', '$hearingdate', '$cnrno', '$description', '$courtno', '$courtname', '$courttype', '$judgename', '$remarks', '$status', '$phyloc');";
+  '$regdate', '$hearingdate', '$cnrno', '$description', '$courtno', '$courtname', '$courttype', '$judgename', '$remarks', '$status', '$priority', '$prioritynumber', '$phyloc');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

@@ -6,6 +6,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $conn = db_connect();
   $query = "SELECT * from clients";
   $result = mysqli_query($conn, $query);
+  date_default_timezone_set("Asia/Calcutta");
   //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
@@ -174,7 +175,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     <div class="row">
                       <div class="col-6 form-group">
                         <div class="form-check form-check-radio">
-                            <label class="form-check-label">
+                            <label class="form-check-label text-primary">
                                 <input class="form-check-input" type="radio" name="clienttype" value="newclient" onClick="hideexclient()" checked>
                                 New Client
                                 <span class="circle">
@@ -185,7 +186,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       </div>
                       <div class="col-6 form-group">
                         <div class="form-check form-check-radio">
-                            <label class="form-check-label">
+                            <label class="form-check-label text-primary">
                                 <input class="form-check-input" type="radio" name="clienttype" value="exclient" onClick="hidenewclient()">
                                 Existing Client
                                 <span class="circle">
@@ -197,13 +198,13 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                     <div class="row">
                       <div class="col-6 form-group" id="newclient">
-                        <label for="cname1" class="pl-3">New Client Name</label>
+                        <label for="cname1" class="text-primary">New Client Name</label>
                         <input type="text" class="form-control" name="cname1">
                       </div>
                     </div>
                     <div class="row" id="exclient" style="display:none"> 
                       <div class="col-6 form-group">
-                        <label for="cname2">Select Client</label>
+                        <label for="cname2" class="text-primary">Select Client</label>
                         <select class="form-control" name="cname2">
                         <option></option>
                         <?php while($array = mysqli_fetch_assoc($result)): ?>
@@ -214,24 +215,24 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="mobno" class="pl-3 pt-3">Mobile Number</label>
+                        <label for="mobno" class="pt-3 text-primary">Mobile Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="mobno" pattern="[0-9]{10}">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="date" class="pl-3 pt-3">Date</label>
+                        <label for="date" class="pt-3 text-primary">Date</label>
                         <br>
                         <input type="date" class="form-control" name="date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="time" class="pl-3 pt-3">Time</label>
+                        <label for="time" class="pt-3 text-primary">Time</label>
                         <br>
-                        <input type="time" class="form-control" name="time">
+                        <input type="time" class="form-control" name="time" value="<?php echo date("h:i"); ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-12 form-group">
-                        <label for="subject" class="pl-3">Subject</label>
+                        <label for="subject" class="text-primary">Subject</label>
                         <input type="textarea" class="form-control" name="subject">
                       </div>
                     </div>

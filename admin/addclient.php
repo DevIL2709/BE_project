@@ -173,36 +173,36 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="oname" class="pl-3">Organization's Name</label>
+                        <label for="oname" class="text-primary">Organization's Name</label>
                         <input type="text" class="form-control" name="oname">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="oemail" class="pl-3">Organization's Email</label>
+                        <label for="oemail" class="text-primary">Organization's Email</label>
                         <input type="text" class="form-control" name="oemail">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="website" class="pl-3">Website</label>
+                        <label for="website" class="text-primary">Website</label>
                         <input type="text" class="form-control" name="website">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="fname" class="pl-3">First Name</label>
+                        <label for="fname" class="text-primary">First Name</label>
                         <input type="text" class="form-control" name="fname">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="mname" class="pl-3">Middle Name</label>
+                        <label for="mname" class="text-primary">Middle Name</label>
                         <input type="text" class="form-control" name="mname">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="lname" class="pl-3">Last Name</label>
+                        <label for="lname" class="text-primary">Last Name</label>
                         <input type="text" class="form-control" name="lname">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
                         <div class="form-check form-check-radio">
-                          <label for="country">Gender</label>
+                          <label for="country" class="text-primary">Gender</label>
                           <select class="form-control" name="gender">
                             <option>Male</option>
                             <option>Female</option>
@@ -211,23 +211,23 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                         </div>
                       </div>
                       <div class="col-4 form-group">
-                        <label for="email" class="pl-3 pt-3">Email address</label>
+                        <label for="email" class="pt-3 text-primary">Email address</label>
                         <br>
                         <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="mobno" class="pl-3 pt-3">Mobile Number</label>
+                        <label for="mobno" class="pt-3 text-primary">Mobile Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="mobno" pattern="[0-9]{10}">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="alternateno" class="pl-3">Alternate No.</label>
+                        <label for="alternateno" class="text-primary">Alternate No.</label>
                         <input type="number" class="form-control" name="alternateno">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="address" class="pl-3">Address</label>
+                        <label for="address" class="text-primary">Address</label>
                         <input type="text" class="form-control" name="address">
                       </div>
                     </div>

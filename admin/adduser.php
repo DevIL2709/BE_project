@@ -172,22 +172,22 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="form-group">
-                      <label for="username">Username</label>
+                      <label for="username" class="text-primary">Username</label>
                       <input type="text" class="form-control" id="username" name="username" required>
                     </div>
                     <br>
                     <div class="form-group">
-                      <label for="email">Email address</label>
+                      <label for="email" class="text-primary">Email address</label>
                       <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
                     </div>
                     <br>
                     <div class="form-group">
-                      <label for="password">Password</label>
+                      <label for="password" class="text-primary">Password</label>
                       <input type="password" class="form-control" id="password" name="password" required>
                     </div>
                     <br>
                     <div class="form-group">
-                      <label for="role">Role</label>
+                      <label for="role" class="text-primary">Role</label>
                       <select class="form-control col-md-2" data-style="btn btn-link" id="role" name="role">
                         <option>Admin</option>
                         <option>Staff</option>

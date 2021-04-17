@@ -180,7 +180,7 @@
             </div>  
           </div>  
           <div class="row">
-            <div class="col-lg-14 col-md-14">
+            <div class="col-lg-12 col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
                   <h4 class="card-title">Clients</h4>

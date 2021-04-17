@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2021 at 06:51 AM
+-- Generation Time: Apr 17, 2021 at 01:11 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -42,12 +42,12 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`ID`, `cname`, `mobno`, `date`, `time`, `subject`, `status`) VALUES
-(1, 'Meena Tarun Khurana', '9833648990', '2021-03-01', '12:45', 'Progress of mortgage deed', 'OPEN'),
-(2, 'Darshan Rajesh Sharma', '9320411419', '2021-03-03', '16:50', 'Client consulting', 'OPEN'),
-(3, 'Munir Javed Merchant', '9863276510', '2021-03-10', '14:52', 'Explanation of remedies available', 'OPEN'),
-(4, 'Krishnava Ranjit Shetty', '9956824387', '2021-03-06', '16:53', 'Terms of hypothecation deed', 'OPEN'),
-(5, 'Anirudha Jayant Sen', '9973400893', '2021-03-09', '11:54', 'International Negotiation', 'OPEN'),
-(6, 'Manjula Sawant Singh', '9870632660', '2021-03-09', '17:00', 'Rejoinder in the case', 'OPEN'),
+(1, 'Meena Tarun Khurana', '9833648990', '2021-05-01', '12:45', 'Progress of mortgage deed', 'OPEN'),
+(2, 'Darshan Rajesh Sharma', '9320411419', '2021-05-01', '12:45', 'Client consulting', 'POSTPONED'),
+(3, 'Munir Javed Merchant', '9863276510', '2021-05-01', '12:45', 'Explanation of remedies available', 'CLOSED'),
+(4, 'Krishnava Ranjit Shetty', '9956824387', '2021-05-01', '12:45', 'Terms of hypothecation deed', 'CANCELLED'),
+(5, 'Anirudha Jayant Sen', '9973400893', '2021-05-01', '12:45', 'International Negotiation', 'POSTPONED'),
+(6, 'Manjula Sawant Singh', '9870632660', '2021-04-20', '17:00', 'Rejoinder in the case', 'CANCELLED'),
 (7, 'Aaron Jonathon Solomon', '9321574908', '2021-03-10', '21:15', 'Verify documents', 'OPEN'),
 (8, 'Sharanya Nikhil Ranga', '9900456239', '2021-03-08', '10:00', 'Feedback of the newsletter', 'OPEN');
 
@@ -79,6 +79,8 @@ CREATE TABLE `cases` (
   `judgename` varchar(30) NOT NULL,
   `remarks` varchar(100) NOT NULL,
   `status` varchar(20) NOT NULL,
+  `priority` varchar(15) NOT NULL,
+  `prioritynumber` int(200) NOT NULL,
   `phyloc` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -86,14 +88,14 @@ CREATE TABLE `cases` (
 -- Dumping data for table `cases`
 --
 
-INSERT INTO `cases` (`ID`, `clientname`, `clienttype`, `oppositionname`, `oppositionadvocate`, `casenumber`, `casetype`, `act`, `filingnumber`, `filingdate`, `regno`, `regdate`, `hearingdate`, `cnrno`, `description`, `courtno`, `courttype`, `courtname`, `judgename`, `remarks`, `status`, `phyloc`) VALUES
-(1, 'Darshan Rajesh Sharma', 'Petitioner', 'Maharashtra Electricity Regulatory Commission', 'Sudha Naik', 45, 'Appeal', 'Electricity Act, 200', 498, '2020-12-16', 69, '2020-11-11', '2021-04-09', 'TNCB0A1234562017', 'Filing rejoinder', 2, 'Appellate Tribunal for Electricity', 'Delhi', 'Colabawalla', 'Scheduled', 'PRE-TRIAL', ''),
-(2, 'Krishnava Ranjit Shetty', 'Petitioner', 'Priyadarshini Limited', 'Mohan Tripathi', 99, 'Civil', 'Contracts Act, 1978', 769, '2020-11-17', 8009, '2021-01-14', '2021-04-28', 'MHCB0A1234562987', 'Praecipe', 9, 'High Court', 'Dindoshi', 'Pathak', 'Adjourned', 'PRE-TRIAL', ''),
-(3, 'Anirudha Jayant Sen', 'Petitioner', 'Jayant Sen', 'Trupti Lathi', 1007, 'Divorce', 'Family & Marriage Ac', 897, '2020-10-21', 4589, '2020-11-04', '2021-01-13', 'DSCK0258921', 'Proceedings going on', 7, 'Family Court', 'Bandra', 'Sambre', 'Trial going on', 'PRE-TRIAL', ''),
-(4, 'Sharanya Nikhil Ranga', 'Petitioner', 'Nirmal Nagda', 'Khushi Mehta', 9563, 'Original', 'Indian Penal Code, 1', 8956, '2020-10-23', 8912, '2020-12-17', '2021-01-14', '7856', 'Molestation', 6, 'District Sessions Court', 'Vikhroli', 'Naidu', 'Ongoing', 'PRE-TRIAL', ''),
-(5, 'Manjula Sawant Singh', 'Petitioner', 'Pertinent Infrastructure Limited', 'Tanvi Nandu', 1977, 'Civil', 'The National Highway', 5638, '2020-10-05', 7853, '2020-12-15', '2021-01-14', 'TNHB0A1234562017', 'Unfinished road', 2, 'Civil Court', 'Andheri', 'Daruwalla', 'Hearing stage', 'PRE-TRIAL', ''),
-(6, 'Rohan Paresh Shukla', 'Petitioner', 'Hindustan Unilever Limited', 'Yash Shah', 7184, 'Original', 'Consumer Protection', 739, '2020-10-15', 648, '2020-11-27', '2021-01-27', 'TNFT0A1234562017', 'Dispute on Sanyo LCD Television', 5, 'District Consumer Dispute Redressal Forum', 'Mumbai Suburban', 'Subramaniam', 'Hearing going on', 'PRE-TRIAL', ''),
-(7, 'Karan Manoj Vaswani', 'petitioner', 'Nishtha Mehta & Associates', 'Nishtha Mehta', 879, 'Original', 'The Industrial Emplo', 5462, '2020-08-07', 55, '2021-02-25', '2021-03-26', 'FBBB0A1234752017', 'Hire and Fire Case', 6, 'Labor Court', 'Bandra', 'Vyas', 'Filed complaint', 'PRE-TRIAL', '');
+INSERT INTO `cases` (`ID`, `clientname`, `clienttype`, `oppositionname`, `oppositionadvocate`, `casenumber`, `casetype`, `act`, `filingnumber`, `filingdate`, `regno`, `regdate`, `hearingdate`, `cnrno`, `description`, `courtno`, `courttype`, `courtname`, `judgename`, `remarks`, `status`, `priority`, `prioritynumber`, `phyloc`) VALUES
+(1, 'Darshan Rajesh Sharma', 'Petitioner', 'Maharashtra Electricity Regulatory Commission', 'Sudha Naik', 45, 'Appeal', 'Electricity Act, 200', 498, '2020-12-16', 69, '2020-11-11', '2021-04-09', 'TNCB0A1234562017', 'Kidnapping and Murder 13 year old child', 2, 'Appellate Tribunal for Electricity', 'Delhi', 'Colabawalla', 'Scheduled', 'ACTIVE TRIAL', 'HIGH PRIORITY', 1, ''),
+(2, 'Krishnava Ranjit Shetty', 'Petitioner', 'Priyadarshini Limited', 'Mohan Tripathi', 99, 'Civil', 'Contracts Act, 1978', 769, '2020-11-17', 8009, '2021-01-14', '2021-04-28', 'MHCB0A1234562987', 'Praecipe', 9, 'High Court', 'Dindoshi', 'Pathak', 'Adjourned', 'FINAL HEARING', 'NORMAL', 2, ''),
+(3, 'Anirudha Jayant Sen', 'Petitioner', 'Jayant Sen', 'Trupti Lathi', 1007, 'Divorce', 'Family & Marriage Ac', 897, '2020-10-21', 4589, '2020-11-04', '2021-01-13', 'DSCK0258921', 'Proceedings going on', 7, 'Family Court', 'Bandra', 'Sambre', 'Trial going on', 'CLOSED', 'LOW PRIORITY', 3, ''),
+(4, 'Sharanya Nikhil Ranga', 'Petitioner', 'Nirmal Nagda', 'Khushi Mehta', 9563, 'Original', 'Indian Penal Code, 1', 8956, '2020-10-23', 8912, '2020-12-17', '2021-04-23', '7856', 'Molestation', 6, 'District Sessions Court', 'Vikhroli', 'Naidu', 'Ongoing', 'ACTIVE TRIAL', 'NORMAL', 2, ''),
+(5, 'Manjula Sawant Singh', 'Petitioner', 'Pertinent Infrastructure Limited', 'Tanvi Nandu', 1977, 'Civil', 'The National Highway', 5638, '2020-10-05', 7853, '2020-12-15', '2021-01-14', 'TNHB0A1234562017', 'Unfinished road', 2, 'Civil Court', 'Andheri', 'Daruwalla', 'Hearing stage', 'CLOSED', 'NORMAL', 2, ''),
+(6, 'Rohan Paresh Shukla', 'Petitioner', 'Hindustan Unilever Limited', 'Yash Shah', 7184, 'Original', 'Consumer Protection', 739, '2020-10-15', 648, '2020-11-27', '2021-04-27', 'TNFT0A1234562017', 'Dispute on Sanyo LCD Television', 5, 'District Consumer Dispute Redressal Forum', 'Mumbai Suburban', 'Subramaniam', 'Hearing going on', 'ACTIVE TRIAL', 'NORMAL', 2, ''),
+(7, 'Karan Manoj Vaswani', 'petitioner', 'Nishtha Mehta & Associates', 'Nishtha Mehta', 879, 'Original', 'The Industrial Emplo', 5462, '2020-08-07', 55, '2021-02-25', '2021-03-26', 'FBBB0A1234752017', 'Hire and Fire Case', 6, 'Labor Court', 'Bandra', 'Vyas', 'Filed complaint', 'PRE-TRIAL', 'NORMAL', 2, '');
 
 -- --------------------------------------------------------
 
@@ -218,7 +220,7 @@ CREATE TABLE `profile` (
 --
 
 INSERT INTO `profile` (`ID`, `username`, `gender`, `email`, `mobno`, `alternateno`, `address`) VALUES
-(1, 'admin', '', 'admin@admin.com', '', '', ''),
+(1, 'admin', 'Male', 'admin@admin.com', '', '', ''),
 (3, 'Darshan Rajesh Sharm', 'Male', 'darshan.s@gmail.com', '9320411419', '9321611619', 'Ghatkopar'),
 (4, 'Meena Tarun Khurana', 'Female', 'meena.k@khuranaandkhurana.com', '9833648990', '9765382764', 'Goregaon'),
 (5, 'Munir Javed Merchant', 'Male', 'mjmerchant@gmail.com', '9863276510', '9327639007', 'Nariman Point'),
@@ -259,14 +261,14 @@ CREATE TABLE `tasks` (
 --
 
 INSERT INTO `tasks` (`ID`, `taskname`, `related`, `start`, `deadline`, `assto`, `status`) VALUES
-(1, 'Draft mortgage deed', 'Meena Tarun Khurana', '2021-02-28', '2021-03-02', 'Apurva', 'ASSIGNED'),
-(2, 'File petition before', 'Darshan Rajesh Sharma', '2021-03-01', '2021-03-02', 'Mayur', 'ASSIGNED'),
-(3, 'Draft a hypothecation deed', 'Krishnava Ranjit Shetty', '2021-03-03', '2021-03-03', 'Nirmal', 'ASSIGNED'),
-(4, 'Send February newsletter', 'Sharanya Nikhil Ranga', '2021-02-28', '2021-03-01', 'Karan', 'ASSIGNED'),
-(5, 'Update file of Case ', 'Manjula Sawant Singh', '2021-03-01', '2021-03-01', 'Kinjal', 'ASSIGNED'),
-(6, 'Send review petition', 'Karan Manoj Vaswani', '2021-03-05', '2021-03-07', 'Rashi', 'ASSIGNED'),
-(7, 'Follow up for documents', 'Aaron Jonathon Solomon', '2021-03-03', '2021-03-04', 'Manan', 'ASSIGNED'),
-(8, 'Conference call of Case No. 190', 'Rohan Paresh Shukla', '2021-03-07', '2021-03-07', 'Kashish', 'ASSIGNED');
+(1, 'Draft mortgage deed', 'Meena Tarun Khurana', '2021-02-28', '2021-03-02', 'Apurva', 'COMPLETED'),
+(2, 'File petition before', 'Darshan Rajesh Sharma', '2021-04-05', '2021-05-12', 'Mayur', 'ASSIGNED'),
+(3, 'Draft a hypothecation deed', 'Krishnava Ranjit Shetty', '2021-03-03', '2021-04-30', 'Nirmal', 'IN-PROGRESS'),
+(4, 'Send February newsletter', 'Sharanya Nikhil Ranga', '2021-02-28', '2021-03-01', 'Karan', 'COMPLETED'),
+(5, 'Update file of Case', 'Manjula Sawant Singh', '2021-03-01', '2021-03-31', 'Kinjal', 'COMPLETED'),
+(6, 'Send review petition', 'Karan Manoj Vaswani', '2021-04-16', '2021-04-30', 'Rashi', 'ASSIGNED'),
+(7, 'Follow up for documents', 'Aaron Jonathon Solomon', '2021-03-30', '2021-04-19', 'Manan', 'IN-PROGRESS'),
+(8, 'Conference call of Case No. 190', 'Rohan Paresh Shukla', '2021-04-17', '2021-05-30', 'Kashish', 'ASSIGNED');
 
 -- --------------------------------------------------------
 

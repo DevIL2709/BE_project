@@ -175,13 +175,13 @@ $result2 = mysqli_query($conn, $query2);
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="taskname" class="pl-3">Task Name</label>
+                        <label for="taskname" class="text-primary">Task Name</label>
                         <input type="text" class="form-control" name="taskname">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="related">Related To</label>
+                        <label for="related" class="text-primary">Related To</label>
                         <select class="form-control" name="related">
                         <option></option>
                         <?php while($array1 = mysqli_fetch_assoc($result1)): ?>
@@ -193,17 +193,17 @@ $result2 = mysqli_query($conn, $query2);
                     </div>
                     <div class="row pt-3">
                       <div class="col-6 form-group">
-                        <label for="start" class="pl-3">Start Date</label>
-                        <input type="date" class="form-control" name="start">
+                        <label for="start" class="text-primary">Start Date</label>
+                        <input type="date" class="form-control" name="start" id="start">
                       </div>
                       <div class="col-6 form-group">
-                        <label for="deadline" class="pl-3">Deadline</label>
+                        <label for="deadline" class="text-primary">Deadline</label>
                         <input type="date" class="form-control" name="deadline">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="assto">Assigned To</label>
+                        <label for="assto" class="text-primary">Assigned To</label>
                         <br>
                         <select class="form-control" name="assto">
                         <option></option>

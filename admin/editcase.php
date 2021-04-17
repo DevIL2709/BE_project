@@ -3,6 +3,7 @@ session_start();
 error_reporting(0);
 if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   require_once "../functions/database_functions.php";
+  $conn = db_connect();
   $id = trim($_POST['edit']);
   $conn = db_connect();
   $query = "SELECT * from cases WHERE ID='$id'";
@@ -11,7 +12,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $query1 = "SELECT * FROM clients";
   $result1 = mysqli_query($conn, $query1);
   $editid = $id;
-  
+
   //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
@@ -107,7 +108,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Update Case</a>
+            <a class="navbar-brand">Edit Case Details</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -173,14 +174,13 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Update Case</h4>
+                  <h4 class="card-title">Client Details</h4>
                 </div>
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
-                  <label style="color:#000; font-weight:600; font-size:28px">Client Details</label>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="clientname">Client</label>
+                        <label for="clientname" class="text-primary">Client</label>
                         <select class="form-control" name="clientname">
                         <option><?php echo $array['clientname']; ?></option>
                         <?php while($array1 = mysqli_fetch_assoc($result1)): ?>
@@ -189,7 +189,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                         </select>
                       </div>
                       <div class="col-4 form-group">
-                        <label for="clienttype">Case Type</label>
+                        <label for="clienttype" class="text-primary">Case Type</label>
                           <select class="form-control" name="clienttype">
                           <option>Petitioner</option>
                           <option>Respondent</option>
@@ -198,109 +198,121 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                     <div class="row"> 
                       <div class="col-6 form-group">
-                        <label for="oppositionname" class="pl-3">Opposition Name</label>
+                        <label for="oppositionname" class="text-primary">Opposition Name</label>
                         <input type="text" class="form-control" name="oppositionname" value="<?php echo $array['oppositionname']; ?>">
                       </div>
                       <div class="col-6 form-group">
-                        <label for="oppositionadvocate" class="pl-3">Opposition Advocate</label>
+                        <label for="oppositionadvocate" class="text-primary">Opposition Advocate</label>
                         <input type="text" class="form-control" name="oppositionadvocate" value="<?php echo $array['oppositionadvocate']; ?>">
                       </div>
                     </div>
-                    <label style="color:#000; font-weight:600; font-size:28px" class="pt-3">Case Details</label>
-                    <div class="row"> 
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Case Details</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="row pt-3"> 
                       <div class="col-6 form-group">
-                        <label for="Case Number" class="pl-3">Case Number</label>
+                        <label for="Case Number" class="text-primary">Case Number</label>
                         <input type="number" class="form-control" name="casenumber" value="<?php echo $array['casenumber']; ?>">
                       </div>
                       <div class="col-6 form-group">
-                        <label for="casetype" class="pl-3">Case Type</label>
+                        <label for="casetype" class="text-primary">Case Type</label>
                         <input type="text" class="form-control" name="casetype" value="<?php echo $array['casetype']; ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="act" class="pl-3 pt-3">Act</label>
+                        <label for="act" class="pt-3 text-primary">Act</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="act" value="<?php echo $array['act']; ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="filingnumber" class="pl-3 pt-3">Filing Number</label>
+                        <label for="filingnumber" class="pt-3 text-primary">Filing Number</label>
                         <br>
                         <input type="number" class="form-control" name="filingnumber" value="<?php echo $array['filingnumber']; ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="filingdate" class="pl-3 pt-3">Filing Date</label>
+                        <label for="filingdate" class="pt-3 text-primary">Filing Date</label>
                         <br>
                         <input type="date" class="form-control" name="filingdate" value="<?php echo $array['filingdate']; ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="regno" class="pl-3 pt-3">Registration Number</label>
+                        <label for="regno" class="pt-3 text-primary">Registration Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="regno" value="<?php echo $array['regno']; ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="regdate" class="pl-3 pt-3">Registration Date</label>
+                        <label for="regdate" class="pt-3 text-primary">Registration Date</label>
                         <br>
                         <input type="date" class="form-control" name="regdate" value="<?php echo $array['regdate']; ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="hearingdate" class="pl-3 pt-3">Hearing Date</label>
+                        <label for="hearingdate" class="pt-3 text-primary">Hearing Date</label>
                         <br>
                         <input type="date" class="form-control" name="hearingdate" value="<?php echo $array['hearingdate']; ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="cnrno" class="pl-3 pt-3">CNR Number</label>
+                        <label for="cnrno" class="pt-3 text-primary">CNR Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="cnrno" value="<?php echo $array['cnrno']; ?>">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="description" class="pl-3 pt-3">Description</label>
+                        <label for="description" class="pt-3 text-primary">Description</label>
                         <br>
                         <input type="textarea" class="form-control" name="description" value="<?php echo $array['description']; ?>">
                       </div>
                     </div>
-                    <label style="color:#000; font-weight:600; font-size:28px" class="pt-3">Court Details</label>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Court Details</h4>
+                  </div>
+                  <div class="card-body">
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="courtno" class="pl-3 pt-3">Court Number</label>
+                        <label for="courtno" class="pt-3 text-primary">Court Number</label>
                         <br>
                         <input type="number" class="form-control pt-3" name="courtno" value="<?php echo $array['courtno']; ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="courttype" class="pl-3 pt-3">Court Type</label>
+                        <label for="courttype" class="pt-3 text-primary">Court Type</label>
                         <br>
                         <input type="text" class="form-control" name="courttype" value="<?php echo $array['courttype']; ?>">
                       </div>
                       <div class="col-4 form-group">
-                        <label for="courtname" class="pl-3 pt-3">Court</label>
+                        <label for="courtname" class="pt-3 text-primary">Court</label>
                         <br>
                         <input type="text" class="form-control" name="courtname" value="<?php echo $array['courtname']; ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-4 form-group">
-                        <label for="judgename" class="pl-3 pt-3">Judge Name</label>
+                        <label for="judgename" class="pt-3 text-primary">Judge Name</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="judgename" value="<?php echo $array['judgename']; ?>">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="remarks" class="pl-3 pt-3">Remarks</label>
+                        <label for="remarks" class="pt-3 text-primary">Remarks</label>
                         <br>
                         <input type="textarea" class="form-control" name="remarks" value="<?php echo $array['remarks']; ?>">
                       </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" name="submit" value="<?php echo $editid ?>">Submit</button>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+          </form>
       </div>
+    </div>
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -336,7 +348,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <script src="../assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
   <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>

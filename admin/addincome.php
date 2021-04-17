@@ -173,7 +173,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-6 form-group">
-                      <label for="in">Select Client</label>
+                      <label for="in" class="text-primary">Select Client</label>
                         <select class="form-control" name="in">
                         <option></option>
                         <?php while($array = mysqli_fetch_assoc($result)): ?>
@@ -184,19 +184,19 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="date">Date</label>
+                        <label for="date" class="text-primary">Date</label>
                         <input type="date" class="form-control" name="date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="total">Total</label>
+                        <label for="total" class="text-primary">Total</label>
                         <input type="text" class="form-control" name="total_amount">
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-6 form-group">
-                        <label for="amount">Amount Paid</label>
+                        <label for="amount" class="text-primary">Amount Paid</label>
                         <input type="text" class="form-control" name="amount_paid">
                       </div>
                     </div>
