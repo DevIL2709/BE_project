@@ -137,9 +137,19 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Your next hearing date is: <?php echo $casenotifresult['hearingdate']; ?> for client: <?php echo $casenotifresult['clientname']; ?></a>
-                  <a class="dropdown-item" href="#">Task assigned to: <?php echo $tasknotifresult['assto']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
-                  <a class="dropdown-item" href="#">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
+                  <?php if($casenotifresult == NULL) { ?>
+                  <a class="dropdown-item" href="./cases.php">No Upcoming Cases</a>
+                  <?php } else { ?>
+                  <a class="dropdown-item" href="./cases.php">Your next hearing date is: <?php echo $casenotifresult['hearingdate']; ?> for client: <?php echo $casenotifresult['clientname']; ?></a>
+                  <?php } if($tasknotifresult == NULL) { ?>
+                  <a class="dropdown-item" href="./task.php">No Upcoming Tasks</a>
+                  <?php } else { ?>
+                  <a class="dropdown-item" href="./task.php">Task assigned to: <?php echo $tasknotifresult['assto']; ?> is due on: <?php echo $tasknotifresult['deadline']; ?></a>
+                  <?php } if($appnotifresult == NULL) {?>
+                  <a class="dropdown-item" href="./appointment.php">No Upcoming Appointments</a>
+                  <?php } else { ?>
+                  <a class="dropdown-item" href="./appointment.php">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
+                  <?php } ?>  
                 </div>
               </li>
               <li class="nav-item dropdown">
