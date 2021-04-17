@@ -15180,8 +15180,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   border-left: 4px solid transparent;
 }
 
-.sidebar[data-background-color="black"] {
-  background-color: #191919;
+.sidebar[data-background-color="white"] {
+  background-color: #FFFFFF;
 }
 
 .sidebar .sidebar-wrapper {
@@ -15283,7 +15283,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .nav li .dropdown-menu a:hover,
 .sidebar .nav li .dropdown-menu a:focus,
 .sidebar .nav li.active>[data-toggle="collapse"] {
-  background-color: rgba(200, 200, 200, 0.2);
+  background-color: #FFFFFF;
   color: #3C4858;
   box-shadow: none;
 }
@@ -15424,38 +15424,38 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   height: 60px;
 }
 
-.sidebar[data-background-color="black"] .nav .nav-item .nav-link {
-  color: #fff;
+.sidebar[data-background-color="white"] .nav .nav-item .nav-link {
+  color: #ffffff;
 }
 
-.sidebar[data-background-color="black"] .nav .nav-item i {
+.sidebar[data-background-color="white"] .nav .nav-item i {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.sidebar[data-background-color="black"] .nav .nav-item.active [data-toggle="collapse"],
-.sidebar[data-background-color="black"] .nav .nav-item:hover [data-toggle="collapse"] {
+.sidebar[data-background-color="white"] .nav .nav-item.active [data-toggle="collapse"],
+.sidebar[data-background-color="white"] .nav .nav-item:hover [data-toggle="collapse"] {
   color: #fff;
 }
 
-.sidebar[data-background-color="black"] .nav .nav-item.active [data-toggle="collapse"] i,
-.sidebar[data-background-color="black"] .nav .nav-item:hover [data-toggle="collapse"] i {
+.sidebar[data-background-color="white"] .nav .nav-item.active [data-toggle="collapse"] i,
+.sidebar[data-background-color="white"] .nav .nav-item:hover [data-toggle="collapse"] i {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.sidebar[data-background-color="black"] .user a {
+.sidebar[data-background-color="white"] .user a {
   color: #fff;
 }
 
-.sidebar[data-background-color="black"] .simple-text {
+.sidebar[data-background-color="white"] .simple-text {
   color: #fff;
 }
 
-.sidebar[data-background-color="black"] .sidebar-background:after {
-  background: #000;
+.sidebar[data-background-color="white"] .sidebar-background:after {
+  background: #fff;
   opacity: .8;
 }
 
-.sidebar[data-background-color="black"] .nav li .dropdown-menu .dropdown-item {
+.sidebar[data-background-color="white"] .nav li .dropdown-menu .dropdown-item {
   color: #fff;
 }
 
