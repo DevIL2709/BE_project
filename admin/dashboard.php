@@ -68,11 +68,11 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white">
-      <div class="logo"><a href="#" class="simple-text logo-normal">
+    <div class="sidebar bg-white" data-color="purple" data-background-color="white">
+      <div class="logo bg-white"><a href="#" class="simple-text logo-normal">
           Software for Advocates
         </a></div>
-      <div class="sidebar-wrapper">
+      <div class="sidebar-wrapper bg-white">
         <ul class="nav">
           <li class="nav-item active  ">
             <a class="nav-link" href="./dashboard.php">
@@ -139,6 +139,15 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form" style="display: none">
+              <div class="input-group no-border">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
+                <i class="material-icons">search</i>
+                <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="./dashboard.php">
@@ -424,8 +433,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       $().ready(function() {
         $sidebar = $('.sidebar');
 
-        $sidebar_img_container = $sidebar.find('.sidebar-background');
-
         $full_page = $('.full-page');
 
         $sidebar_responsive = $('body > .navbar-collapse');
@@ -494,17 +501,6 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
               md.misc.sidebar_mini_active = true;
             }, 300);
           }
-
-          // we simulate the window Resize so the charts will get updated in realtime.
-          var simulateWindowResize = setInterval(function() {
-            window.dispatchEvent(new Event('resize'));
-          }, 180);
-
-          // we stop the simulation of Window Resize after the animations are completed
-          setTimeout(function() {
-            clearInterval(simulateWindowResize);
-          }, 1000);
-
         });
       });
     });

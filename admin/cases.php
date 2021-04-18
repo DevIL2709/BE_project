@@ -96,11 +96,11 @@
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="purple" data-background-color="white">
-      <div class="logo"><a href="#" class="simple-text logo-normal">
+    <div class="sidebar bg-white" data-color="purple" data-background-color="white">
+      <div class="logo bg-white"><a href="#" class="simple-text logo-normal">
           Software for Advocates
         </a></div>
-      <div class="sidebar-wrapper">
+      <div class="sidebar-wrapper bg-white">
         <ul class="nav">
           <li class="nav-item ">
             <a class="nav-link" href="./dashboard.php">
@@ -432,7 +432,6 @@
   <script src="../assets/js/core/popper.min.js"></script>
   <script src="../assets/js/core/bootstrap-material-design.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <!-- Plugin for the momentJs  -->
   <script src="../assets/js/plugins/moment.min.js"></script>
   <!--  Plugin for Sweet Alert -->
@@ -442,8 +441,6 @@
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <!-- <script src="../assets/js/plugins/bootstrap-selectpicker.js"></script>    -->
-  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
@@ -465,141 +462,218 @@
   <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <script>
-  console.log("here");
-  function fetchstatus(id){
-    console.log(id);
-    $(document).ready(function(){
-      $.get("fetchcasestatus.php?id="+id, function(data, status){
-        jQuery.noConflict();
-        console.log("Data: " + data + "\nStatus: " + status);
-        $("#updatestatus").modal('show');
-        if(data == "PRE-TRIAL") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 0);
-            $("#submit").val(id);
-        }
-        if(data == "ACTIVE TRIAL") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 1);
-            $("#submit").val(id);
-        }
-        if(data == "FINAL HEARING") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 2);
-            $("#submit").val(id);
-        }
-        if(data == "CLOSED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 3);
-            $("#submit").val(id);
-        }
-      });     
-    });
-  }
+    $(document).ready(function() {
+      $().ready(function() {
+        $sidebar = $('.sidebar');
 
-  $(document).ready(function(){
-    $("#submit").on('click', function(){
-      let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatecasestatus.php", {
-        "id": id,
-        "selectedValue": selectedValue,
-      }, function(result){
-        console.log(result);
-        if(result) {
-          alert("Updated status successfully!");
-          $("#updatestatus").modal('hide');
-          location.reload();
+        $full_page = $('.full-page');
+
+        $sidebar_responsive = $('body > .navbar-collapse');
+
+        window_width = $(window).width();
+
+        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            $('.fixed-plugin .dropdown').addClass('open');
+          }
+
         }
-        else {
-          alert("Error in updating. Please try again later!");
-          $("#updatestatus").modal('hide');
-        }
+
+        $('.fixed-plugin a').click(function(event) {
+          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+          if ($(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        $('.fixed-plugin .active-color span').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-color', new_color);
+          }
+
+          if ($full_page.length != 0) {
+            $full_page.attr('filter-color', new_color);
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.attr('data-color', new_color);
+          }
+        });
+
+        $('.switch-sidebar-mini input').change(function() {
+          $body = $('body');
+
+          $input = $(this);
+
+          if (md.misc.sidebar_mini_active == true) {
+            $('body').removeClass('sidebar-mini');
+            md.misc.sidebar_mini_active = false;
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+          } else {
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+            setTimeout(function() {
+              $('body').addClass('sidebar-mini');
+
+              md.misc.sidebar_mini_active = true;
+            }, 300);
+          }
+        });
       });
     });
-  });
+    console.log("here");
+    function fetchstatus(id){
+      console.log(id);
+      $(document).ready(function(){
+        $.get("fetchcasestatus.php?id="+id, function(data, status){
+          jQuery.noConflict();
+          console.log("Data: " + data + "\nStatus: " + status);
+          $("#updatestatus").modal('show');
+          if(data == "PRE-TRIAL") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 0);
+              $("#submit").val(id);
+          }
+          if(data == "ACTIVE TRIAL") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 1);
+              $("#submit").val(id);
+          }
+          if(data == "FINAL HEARING") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 2);
+              $("#submit").val(id);
+          }
+          if(data == "CLOSED") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 3);
+              $("#submit").val(id);
+          }
+        });     
+      });
+    }
 
-  function fetchpriority(id){
-    console.log(id);
     $(document).ready(function(){
-      $.get("fetchcasepriority.php?id="+id, function(data, status){
-        jQuery.noConflict();
-        console.log("Data: " + data);
-        $("#updatepriority").modal('show');
-        if(data == "NORMAL") {
-            console.log(data);
-            $("#priority").prop("selectedIndex", 0);
-            $("#prioritysubmit").val(id);
-        }
-        if(data == "HIGH PRIORITY") {
-            console.log(data);
-            $("#priority").prop("selectedIndex", 1);
-            $("#prioritysubmit").val(id);
-        }
-        if(data == "LOW PRIORITY") {
-            console.log(data);
-            $("#priority").prop("selectedIndex", 2);
-            $("#prioritysubmit").val(id);
-        }
-      });     
-    });
-  }
-
-  $(document).ready(function(){
-    $("#prioritysubmit").on('click', function(){
-      let id = $("#prioritysubmit").val();
-      var selectedValue = $('#priority').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatecasepriority.php", {
-        "id": id,
-        "selectedValue": selectedValue,
-      }, function(result){
-        console.log(result);
-        if(result) {
-          alert("Updated priority successfully!");
-          $("#updatepriority").modal('hide');
-          location.reload();
-        }
-        else {
-          alert("Error in updating. Please try again later!");
-          $("#updatepriority").modal('hide');
-        }
+      $("#submit").on('click', function(){
+        let id = $("#submit").val();
+        var selectedValue = $('#status').find(":selected").text();
+        console.log(id + " " + selectedValue);
+        $.post("updatecasestatus.php", {
+          "id": id,
+          "selectedValue": selectedValue,
+        }, function(result){
+          console.log(result);
+          if(result) {
+            alert("Updated status successfully!");
+            $("#updatestatus").modal('hide');
+            location.reload();
+          }
+          else {
+            alert("Error in updating. Please try again later!");
+            $("#updatestatus").modal('hide');
+          }
+        });
       });
     });
-  });
 
-$(document).ready(function(){
+    function fetchpriority(id){
+      console.log(id);
+      $(document).ready(function(){
+        $.get("fetchcasepriority.php?id="+id, function(data, status){
+          jQuery.noConflict();
+          console.log("Data: " + data);
+          $("#updatepriority").modal('show');
+          if(data == "NORMAL") {
+              console.log(data);
+              $("#priority").prop("selectedIndex", 0);
+              $("#prioritysubmit").val(id);
+          }
+          if(data == "HIGH PRIORITY") {
+              console.log(data);
+              $("#priority").prop("selectedIndex", 1);
+              $("#prioritysubmit").val(id);
+          }
+          if(data == "LOW PRIORITY") {
+              console.log(data);
+              $("#priority").prop("selectedIndex", 2);
+              $("#prioritysubmit").val(id);
+          }
+        });     
+      });
+    }
 
-// Search all columns
-$('#search').keyup(function(){
-  // Search Text
-  var search = $(this).val();
-
-  // Hide all table tbody rows
-  $('table tbody tr').hide();
-
-  // Count total search result
-  var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
-
-  if(len > 0){
-    // Searching text in columns and show match row
-    $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-      $(this).closest('tr').show();
+    $(document).ready(function(){
+      $("#prioritysubmit").on('click', function(){
+        let id = $("#prioritysubmit").val();
+        var selectedValue = $('#priority').find(":selected").text();
+        console.log(id + " " + selectedValue);
+        $.post("updatecasepriority.php", {
+          "id": id,
+          "selectedValue": selectedValue,
+        }, function(result){
+          console.log(result);
+          if(result) {
+            alert("Updated priority successfully!");
+            $("#updatepriority").modal('hide');
+            location.reload();
+          }
+          else {
+            alert("Error in updating. Please try again later!");
+            $("#updatepriority").modal('hide');
+          }
+        });
+      });
     });
-  }else{
-    $('.notfound').show();
-  }
 
-});
-// Case-insensitive searching (Note - remove the below script for Case sensitive search )
-$.expr[":"].contains = $.expr.createPseudo(function(arg) {
-   return function( elem ) {
-     return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-   };
-});
-});
+    $(document).ready(function(){
+
+    // Search all columns
+    $('#search').keyup(function(){
+      // Search Text
+      var search = $(this).val();
+
+      // Hide all table tbody rows
+      $('table tbody tr').hide();
+
+      // Count total search result
+      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+      if(len > 0){
+        // Searching text in columns and show match row
+        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+          $(this).closest('tr').show();
+        });
+      }else{
+        $('.notfound').show();
+      }
+
+    });
+    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
+    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+      return function( elem ) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      };
+    });
+    });
 
     function showdiv(){
       var status = document.getElementById("status").value;
@@ -608,8 +682,6 @@ $.expr[":"].contains = $.expr.createPseudo(function(arg) {
         document.getElementById("time").style.display = "block";
       }
     }
-
-    
   </script>
 </body>
 
