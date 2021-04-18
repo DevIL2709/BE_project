@@ -188,7 +188,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
-                      <div class="col-4 form-group">
+                      <div class="col-md-6 col-lg-3 form-group">
                         <label for="clientname" class="text-primary">Client</label>
                         <select class="form-control" name="clientname">
                         <option><?php echo $array['clientname']; ?></option>
@@ -197,7 +197,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                         <?php endwhile; ?>
                         </select>
                       </div>
-                      <div class="col-4 form-group">
+                      <div class="col-md-4 col-lg-2 form-group">
                         <label for="clienttype" class="text-primary">Case Type</label>
                           <select class="form-control" name="clienttype">
                           <option>Petitioner</option>
@@ -206,12 +206,12 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       </div>
                     </div>
                     <div class="row"> 
-                      <div class="col-6 form-group">
-                        <label for="oppositionname" class="text-primary">Opposition Name</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="oppositionname" class="text-primary pl-3">Opposition Name</label>
                         <input type="text" class="form-control" name="oppositionname" value="<?php echo $array['oppositionname']; ?>">
                       </div>
-                      <div class="col-6 form-group">
-                        <label for="oppositionadvocate" class="text-primary">Opposition Advocate</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="oppositionadvocate" class="text-primary pl-3">Opposition Advocate</label>
                         <input type="text" class="form-control" name="oppositionadvocate" value="<?php echo $array['oppositionadvocate']; ?>">
                       </div>
                     </div>
@@ -223,57 +223,57 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </div>
                   <div class="card-body">
                     <div class="row pt-3"> 
-                      <div class="col-6 form-group">
-                        <label for="Case Number" class="text-primary">Case Number</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="Case Number" class="text-primary pl-3">Case Number</label>
                         <input type="number" class="form-control" name="casenumber" value="<?php echo $array['casenumber']; ?>">
                       </div>
-                      <div class="col-6 form-group">
-                        <label for="casetype" class="text-primary">Case Type</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="casetype" class="text-primary pl-3">Case Type</label>
                         <input type="text" class="form-control" name="casetype" value="<?php echo $array['casetype']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="act" class="pt-3 text-primary">Act</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="act" class="pt-3 text-primary pl-3">Act</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="act" value="<?php echo $array['act']; ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="filingnumber" class="pt-3 text-primary">Filing Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="filingnumber" class="pt-3 text-primary pl-3">Filing Number</label>
                         <br>
                         <input type="number" class="form-control" name="filingnumber" value="<?php echo $array['filingnumber']; ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="filingdate" class="pt-3 text-primary">Filing Date</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="filingdate" class="pt-3 text-primary pl-3">Filing Date</label>
                         <br>
                         <input type="date" class="form-control" name="filingdate" value="<?php echo $array['filingdate']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="regno" class="pt-3 text-primary">Registration Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="regno" class="pt-3 text-primary pl-3">Registration Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="regno" value="<?php echo $array['regno']; ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="regdate" class="pt-3 text-primary">Registration Date</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="regdate" class="pt-3 text-primary pl-3">Registration Date</label>
                         <br>
                         <input type="date" class="form-control" name="regdate" value="<?php echo $array['regdate']; ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="hearingdate" class="pt-3 text-primary">Hearing Date</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="hearingdate" class="pt-3 text-primary pl-3">Hearing Date</label>
                         <br>
                         <input type="date" class="form-control" name="hearingdate" value="<?php echo $array['hearingdate']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="cnrno" class="pt-3 text-primary">CNR Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="cnrno" class="pt-3 text-primary pl-3">CNR Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="cnrno" value="<?php echo $array['cnrno']; ?>">
                       </div>
-                      <div class="col-8 form-group">
-                        <label for="description" class="pt-3 text-primary">Description</label>
+                      <div class="col-md-8 col-lg-4 form-group">
+                        <label for="description" class="pt-3 text-primary pl-3">Description</label>
                         <br>
                         <input type="textarea" class="form-control" name="description" value="<?php echo $array['description']; ?>">
                       </div>
@@ -286,30 +286,30 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                   </div>
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="courtno" class="pt-3 text-primary">Court Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="courtno" class="pt-3 text-primary pl-3">Court Number</label>
                         <br>
                         <input type="number" class="form-control pt-3" name="courtno" value="<?php echo $array['courtno']; ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="courttype" class="pt-3 text-primary">Court Type</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="courttype" class="pt-3 text-primary pl-3">Court Type</label>
                         <br>
                         <input type="text" class="form-control" name="courttype" value="<?php echo $array['courttype']; ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="courtname" class="pt-3 text-primary">Court</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="courtname" class="pt-3 text-primary pl-3">Court</label>
                         <br>
                         <input type="text" class="form-control" name="courtname" value="<?php echo $array['courtname']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="judgename" class="pt-3 text-primary">Judge Name</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="judgename" class="pt-3 text-primary pl-3">Judge Name</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="judgename" value="<?php echo $array['judgename']; ?>">
                       </div>
-                      <div class="col-8 form-group">
-                        <label for="remarks" class="pt-3 text-primary">Remarks</label>
+                      <div class="col-md-8 col-lg-4 form-group">
+                        <label for="remarks" class="pt-3 text-primary pl-3">Remarks</label>
                         <br>
                         <input type="textarea" class="form-control" name="remarks" value="<?php echo $array['remarks']; ?>">
                       </div>

@@ -185,31 +185,31 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="cname" class="text-primary">Client Name</label>
-                        <input type="text" class="form-control" name="cname" value="<?php echo $array['cname'] ?>">
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="cname" class="text-primary pl-3">Client Name</label>
+                        <input type="text" class="form-control" name="cname" value="<?php echo $array['cname'] ?>" readOnly>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="mobno" class="text-primary pt-3">Mobile Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="mobno" class="text-primary pt-3 pl-3">Mobile Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="mobno" pattern="[0-9]{10}" value="<?php echo $array['mobno'] ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="date" class="text-primary pt-3">Date</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="date" class="text-primary pt-3 pl-3">Date</label>
                         <br>
                         <input type="date" class="form-control" name="date" value="<?php echo $array['date'] ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="time" class="text-primary pt-3">Time</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="time" class="text-primary pt-3 pl-3">Time</label>
                         <br>
                         <input type="time" class="form-control" name="time" value="<?php echo $array['time'] ?>"> 
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12 form-group">
-                        <label for="subject" class="text-primary">Subject</label>
+                      <div class="col-md-12 col-lg-6 form-group">
+                        <label for="subject" class="text-primary pl-3">Subject</label>
                         <input type="textarea" class="form-control" name="subject" value="<?php echo $array['subject'] ?>">
                       </div>
                     </div>

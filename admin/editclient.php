@@ -185,27 +185,27 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                   <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="oname" class="text-primary">Organization's Name</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="oname" class="text-primary pl-3">Organization's Name</label>
                         <input type="text" class="form-control" name="oname" value="<?php echo $array['oname'] ?>">
                       </div>
-                      <div class="col-6 form-group">
-                        <label for="oemail" class="text-primary">Organization's Email</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="oemail" class="text-primary pl-3">Organization's Email</label>
                         <input type="text" class="form-control" name="oemail" value="<?php echo $array['oemail'] ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="fname" class="text-primary">Client Name</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="fname" class="text-primary pl-3">Client Name</label>
                         <input type="text" class="form-control" name="name" value="<?php echo $array['name'] ?>">
                       </div>
-                      <div class="col-6 form-group">
-                        <label for="website" class="text-primary">Website</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="website" class="text-primary pl-3">Website</label>
                         <input type="text" class="form-control" name="website" value="<?php echo $array['website'] ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
+                      <div class="col-md-4 col-lg-2 form-group">
                         <div class="form-check form-check-radio">
                           <label for="country" class="text-primary">Gender</label>
                           <select class="form-control" name="gender" value="<?php echo $array['gender'] ?>">
@@ -215,24 +215,24 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                           </select>
                         </div>
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="email" class="text-primary pt-3">Email address</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="email" class="text-primary pl-3 pt-3">Email address</label>
                         <br>
                         <input type="email" class="form-control" name="email" aria-describedby="emailHelp" value="<?php echo $array['email'] ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="mobno" class="text-primary pt-3">Mobile Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="mobno" class="text-primary pl-3 pt-3">Mobile Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="mobno" pattern="[0-9]{10}" value="<?php echo $array['mobno'] ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="alternateno" class="text-primary">Alternate No.</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="alternateno" class="text-primary pl-3">Alternate No.</label>
                         <input type="number" class="form-control" name="alternateno" value="<?php echo $array['alternateno'] ?>">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="address" class="text-primary">Address</label>
+                        <label for="address" class="text-primary pl-3">Address</label>
                         <input type="text" class="form-control" name="address" value="<?php echo $array['address'] ?>">
                       </div>
                     </div>

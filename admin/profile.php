@@ -184,12 +184,12 @@ $appnotifresult = mysqli_fetch_assoc($appnotifquery);
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
                       <div class="col-12 form-group">
-                        <label for="username" class="text-primary">Username</label>
+                        <label for="username" class="text-primary pl-3">Username</label>
                         <input type="text" class="form-control" name="username" value="<?php echo $user ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
+                      <div class="col-md-4 col-lg-2 form-group">
                         <div class="form-check form-check-radio">
                           <label for="country" class="text-primary">Gender</label>
                           <select class="form-control" name="gender">
@@ -199,24 +199,24 @@ $appnotifresult = mysqli_fetch_assoc($appnotifquery);
                           </select>
                         </div>
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="email" class="text-primary pt-3">Email address</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="email" class="text-primary pl-3 pt-3">Email address</label>
                         <br>
                         <input type="email" class="form-control" name="email" aria-describedby="emailHelp" value="<?php echo $array['email'] ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="mobno" class="text-primary pt-3">Mobile Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="mobno" class="text-primary pl-3 pt-3">Mobile Number</label>
                         <br>
-                        <input type="text" class="form-control pt-3" name="mobno" pattern="[0-9]{10}">
+                        <input type="text" class="form-control" name="mobno" pattern="[0-9]{10}">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="alternateno" class="text-primary">Alternate No.</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="alternateno" class="text-primary pl-3">Alternate No.</label>
                         <input type="number" class="form-control" name="alternateno">
                       </div>
                       <div class="col-8 form-group">
-                        <label for="address" class="text-primary">Address</label>
+                        <label for="address" class="text-primary pl-3">Address</label>
                         <input type="text" class="form-control" name="address">
                       </div>
                     </div>

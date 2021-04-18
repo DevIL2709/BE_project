@@ -46,7 +46,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       <div class="logo bg-white"><a href="#" class="simple-text logo-normal">
           Software for Advocates
         </a></div>
-      <div class="sidebar-wrapper bg-whites">
+      <div class="sidebar-wrapper bg-white">
         <ul class="nav">
           <li class="nav-item ">
             <a class="nav-link" href="./dashboard.php">
@@ -184,26 +184,26 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="in" class="text-primary">Organization Name/Individual Name</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="in" class="text-primary pl-3 pl-3 pl-3 pl-3 pl-3">Organization Name/Individual Name</label>
                         <input type="text" class="form-control" name="in" value="<?php echo $array['name']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="date" class="text-primary">Date</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="date" class="text-primary pl-3 pl-3 pl-3 pl-3 pl-3">Date</label>
                         <input type="date" class="form-control" name="date" value="<?php echo $array['date']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="total" class="text-primary">Total</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="total" class="text-primary pl-3 pl-3 pl-3 pl-3 pl-3">Total</label>
                         <input type="text" class="form-control" name="total_amount" value="<?php echo $array['total_amount']; ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="amount" class="text-primary">Amount Paid</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="amount" class="text-primary pl-3 pl-3 pl-3 pl-3 pl-3">Amount Paid</label>
                         <input type="text" class="form-control" name="amount_paid" value="<?php echo $array['amount_paid']; ?>">
                       </div>
                     </div>

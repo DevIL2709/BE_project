@@ -183,13 +183,13 @@ $result2 = mysqli_query($conn, $query2);
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
-                      <div class="col-6 form-group">
-                        <label for="taskname" class="text-primary">Task Name</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="taskname" class="text-primary pl-3">Task Name</label>
                         <input type="text" class="form-control" name="taskname">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group">
+                      <div class="col-md-6 col-lg-3 form-group">
                         <label for="related" class="text-primary">Related To</label>
                         <select class="form-control" name="related">
                         <option></option>
@@ -201,17 +201,17 @@ $result2 = mysqli_query($conn, $query2);
                       </div>
                     </div>
                     <div class="row pt-3">
-                      <div class="col-6 form-group">
-                        <label for="start" class="text-primary">Start Date</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="start" class="text-primary pl-3">Start Date</label>
                         <input type="date" class="form-control" name="start" id="start">
                       </div>
-                      <div class="col-6 form-group">
-                        <label for="deadline" class="text-primary">Deadline</label>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="deadline" class="text-primary pl-3">Deadline</label>
                         <input type="date" class="form-control" name="deadline">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group">
+                      <div class="col-md-6 col-lg-3 form-group">
                         <label for="assto" class="text-primary">Assigned To</label>
                         <br>
                         <select class="form-control" name="assto">

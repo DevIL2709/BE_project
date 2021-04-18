@@ -182,7 +182,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
-                      <div class="col-6 form-group">
+                      <div class="col-md-6 col-lg-3 form-group">
                         <div class="form-check form-check-radio">
                             <label class="form-check-label text-primary">
                                 <input class="form-check-input" type="radio" name="clienttype" value="newclient" onClick="hideexclient()" checked>
@@ -193,7 +193,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                             </label>
                         </div>
                       </div>
-                      <div class="col-6 form-group">
+                      <div class="col-md-6 col-lg-3 form-group">
                         <div class="form-check form-check-radio">
                             <label class="form-check-label text-primary">
                                 <input class="form-check-input" type="radio" name="clienttype" value="exclient" onClick="hidenewclient()">
@@ -206,13 +206,13 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-6 form-group" id="newclient">
-                        <label for="cname1" class="text-primary">New Client Name</label>
+                      <div class="col-md-6 col-lg-3 form-group" id="newclient">
+                        <label for="cname1" class="text-primary pl-3">New Client Name</label>
                         <input type="text" class="form-control" name="cname1">
                       </div>
                     </div>
                     <div class="row" id="exclient" style="display:none"> 
-                      <div class="col-6 form-group">
+                      <div class="col-md-6 col-lg-3 form-group">
                         <label for="cname2" class="text-primary">Select Client</label>
                         <select class="form-control" name="cname2">
                         <option></option>
@@ -223,25 +223,25 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-4 form-group">
-                        <label for="mobno" class="pt-3 text-primary">Mobile Number</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="mobno" class="pt-3 pl-3 text-primary">Mobile Number</label>
                         <br>
                         <input type="text" class="form-control pt-3" name="mobno" pattern="[0-9]{10}">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="date" class="pt-3 text-primary">Date</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="date" class="pt-3 pl-3 text-primary">Date</label>
                         <br>
                         <input type="date" class="form-control" name="date" value="<?php echo date('Y-m-d'); ?>">
                       </div>
-                      <div class="col-4 form-group">
-                        <label for="time" class="pt-3 text-primary">Time</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="time" class="pt-3 pl-3 text-primary">Time</label>
                         <br>
                         <input type="time" class="form-control" name="time" value="<?php echo date("h:i"); ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12 form-group">
-                        <label for="subject" class="text-primary">Subject</label>
+                      <div class="col-md-12 col-lg-6 form-group">
+                        <label for="subject" class="text-primary pl-3">Subject</label>
                         <input type="textarea" class="form-control" name="subject">
                       </div>
                     </div>
