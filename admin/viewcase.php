@@ -232,9 +232,10 @@
                       $comparison[$maxindex]=0;
                   }
                   foreach ($result as $links) {
-                      echo $number.'. '?><a href="<?php echo $links ?>">
-                      <img src="../assets/img/recommendation.png">
+                      ?><a href="<?php echo $links ?>">
+                      Case 
                       <?php
+                      echo $number;
                       echo "</br></br>";  
                       $number++;
                   ?></a><?php } ?></td></tr>
