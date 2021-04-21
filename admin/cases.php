@@ -231,7 +231,7 @@
         <div class="container-fluid">
         <div class="row justify-content">
             <div class="col-md-4 col-lg-2">
-              <a href="./addcase.php" class="btn btn-primary ml-4" role="button">Add Case</a>
+              <a href="./addcase.php" class="btn btn-primary" role="button">Add Case</a>
             </div>  
             <div class="col-md-4 col-lg-2">
             <a href="./uploadevidence.php"> 
@@ -682,6 +682,14 @@
         document.getElementById("time").style.display = "block";
       }
     }
+
+    $(document).ready(function(){
+      if ($(window).width() < 768) {
+        $("a").css("white-space", "wrap");
+        } else {
+        $("a").css("white-space", "nowrap");
+      }
+    });
   </script>
 </body>
 

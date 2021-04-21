@@ -3707,7 +3707,7 @@ tbody.collapse.show {
   font-weight: 400;
   color: #212529;
   text-align: inherit;
-  white-space: nowrap;
+  /* white-space: wrap; */
   background-color: transparent;
   border: 0;
 }

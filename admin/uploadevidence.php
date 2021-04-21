@@ -385,6 +385,14 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
     $('.form-file-multiple .btn').on('focusout', function() {
       $(this).parent().siblings().trigger('focusout');
     });
+
+    $(document).ready(function(){
+      if ($(window).width() < 768) {
+        $("a").css("white-space", "wrap");
+        } else {
+        $("a").css("white-space", "nowrap");
+      }
+    });
   </script>
 </body>
 

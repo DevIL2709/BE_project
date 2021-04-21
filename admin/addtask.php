@@ -365,6 +365,14 @@ $result2 = mysqli_query($conn, $query2);
         });
       });
     });
+    
+    $(document).ready(function(){
+      if ($(window).width() < 768) {
+        $("a").css("white-space", "wrap");
+        } else {
+        $("a").css("white-space", "nowrap");
+      }
+    });
   </script>
 </body>
 </html>

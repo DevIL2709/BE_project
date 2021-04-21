@@ -349,6 +349,14 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
         });
       });
     });
+
+    $(document).ready(function(){
+      if ($(window).width() < 768) {
+        $("a").css("white-space", "wrap");
+        } else {
+        $("a").css("white-space", "nowrap");
+      }
+    });
   </script>
 </body>
 </html>
