@@ -1,6 +1,17 @@
 <?php
   error_reporting(0);
   session_start();
+  if(isset($_SESSION['admin'])) {
+    header('Location: ./admin/dashboard.php');
+  }
+
+  elseif(isset($_SESSION['staff'])) {
+    header('Location: ./staff/dashboard.php');
+  }
+  
+  elseif(isset($_SESSION['assistant'])) {
+    header('Location: ./assistant/dashboard.php');
+  }
 ?>
 
 <HTML lang="EN">

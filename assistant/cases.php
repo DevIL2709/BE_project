@@ -1,12 +1,12 @@
 <?php
-  session_start();
-  error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
-  require_once "../functions/database_functions.php";
-  $conn = db_connect();
-  $query = "SELECT * from tasks";
-  $result = mysqli_query($conn, $query);
-  //casenotif query
+ session_start();
+ error_reporting(0);
+ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+ require_once "../functions/database_functions.php";
+ $conn = db_connect();
+ $query = "SELECT * from cases ORDER BY prioritynumber ASC";
+ $result = mysqli_query($conn, $query);
+ //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
@@ -114,13 +114,13 @@
               <p>Clients</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active ">
             <a class="nav-link" href="./cases.php">
               <i class="material-icons">gavel</i>
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
@@ -146,7 +146,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Task</a>
+            <a class="navbar-brand">Cases</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -158,9 +158,9 @@
             <form class="navbar-form">
               <div class="input-group no-border">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
+                <i class="material-icons">search</i>
+                <div class="ripple-container"></div>
                 </button>
               </div>
             </form>
@@ -217,41 +217,57 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
+        <div class="row justify-content">
+            <div class="col-md-4 col-lg-2">
+              <a href="./addcase.php" class="btn btn-primary" role="button">Add Case</a>
+            </div>  
+            <div class="col-md-4 col-lg-2">
+            <a href="./uploadevidence.php"> 
+            <button type="button" class="btn btn-primary" name="uploadevidence" id="uploadevidence">Upload Evidence</button>
+            </a>
+            </div>
+          </div>  
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Tasks</h4>
-                  <p class="card-category">Total Tasks</p>
+                  <h4 class="card-title">Cases</h4>
+                  <p class="card-category">Total Cases</p>
                 </div>
                 <div class="card-body table-responsive">
-                  <table class="table table-hover">
+                  <table class="table table-hover" id="myTable">
                     <thead class="text-primary">
-                      <th>Task Name</th>
-                      <th>Related To</th>
-                      <th>Start Date</th>
-                      <th>Deadline</th>
-                      <th>Assigned To</th>
+                      <th>Client & Case Details</th>
+                      <th>Court Detail</th>
+                      <th>Petitioner vs Respondent</th>
+                      <th>Next Date</th>
                       <th>Status</th>
+                      <th>Priority</th>
+                      <th>Action</th>
                     </thead>
                     <tbody>
                     <?php while($array = mysqli_fetch_assoc($result)): ?>
-                      <tr>
-                        <td><?php echo $array['taskname']; ?></td>
-                        <td><?php echo $array['related']; ?></td>
-                        <td><?php echo $array['start']; ?></td>
-                        <td><?php echo $array['deadline']; ?></td>
-                        <td><?php echo $array['assto']; ?></td>
+                      <tr class="case">
+                        <td><?php echo "Client: ".$array['clientname']; ?><br>
+                        <?php echo "Case: ".$array['casetype']; ?></td>
+                        <td><?php echo "Court Type: ".$array['courttype']; ?><br>
+                        <?php echo "Judge Name: ".$array['judgename']; ?></td>
+                        <td><?php echo $array['clientname'] ." vs ". $array['oppositionname']; ?></td>
+                        <td><?php echo $array['hearingdate']; ?></td>
                         <td>
-                          <?php if($array['status']=='ASSIGNED') { ?>
+                          <?php if($array['status']=='PRE-TRIAL') { ?>
                           <button type="button" class="btn btn-success" onclick="fetchstatus(<?php echo $array['ID']?>);">
                           <?php echo $array['status']; ?>
                           </button>
-                          <?php } else if($array['status']=='IN-PROGRESS') { ?>
+                          <?php } else if($array['status']=='ACTIVE TRIAL') { ?>
+                          <button type="button" class="btn btn-default" onclick="fetchstatus(<?php echo $array['ID']?>);">
+                          <?php echo $array['status']; ?>
+                          </button>
+                          <?php } else if($array['status']=='FINAL HEARING') { ?>
                           <button type="button" class="btn btn-danger" onclick="fetchstatus(<?php echo $array['ID']?>);">
                           <?php echo $array['status']; ?>
                           </button>
-                          <?php } else if($array['status']=='COMPLETED') { ?>
+                          <?php } else if($array['status']=='CLOSED') { ?>
                           <button type="button" class="btn btn-warning">
                           <?php echo $array['status']; ?>
                           </button>
@@ -270,9 +286,10 @@
                                   <div class="select">
                                   <span class="arr"></span>
                                   <select for="status" id="status" name="status">
-                                    <option>ASSIGNED</option>
-                                    <option>IN-PROGRESS</option>
-                                    <option>COMPLETED</option>
+                                    <option>PRE-TRIAL</option>
+                                    <option>ACTIVE TRIAL</option>
+                                    <option>FINAL HEARING</option>
+                                    <option>CLOSED</option>
                                   </select>
                                   <div class="row">
                                   <div class="form-group" id="date" style="display:none">
@@ -297,6 +314,73 @@
                                 </form>
                               </div>
                             </div>
+                          </div>
+                        </td>
+                        <td>
+                          <?php if($array['priority']=='NORMAL') { ?>
+                          <button type="button" class="btn btn-success" onclick="fetchpriority(<?php echo $array['ID']?>);">
+                          <?php echo $array['priority']; ?>
+                          </button>
+                          <?php } else if($array['priority']=='HIGH PRIORITY') { ?>
+                          <button type="button" class="btn btn-danger" onclick="fetchpriority(<?php echo $array['ID']?>);">
+                          <?php echo $array['priority']; ?>
+                          </button>
+                          <?php } else if($array['priority']=='LOW PRIORITY') { ?>
+                          <button type="button" class="btn btn-default" onclick="fetchpriority(<?php echo $array['ID']?>);">
+                          <?php echo $array['priority']; ?>
+                          </button>
+                          <?php } ?>
+                          <div class="modal fade" id="updatepriority" tabindex="-1" data-id="<?php echo $array['ID'] ?>">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Update Case Priority</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <form method="post" action="./updatecasepriority.php">
+                                  <div class="select">
+                                  <span class="arr"></span>
+                                  <select for="priority" id="priority" name="priority">
+                                    <option>NORMAL</option>
+                                    <option>HIGH PRIORITY</option>
+                                    <option>LOW PRIORITY</option>
+                                  </select>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary" name='prioritysubmit' id='prioritysubmit'>Save changes</button>
+                                </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="td-actions text-middle">
+                          <div class='row'>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./viewcase.php">
+                            <button type="submit" rel="tooltip" class="btn btn-info" name='view' value="<?php echo $array['ID']; ?>">
+                                <i class="material-icons">visibility</i>
+                            </button>
+                          </form>
+                          </div>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./editcase.php">
+                            <button type="submit" rel="tooltip" class="btn btn-info" name='edit' value="<?php echo $array['ID']; ?>">
+                                <i class="material-icons">edit</i>
+                            </button>
+                          </form>
+                          </div>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./deletecase.php">
+                            <button type="submit" rel="tooltip" class="btn btn-danger" name='delete' onclick="return confirm('Are you sure?');" value="<?php echo $array['ID']; ?>"> 
+                                <i class="material-icons">delete</i>
+                            </button>
+                          </form>
+                          </div>
                           </div>
                         </td>
                       </tr>
@@ -368,97 +452,6 @@
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <script>
-  console.log("here");
-
-  $(document).ready(function(){
-
-    // Search all columns
-    $('#search').keyup(function(){
-      // Search Text
-      var search = $(this).val();
-
-      // Hide all table tbody rows
-      $('table tbody tr').hide();
-
-      // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
-
-      if(len > 0){
-        // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
-        });
-      }else{
-        $('.notfound').show();
-      }
-
-    });
-    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
-      return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-      };
-    });
-    });
-
-  function fetchstatus(id){
-    console.log(id);
-    $(document).ready(function(){
-      $.get("fetchtaskstatus.php?id="+id, function(data, status){
-        jQuery.noConflict();
-        console.log("Data: " + data + "\nStatus: " + status);
-        $("#updatestatus").modal('show');
-        if(data == "ASSIGNED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 0);
-            $("#submit").val(id);
-        }
-        if(data == "IN-PROGRESS") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 1);
-            $("#submit").val(id);
-        }
-        if(data == "COMPLETED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 2);
-            $("#submit").val(id);
-        }
-      });     
-    });
-  }
-
-  $(document).ready(function(){
-    $("#submit").on('click', function(){
-      let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatetaskstatus.php", {
-        "id": id,
-        "selectedValue": selectedValue,
-      }, function(result){
-        console.log(result);
-        if(result) {
-          alert("Updated status successfully!");
-          $("#updatestatus").modal('hide');
-          location.reload();
-        }
-        else {
-          alert("Error in updating. Please try again later!");
-          $("#updatestatus").modal('hide');
-        }
-      });
-    });
-  });
-  
-    function showdiv(){
-      var status = document.getElementById("status").value;
-      if(status=="POSTPONED") {
-        document.getElementById("date").style.display = "block";
-        document.getElementById("time").style.display = "block";
-      }
-    }
-  </script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -535,6 +528,148 @@
         });
       });
     });
+    console.log("here");
+    function fetchstatus(id){
+      console.log(id);
+      $(document).ready(function(){
+        $.get("fetchcasestatus.php?id="+id, function(data, status){
+          jQuery.noConflict();
+          console.log("Data: " + data + "\nStatus: " + status);
+          $("#updatestatus").modal('show');
+          if(data == "PRE-TRIAL") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 0);
+              $("#submit").val(id);
+          }
+          if(data == "ACTIVE TRIAL") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 1);
+              $("#submit").val(id);
+          }
+          if(data == "FINAL HEARING") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 2);
+              $("#submit").val(id);
+          }
+          if(data == "CLOSED") {
+              console.log(data);
+              $("#status").prop("selectedIndex", 3);
+              $("#submit").val(id);
+          }
+        });     
+      });
+    }
+
+    $(document).ready(function(){
+      $("#submit").on('click', function(){
+        let id = $("#submit").val();
+        var selectedValue = $('#status').find(":selected").text();
+        console.log(id + " " + selectedValue);
+        $.post("updatecasestatus.php", {
+          "id": id,
+          "selectedValue": selectedValue,
+        }, function(result){
+          console.log(result);
+          if(result) {
+            alert("Updated status successfully!");
+            $("#updatestatus").modal('hide');
+            location.reload();
+          }
+          else {
+            alert("Error in updating. Please try again later!");
+            $("#updatestatus").modal('hide');
+          }
+        });
+      });
+    });
+
+    function fetchpriority(id){
+      console.log(id);
+      $(document).ready(function(){
+        $.get("fetchcasepriority.php?id="+id, function(data, status){
+          jQuery.noConflict();
+          console.log("Data: " + data);
+          $("#updatepriority").modal('show');
+          if(data == "NORMAL") {
+              console.log(data);
+              $("#priority").prop("selectedIndex", 0);
+              $("#prioritysubmit").val(id);
+          }
+          if(data == "HIGH PRIORITY") {
+              console.log(data);
+              $("#priority").prop("selectedIndex", 1);
+              $("#prioritysubmit").val(id);
+          }
+          if(data == "LOW PRIORITY") {
+              console.log(data);
+              $("#priority").prop("selectedIndex", 2);
+              $("#prioritysubmit").val(id);
+          }
+        });     
+      });
+    }
+
+    $(document).ready(function(){
+      $("#prioritysubmit").on('click', function(){
+        let id = $("#prioritysubmit").val();
+        var selectedValue = $('#priority').find(":selected").text();
+        console.log(id + " " + selectedValue);
+        $.post("updatecasepriority.php", {
+          "id": id,
+          "selectedValue": selectedValue,
+        }, function(result){
+          console.log(result);
+          if(result) {
+            alert("Updated priority successfully!");
+            $("#updatepriority").modal('hide');
+            location.reload();
+          }
+          else {
+            alert("Error in updating. Please try again later!");
+            $("#updatepriority").modal('hide');
+          }
+        });
+      });
+    });
+
+    $(document).ready(function(){
+
+    // Search all columns
+    $('#search').keyup(function(){
+      // Search Text
+      var search = $(this).val();
+
+      // Hide all table tbody rows
+      $('table tbody tr').hide();
+
+      // Count total search result
+      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+      if(len > 0){
+        // Searching text in columns and show match row
+        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+          $(this).closest('tr').show();
+        });
+      }else{
+        $('.notfound').show();
+      }
+
+    });
+    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
+    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+      return function( elem ) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      };
+    });
+    });
+
+    function showdiv(){
+      var status = document.getElementById("status").value;
+      if(status=="POSTPONED") {
+        document.getElementById("date").style.display = "block";
+        document.getElementById("time").style.display = "block";
+      }
+    }
 
     $(document).ready(function(){
       if ($(window).width() < 768) {

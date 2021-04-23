@@ -1,7 +1,7 @@
 <?php
   session_start();
   error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
+  if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
   $query = "SELECT * from tasks";
@@ -217,6 +217,11 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-lg-2">
+              <a href="./addtask.php" class="btn btn-primary" role="button">Add Task</a>
+            </div>  
+          </div>  
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="card">
@@ -233,6 +238,7 @@
                       <th>Deadline</th>
                       <th>Assigned To</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </thead>
                     <tbody>
                     <?php while($array = mysqli_fetch_assoc($result)): ?>
@@ -297,6 +303,24 @@
                                 </form>
                               </div>
                             </div>
+                          </div>
+                        </td>
+                        <td class="td-actions text-middle">
+                          <div class='row'>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./edittask.php">
+                            <button type="submit" rel="tooltip" class="btn btn-info" name='edit' value="<?php echo $array['ID']; ?>">
+                                <i class="material-icons">edit</i>
+                            </button>
+                          </form>
+                          </div>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./deletetask.php">
+                            <button type="submit" rel="tooltip" class="btn btn-danger" name='delete' onclick="return confirm('Are you sure?');" value="<?php echo $array['ID']; ?>"> 
+                                <i class="material-icons">delete</i>
+                            </button>
+                          </form>
+                          </div>
                           </div>
                         </td>
                       </tr>

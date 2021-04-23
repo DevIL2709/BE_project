@@ -48,8 +48,9 @@ else if($username == $row['username'] AND $password == $row['password'] AND $rol
     $_SESSION['staff'] = true;
 	header("Location: staff/dashboard.php");
 }   
-else {
-	$_SESSION['client'] = true;
-	header("Location: client/dashboard.php");
-}
+
+else if($username == $row['username'] AND $password == $row['password'] AND $role == 'assistant' OR $role == 'Assistant' OR $role == 'ASSISTANT'){
+    $_SESSION['assistant'] = true;
+	header("Location: assistant/dashboard.php");
+}   
 ?>

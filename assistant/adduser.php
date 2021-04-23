@@ -1,21 +1,21 @@
 <?php
-  session_start();
-  error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
+session_start();
+error_reporting(0);
+if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
-  $query = "SELECT * from tasks";
+  $query = "SELECT * from cases";
   $result = mysqli_query($conn, $query);
   //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
-
+ 
   //tasknotif query
   $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
   $tasknotifquery = mysqli_query($conn, $tasknotifquery);
   $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
-
+ 
   //appnotif query
   $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
   $appnotifquery = mysqli_query($conn, $appnotifquery);
@@ -35,63 +35,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <style>
-    .select {
-      font-size: 16px;
-      position: relative;
-      display: inline-block;
-      margin-left: 30%;
-    }
-    .select select {
-      outline: none;
-      /* -webkit-appearance: none; */
-      display: block;
-      padding: 0.5em 5em 0.5em 0.5em;
-      margin: 0;
-
-      transition: border-color 0.2s;
-      border: 2px solid #822c9c;
-      border-radius: 5px;
-
-      background: #fff;
-      color: #555;
-      line-height: normal;
-      font-family: inherit;
-      font-size: inherit;
-      line-height: inherit;
-    }
-    .select .arr {
-      background: #fff;
-      position: absolute;
-      right: 5px;
-      top: 1.5em;
-      width: 50px;
-      pointer-events: none;
-    }
-    .select .arr:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 24px;
-      margin-top: -5px;
-      pointer-events: none;
-      border-top: 10px solid #822c9c;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-
-    .select .arr:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 28px;
-      margin-top: -5px;
-      pointer-events: none;
-      border-top: 6px solid #fff;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-    }
-  </style>
 </head>
 
 <body class="">
@@ -120,7 +63,7 @@
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
@@ -132,7 +75,7 @@
               <p>Appointment</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active ">
             <a class="nav-link" href="./teammembers.php">
               <i class="material-icons">groups</i>
               <p>Team members</p>
@@ -146,7 +89,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Task</a>
+            <a class="navbar-brand">Add User</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -155,12 +98,12 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
+           <form class="navbar-form" style="display: none">
               <div class="input-group no-border">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
+                <i class="material-icons">search</i>
+                <div class="ripple-container"></div>
                 </button>
               </div>
             </form>
@@ -218,91 +161,39 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Tasks</h4>
-                  <p class="card-category">Total Tasks</p>
+                  <h4 class="card-title">Add User</h4>
                 </div>
-                <div class="card-body table-responsive">
-                  <table class="table table-hover">
-                    <thead class="text-primary">
-                      <th>Task Name</th>
-                      <th>Related To</th>
-                      <th>Start Date</th>
-                      <th>Deadline</th>
-                      <th>Assigned To</th>
-                      <th>Status</th>
-                    </thead>
-                    <tbody>
-                    <?php while($array = mysqli_fetch_assoc($result)): ?>
-                      <tr>
-                        <td><?php echo $array['taskname']; ?></td>
-                        <td><?php echo $array['related']; ?></td>
-                        <td><?php echo $array['start']; ?></td>
-                        <td><?php echo $array['deadline']; ?></td>
-                        <td><?php echo $array['assto']; ?></td>
-                        <td>
-                          <?php if($array['status']=='ASSIGNED') { ?>
-                          <button type="button" class="btn btn-success" onclick="fetchstatus(<?php echo $array['ID']?>);">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } else if($array['status']=='IN-PROGRESS') { ?>
-                          <button type="button" class="btn btn-danger" onclick="fetchstatus(<?php echo $array['ID']?>);">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } else if($array['status']=='COMPLETED') { ?>
-                          <button type="button" class="btn btn-warning">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } ?>
-                          <div class="modal fade" id="updatestatus" tabindex="-1" data-id="<?php echo $array['ID'] ?>">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title">Update Case Status</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <form method="post" action="./updatecasestatus.php">
-                                  <div class="select">
-                                  <span class="arr"></span>
-                                  <select for="status" id="status" name="status">
-                                    <option>ASSIGNED</option>
-                                    <option>IN-PROGRESS</option>
-                                    <option>COMPLETED</option>
-                                  </select>
-                                  <div class="row">
-                                  <div class="form-group" id="date" style="display:none">
-                                    <label for="date" class="ml-3 mt-3">Date</label>
-                                    <br>
-                                    <input type="date" class="form-control ml-3" name="date" value="<?php echo $array['date'] ?>">
-                                  </div>
-                                  </div>
-                                  <div class="row">
-                                  <div class="form-group" id="time" style="display:none">
-                                    <label for="time" class="ml-3 mt-3">Time</label>
-                                    <br>
-                                    <input type="time" class="form-control ml-3" name="time" value="<?php echo $array['time'] ?>">
-                                  </div>
-                                  </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary" name='submit' id='submit'>Save changes</button>
-                                </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    <?php endwhile; ?>
-                    </tbody>
-                  </table>
+                <div class="card-body">
+                  <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
+                    <div class="form-group">
+                      <label for="username" class="text-primary">Username</label>
+                      <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <label for="email" class="text-primary">Email address</label>
+                      <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <label for="password" class="text-primary">Password</label>
+                      <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                      <label for="role" class="text-primary">Role</label>
+                      <select class="form-control col-md-2" data-style="btn btn-link" id="role" name="role">
+                        <option>Admin</option>
+                        <option>Assistant</option>
+                        <option>Staff</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="submit">Add User</button>
+                    <div class="clearfix"></div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -318,6 +209,7 @@
                   Software for Advocates
                 </a>
               </li>
+              <li>
             </ul>
           </nav>
           <div class="copyright float-right">
@@ -344,7 +236,7 @@
   <script src="../assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
@@ -362,103 +254,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   <!-- Library for adding dinamically elements -->
   <script src="../assets/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
   <!-- Chartist JS -->
   <script src="../assets/js/plugins/chartist.min.js"></script>
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <script>
-  console.log("here");
-
-  $(document).ready(function(){
-
-    // Search all columns
-    $('#search').keyup(function(){
-      // Search Text
-      var search = $(this).val();
-
-      // Hide all table tbody rows
-      $('table tbody tr').hide();
-
-      // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
-
-      if(len > 0){
-        // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
-        });
-      }else{
-        $('.notfound').show();
-      }
-
-    });
-    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
-      return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-      };
-    });
-    });
-
-  function fetchstatus(id){
-    console.log(id);
-    $(document).ready(function(){
-      $.get("fetchtaskstatus.php?id="+id, function(data, status){
-        jQuery.noConflict();
-        console.log("Data: " + data + "\nStatus: " + status);
-        $("#updatestatus").modal('show');
-        if(data == "ASSIGNED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 0);
-            $("#submit").val(id);
-        }
-        if(data == "IN-PROGRESS") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 1);
-            $("#submit").val(id);
-        }
-        if(data == "COMPLETED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 2);
-            $("#submit").val(id);
-        }
-      });     
-    });
-  }
-
-  $(document).ready(function(){
-    $("#submit").on('click', function(){
-      let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatetaskstatus.php", {
-        "id": id,
-        "selectedValue": selectedValue,
-      }, function(result){
-        console.log(result);
-        if(result) {
-          alert("Updated status successfully!");
-          $("#updatestatus").modal('hide');
-          location.reload();
-        }
-        else {
-          alert("Error in updating. Please try again later!");
-          $("#updatestatus").modal('hide');
-        }
-      });
-    });
-  });
-  
-    function showdiv(){
-      var status = document.getElementById("status").value;
-      if(status=="POSTPONED") {
-        document.getElementById("date").style.display = "block";
-        document.getElementById("time").style.display = "block";
-      }
-    }
-  </script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -547,7 +350,46 @@
 </body>
 
 </html>
+
 <?php
+if(isset($_POST['submit'])) {
+  require_once "../functions/database_functions.php";
+  $username = trim($_POST['username']);
+  $email = trim($_POST['email']);
+  $role = trim($_POST['role']);
+  $password = trim($_POST['password']);
+    
+  $conn = db_connect();
+    
+  $password = sha1($password);
+    
+  $query = "INSERT INTO users(username, email, password, role) VALUES ('$username', '$email', '$password', '$role');";
+  $result = mysqli_query($conn, $query);
+    
+  $query1 = "SELECT `AUTO_INCREMENT`
+  FROM  INFORMATION_SCHEMA.TABLES
+  WHERE TABLE_SCHEMA = 'softwareforadvocates'
+  AND   TABLE_NAME   = 'users';";
+  $id = mysqli_query($conn, $query1);
+  $array =  mysqli_fetch_assoc($id);
+  $userid = $array['AUTO_INCREMENT']-1;
+
+  $query2 = "INSERT INTO profile(ID, username, gender, email, mobno, alternateno, address) VALUES ('$userid', '$username', '', '$email', '', '', '');";
+  $profile = mysqli_query($conn, $query2);
+
+  if(!$result || !$profile) {
+    echo "<script>
+			alert('Insertion Failed. Please retry!');
+			window.location.href='./teammembers.php';
+		  </script>";
+  }
+    
+  else {
+    echo "<script>alert('Successfully registered!');
+    window.location.href='./teammembers.php';
+    </script>";
+  }
+}
 }
 else {
   header("Location: ../index.php");

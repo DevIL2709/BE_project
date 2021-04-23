@@ -1,12 +1,12 @@
 <?php
-  session_start();
-  error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
-  require_once "../functions/database_functions.php";
-  $conn = db_connect();
-  $query = "SELECT * from tasks";
-  $result = mysqli_query($conn, $query);
-  //casenotif query
+ session_start();
+ error_reporting(0);
+ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+ require_once "../functions/database_functions.php";
+ $conn = db_connect();
+ $query = "SELECT * from clients";
+ $result = mysqli_query($conn, $query);
+ //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
@@ -35,63 +35,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <style>
-    .select {
-      font-size: 16px;
-      position: relative;
-      display: inline-block;
-      margin-left: 30%;
-    }
-    .select select {
-      outline: none;
-      /* -webkit-appearance: none; */
-      display: block;
-      padding: 0.5em 5em 0.5em 0.5em;
-      margin: 0;
-
-      transition: border-color 0.2s;
-      border: 2px solid #822c9c;
-      border-radius: 5px;
-
-      background: #fff;
-      color: #555;
-      line-height: normal;
-      font-family: inherit;
-      font-size: inherit;
-      line-height: inherit;
-    }
-    .select .arr {
-      background: #fff;
-      position: absolute;
-      right: 5px;
-      top: 1.5em;
-      width: 50px;
-      pointer-events: none;
-    }
-    .select .arr:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 24px;
-      margin-top: -5px;
-      pointer-events: none;
-      border-top: 10px solid #822c9c;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-
-    .select .arr:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 28px;
-      margin-top: -5px;
-      pointer-events: none;
-      border-top: 6px solid #fff;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-    }
-  </style>
 </head>
 
 <body class="">
@@ -108,7 +51,7 @@
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active  ">
             <a class="nav-link" href="./client.php">
               <i class="material-icons">person_add</i>
               <p>Clients</p>
@@ -120,7 +63,7 @@
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
@@ -138,6 +81,9 @@
               <p>Team members</p>
             </a>
           </li>
+          
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -146,7 +92,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Task</a>
+            <a class="navbar-brand">Clients</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -157,8 +103,8 @@
           <div class="collapse navbar-collapse justify-content-end">
             <form class="navbar-form">
               <div class="input-group no-border">
-                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search..." onkeyup="searchItem()">
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
                   <i class="material-icons">search</i>
                   <div class="ripple-container"></div>
                 </button>
@@ -181,7 +127,7 @@
                     notifications
                   </p>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu dropdown-menu-right col-md-4 col-lg-2" aria-labelledby="navbarDropdownMenuLink">
                   <?php if($casenotifresult == NULL) { ?>
                   <a class="dropdown-item" href="./cases.php">No Upcoming Cases</a>
                   <?php } else { ?>
@@ -194,7 +140,7 @@
                   <a class="dropdown-item" href="./appointment.php">No Upcoming Appointments</a>
                   <?php } else { ?>
                   <a class="dropdown-item" href="./appointment.php">You have an appointment with: <?php echo $appnotifresult['cname']; ?> on date: <?php echo $appnotifresult['date']; ?> and time: <?php echo $appnotifresult['time']; ?></a>
-                  <?php } ?>  
+                  <?php } ?> 
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -217,86 +163,60 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
+          <div class="row justify-content">
+            <div class="col-md-4 col-lg-2">
+              <a href="./addclient.php" class="btn btn-primary" role="button">Add Clients</a>
+            </div>  
+          </div>  
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Tasks</h4>
-                  <p class="card-category">Total Tasks</p>
+                  <h4 class="card-title">Clients</h4>
+                  <p class="card-category">Total Clients</p>
                 </div>
                 <div class="card-body table-responsive">
-                  <table class="table table-hover">
+                  <table class="table table-hover" id="myTable">
                     <thead class="text-primary">
-                      <th>Task Name</th>
-                      <th>Related To</th>
-                      <th>Start Date</th>
-                      <th>Deadline</th>
-                      <th>Assigned To</th>
-                      <th>Status</th>
+                      <th>Organization's Name</th>
+                      <th>Organization's Email</th>
+                      <th>Website</th>
+                      <th>Name</th>
+                      <th>Gender</th>
+                      <th>Email</th>
+                      <th>Mobile Number</th>
+                      <th>Alternate Number</th>
+                      <th>Address</th>
+                      <th>Action</th>
                     </thead>
                     <tbody>
                     <?php while($array = mysqli_fetch_assoc($result)): ?>
                       <tr>
-                        <td><?php echo $array['taskname']; ?></td>
-                        <td><?php echo $array['related']; ?></td>
-                        <td><?php echo $array['start']; ?></td>
-                        <td><?php echo $array['deadline']; ?></td>
-                        <td><?php echo $array['assto']; ?></td>
-                        <td>
-                          <?php if($array['status']=='ASSIGNED') { ?>
-                          <button type="button" class="btn btn-success" onclick="fetchstatus(<?php echo $array['ID']?>);">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } else if($array['status']=='IN-PROGRESS') { ?>
-                          <button type="button" class="btn btn-danger" onclick="fetchstatus(<?php echo $array['ID']?>);">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } else if($array['status']=='COMPLETED') { ?>
-                          <button type="button" class="btn btn-warning">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } ?>
-                          <div class="modal fade" id="updatestatus" tabindex="-1" data-id="<?php echo $array['ID'] ?>">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title">Update Case Status</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <form method="post" action="./updatecasestatus.php">
-                                  <div class="select">
-                                  <span class="arr"></span>
-                                  <select for="status" id="status" name="status">
-                                    <option>ASSIGNED</option>
-                                    <option>IN-PROGRESS</option>
-                                    <option>COMPLETED</option>
-                                  </select>
-                                  <div class="row">
-                                  <div class="form-group" id="date" style="display:none">
-                                    <label for="date" class="ml-3 mt-3">Date</label>
-                                    <br>
-                                    <input type="date" class="form-control ml-3" name="date" value="<?php echo $array['date'] ?>">
-                                  </div>
-                                  </div>
-                                  <div class="row">
-                                  <div class="form-group" id="time" style="display:none">
-                                    <label for="time" class="ml-3 mt-3">Time</label>
-                                    <br>
-                                    <input type="time" class="form-control ml-3" name="time" value="<?php echo $array['time'] ?>">
-                                  </div>
-                                  </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary" name='submit' id='submit'>Save changes</button>
-                                </div>
-                                </form>
-                              </div>
-                            </div>
+                        <td><?php echo $array['oname']; ?></td>
+                        <td><?php echo $array['oemail']; ?></td>
+                        <td><?php echo $array['website']; ?></td>
+                        <td><?php echo $array['name']; ?></td>
+                        <td><?php echo $array['gender']; ?></td>
+                        <td><?php echo $array['email']; ?></td>
+                        <td><?php echo $array['mobno']; ?></td>
+                        <td><?php echo $array['alternateno']; ?></td>
+                        <td><?php echo $array['address']; ?></td>
+                        <td class="td-actions text-middle">
+                          <div class='row'>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./editclient.php">
+                            <button type="submit" rel="tooltip" class="btn btn-info" name='edit' value="<?php echo $array['ID']; ?>">
+                                <i class="material-icons">edit</i>
+                            </button>
+                          </form>
+                          </div>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./deleteclient.php">
+                            <button type="submit" rel="tooltip" class="btn btn-danger" name='delete' onclick="return confirm('Are you sure?');" value="<?php echo $array['ID']; ?>"> 
+                                <i class="material-icons">delete</i>
+                            </button>
+                          </form>
+                          </div>
                           </div>
                         </td>
                       </tr>
@@ -308,7 +228,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> 
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -344,7 +264,7 @@
   <script src="../assets/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="../assets/js/plugins/jquery.bootstrap-wizard.js"></script>
-  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="../assets/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="../assets/js/plugins/jquery.dataTables.min.js"></script>
@@ -368,97 +288,6 @@
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <script>
-  console.log("here");
-
-  $(document).ready(function(){
-
-    // Search all columns
-    $('#search').keyup(function(){
-      // Search Text
-      var search = $(this).val();
-
-      // Hide all table tbody rows
-      $('table tbody tr').hide();
-
-      // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
-
-      if(len > 0){
-        // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
-        });
-      }else{
-        $('.notfound').show();
-      }
-
-    });
-    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
-      return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-      };
-    });
-    });
-
-  function fetchstatus(id){
-    console.log(id);
-    $(document).ready(function(){
-      $.get("fetchtaskstatus.php?id="+id, function(data, status){
-        jQuery.noConflict();
-        console.log("Data: " + data + "\nStatus: " + status);
-        $("#updatestatus").modal('show');
-        if(data == "ASSIGNED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 0);
-            $("#submit").val(id);
-        }
-        if(data == "IN-PROGRESS") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 1);
-            $("#submit").val(id);
-        }
-        if(data == "COMPLETED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 2);
-            $("#submit").val(id);
-        }
-      });     
-    });
-  }
-
-  $(document).ready(function(){
-    $("#submit").on('click', function(){
-      let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatetaskstatus.php", {
-        "id": id,
-        "selectedValue": selectedValue,
-      }, function(result){
-        console.log(result);
-        if(result) {
-          alert("Updated status successfully!");
-          $("#updatestatus").modal('hide');
-          location.reload();
-        }
-        else {
-          alert("Error in updating. Please try again later!");
-          $("#updatestatus").modal('hide');
-        }
-      });
-    });
-  });
-  
-    function showdiv(){
-      var status = document.getElementById("status").value;
-      if(status=="POSTPONED") {
-        document.getElementById("date").style.display = "block";
-        document.getElementById("time").style.display = "block";
-      }
-    }
-  </script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -534,6 +363,38 @@
           }
         });
       });
+    });
+  </script>
+  <script>
+    $(document).ready(function(){
+
+    // Search all columns
+    $('#search').keyup(function(){
+      // Search Text
+      var search = $(this).val();
+
+      // Hide all table tbody rows
+      $('table tbody tr').hide();
+
+      // Count total search result
+      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+
+      if(len > 0){
+        // Searching text in columns and show match row
+        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+          $(this).closest('tr').show();
+        });
+      }else{
+        $('.notfound').show();
+      }
+
+    });
+    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
+    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+      return function( elem ) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      };
+    });
     });
 
     $(document).ready(function(){

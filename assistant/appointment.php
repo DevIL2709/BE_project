@@ -1,10 +1,10 @@
 <?php
-  session_start();
-  error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
+session_start();
+error_reporting(0);
+if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
-  $query = "SELECT * from tasks";
+  $query = "SELECT * from appointment";
   $result = mysqli_query($conn, $query);
   //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
@@ -120,13 +120,13 @@
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active ">
             <a class="nav-link" href="./appointment.php">
               <i class="material-icons">event</i>
               <p>Appointment</p>
@@ -146,7 +146,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Task</a>
+            <a class="navbar-brand">Appointment</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -157,8 +157,8 @@
           <div class="collapse navbar-collapse justify-content-end">
             <form class="navbar-form">
               <div class="input-group no-border">
-                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                <input type="text" id="search" name="search" class="form-control" placeholder="Search..." onkeyup="searchItem()">
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
                   <i class="material-icons">search</i>
                   <div class="ripple-container"></div>
                 </button>
@@ -217,86 +217,110 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-lg-2">
+              <a href="./addappointment.php" class="btn btn-primary" role="button">Add Appointment</a>
+            </div>  
+          </div>  
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Tasks</h4>
-                  <p class="card-category">Total Tasks</p>
+                  <h4 class="card-title">Appointments</h4>
+                  <p class="card-category">Total Appointments</p>
                 </div>
                 <div class="card-body table-responsive">
-                  <table class="table table-hover">
+                  <table class="table table-hover" id="myTable">
                     <thead class="text-primary">
-                      <th>Task Name</th>
-                      <th>Related To</th>
-                      <th>Start Date</th>
-                      <th>Deadline</th>
-                      <th>Assigned To</th>
+                      <th>No.</th>
+                      <th>Client Name</th>
+                      <th>Mobile</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Subject</th>
                       <th>Status</th>
+                      <th>Action</th>
                     </thead>
                     <tbody>
                     <?php while($array = mysqli_fetch_assoc($result)): ?>
                       <tr>
-                        <td><?php echo $array['taskname']; ?></td>
-                        <td><?php echo $array['related']; ?></td>
-                        <td><?php echo $array['start']; ?></td>
-                        <td><?php echo $array['deadline']; ?></td>
-                        <td><?php echo $array['assto']; ?></td>
+                        <td><?php echo $array['ID']; ?></td>
+                        <td><?php echo $array['cname']; ?></td>
+                        <td><?php echo $array['mobno']; ?></td>
+                        <td><?php echo $array['date']; ?></td>
+                        <td><?php echo $array['time']; ?></td>
+                        <td><?php echo $array['subject']; ?></td>
                         <td>
-                          <?php if($array['status']=='ASSIGNED') { ?>
+                          <?php if($array['status']=='OPEN') { ?>
                           <button type="button" class="btn btn-success" onclick="fetchstatus(<?php echo $array['ID']?>);">
                           <?php echo $array['status']; ?>
                           </button>
-                          <?php } else if($array['status']=='IN-PROGRESS') { ?>
-                          <button type="button" class="btn btn-danger" onclick="fetchstatus(<?php echo $array['ID']?>);">
+                          <?php } else if($array['status']=='CLOSED') { ?>
+                          <button type="button" class="btn btn-default" onclick="fetchstatus(<?php echo $array['ID']?>)">
                           <?php echo $array['status']; ?>
                           </button>
-                          <?php } else if($array['status']=='COMPLETED') { ?>
-                          <button type="button" class="btn btn-warning">
+                          <?php } else if($array['status']=='CANCELLED') { ?>
+                          <button type="button" class="btn btn-danger" onclick="fetchstatus(<?php echo $array['ID']?>)">
+                          <?php echo $array['status']; ?>
+                          </button>
+                          <?php } else if($array['status']=='POSTPONED') { ?>
+                          <button type="button" class="btn btn-warning" onclick="fetchstatus(<?php echo $array['ID']?>)">
                           <?php echo $array['status']; ?>
                           </button>
                           <?php } ?>
-                          <div class="modal fade" id="updatestatus" tabindex="-1" data-id="<?php echo $array['ID'] ?>">
+                          <div class="modal fade" id="updatestatus" tabindex="-1" data-id="<?php echo $array['ID']; ?>">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title">Update Case Status</h5>
+                                  <h5 class="modal-title">Update status</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  <form method="post" action="./updatecasestatus.php">
+                                  <form method="post">
                                   <div class="select">
                                   <span class="arr"></span>
-                                  <select for="status" id="status" name="status">
-                                    <option>ASSIGNED</option>
-                                    <option>IN-PROGRESS</option>
-                                    <option>COMPLETED</option>
+                                  <select for="status" id="status" name="status" onchange="showdiv()">
+                                    <option>CANCELLED</option>
+                                    <option>OPEN</option>
+                                    <option>CLOSED</option>
+                                    <option>POSTPONED</option>
                                   </select>
                                   <div class="row">
                                   <div class="form-group" id="date" style="display:none">
                                     <label for="date" class="ml-3 mt-3">Date</label>
                                     <br>
-                                    <input type="date" class="form-control ml-3" name="date" value="<?php echo $array['date'] ?>">
+                                    <input type="date" class="form-control ml-3" name="date" id="date1" value="<?php echo $array['date'] ?>">
                                   </div>
                                   </div>
                                   <div class="row">
                                   <div class="form-group" id="time" style="display:none">
                                     <label for="time" class="ml-3 mt-3">Time</label>
                                     <br>
-                                    <input type="time" class="form-control ml-3" name="time" value="<?php echo $array['time'] ?>">
+                                    <input type="time" class="form-control ml-3" name="time" id="time1" value="<?php echo $array['time'] ?>">
                                   </div>
                                   </div>
                                   </div>
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary" name='submit' id='submit'>Save changes</button>
+                                  <button type="button" class="btn btn-primary" name='submit' id="submit">Save changes</button>
                                 </div>
                                 </form>
                               </div>
                             </div>
+                          </div>
+                        </td>
+                        <td class="td-actions text-middle">
+                          <div class='row'>
+                          <div class='col-1 form-group'>
+                          <form method= "post" action ="./editappointment.php">
+                            <button type="submit" rel="tooltip" class="btn btn-info" name='edit' value="<?php echo $array['ID']; ?>">
+                                <i class="material-icons">edit</i>
+                            </button>
+                          </form>
+                          </div>
                           </div>
                         </td>
                       </tr>
@@ -369,9 +393,8 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <script>
-  console.log("here");
-
-  $(document).ready(function(){
+  
+    $(document).ready(function(){
 
     // Search all columns
     $('#search').keyup(function(){
@@ -402,26 +425,33 @@
     });
     });
 
+
+  console.log("here");
   function fetchstatus(id){
     console.log(id);
     $(document).ready(function(){
-      $.get("fetchtaskstatus.php?id="+id, function(data, status){
+      $.get("fetchappointmentstatus.php?id="+id, function(data, status){
         jQuery.noConflict();
         console.log("Data: " + data + "\nStatus: " + status);
         $("#updatestatus").modal('show');
-        if(data == "ASSIGNED") {
+        if(data == "CANCELLED") {
             console.log(data);
             $("#status").prop("selectedIndex", 0);
             $("#submit").val(id);
         }
-        if(data == "IN-PROGRESS") {
+        if(data == "OPEN") {
             console.log(data);
             $("#status").prop("selectedIndex", 1);
             $("#submit").val(id);
         }
-        if(data == "COMPLETED") {
+        if(data == "CLOSED") {
             console.log(data);
             $("#status").prop("selectedIndex", 2);
+            $("#submit").val(id);
+        }
+        if(data == "POSTPONED") {
+            console.log(data);
+            $("#status").prop("selectedIndex", 3);
             $("#submit").val(id);
         }
       });     
@@ -431,11 +461,15 @@
   $(document).ready(function(){
     $("#submit").on('click', function(){
       let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatetaskstatus.php", {
+      var selectedStatusValue = $('#status').find(":selected").text();
+      var selectedDateValue = document.getElementById("date1").value;
+      var selectedTimeValue = document.getElementById("time1").value;
+      console.log(id + " " + selectedStatusValue);
+      $.post("updateappointmentstatus.php", {
         "id": id,
-        "selectedValue": selectedValue,
+        "selectedStatusValue": selectedStatusValue,
+        "selectedDateValue": selectedDateValue,
+        "selectedTimeValue": selectedTimeValue,
       }, function(result){
         console.log(result);
         if(result) {
@@ -450,12 +484,16 @@
       });
     });
   });
-  
+
     function showdiv(){
       var status = document.getElementById("status").value;
       if(status=="POSTPONED") {
         document.getElementById("date").style.display = "block";
         document.getElementById("time").style.display = "block";
+      }
+      else {
+        document.getElementById("date").style.display = "none";
+        document.getElementById("time").style.display = "none";
       }
     }
   </script>

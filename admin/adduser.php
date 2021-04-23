@@ -199,6 +199,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                       <label for="role" class="text-primary">Role</label>
                       <select class="form-control col-md-2" data-style="btn btn-link" id="role" name="role">
                         <option>Admin</option>
+                        <option>Assistant</option>
                         <option>Staff</option>
                       </select>
                     </div>

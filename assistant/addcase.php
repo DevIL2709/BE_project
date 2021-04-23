@@ -1,10 +1,10 @@
 <?php
-  session_start();
-  error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
+session_start();
+error_reporting(0);
+if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
-  $query = "SELECT * from tasks";
+  $query = "SELECT * from clients";
   $result = mysqli_query($conn, $query);
   //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
@@ -35,63 +35,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="../assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <style>
-    .select {
-      font-size: 16px;
-      position: relative;
-      display: inline-block;
-      margin-left: 30%;
-    }
-    .select select {
-      outline: none;
-      /* -webkit-appearance: none; */
-      display: block;
-      padding: 0.5em 5em 0.5em 0.5em;
-      margin: 0;
-
-      transition: border-color 0.2s;
-      border: 2px solid #822c9c;
-      border-radius: 5px;
-
-      background: #fff;
-      color: #555;
-      line-height: normal;
-      font-family: inherit;
-      font-size: inherit;
-      line-height: inherit;
-    }
-    .select .arr {
-      background: #fff;
-      position: absolute;
-      right: 5px;
-      top: 1.5em;
-      width: 50px;
-      pointer-events: none;
-    }
-    .select .arr:before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 24px;
-      margin-top: -5px;
-      pointer-events: none;
-      border-top: 10px solid #822c9c;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-    }
-
-    .select .arr:after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      right: 28px;
-      margin-top: -5px;
-      pointer-events: none;
-      border-top: 6px solid #fff;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-    }
-  </style>
 </head>
 
 <body class="">
@@ -114,19 +57,19 @@
               <p>Clients</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link" href="./cases.php">
               <i class="material-icons">gavel</i>
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item">
             <a class="nav-link" href="./appointment.php">
               <i class="material-icons">event</i>
               <p>Appointment</p>
@@ -146,7 +89,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Task</a>
+            <a class="navbar-brand">Add Case</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -155,12 +98,12 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
+            <form class="navbar-form" style="display: none">
               <div class="input-group no-border">
                 <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
+                <i class="material-icons">search</i>
+                <div class="ripple-container"></div>
                 </button>
               </div>
             </form>
@@ -218,97 +161,163 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Tasks</h4>
-                  <p class="card-category">Total Tasks</p>
+                  <h4 class="card-title">Client Details</h4>
                 </div>
-                <div class="card-body table-responsive">
-                  <table class="table table-hover">
-                    <thead class="text-primary">
-                      <th>Task Name</th>
-                      <th>Related To</th>
-                      <th>Start Date</th>
-                      <th>Deadline</th>
-                      <th>Assigned To</th>
-                      <th>Status</th>
-                    </thead>
-                    <tbody>
-                    <?php while($array = mysqli_fetch_assoc($result)): ?>
-                      <tr>
-                        <td><?php echo $array['taskname']; ?></td>
-                        <td><?php echo $array['related']; ?></td>
-                        <td><?php echo $array['start']; ?></td>
-                        <td><?php echo $array['deadline']; ?></td>
-                        <td><?php echo $array['assto']; ?></td>
-                        <td>
-                          <?php if($array['status']=='ASSIGNED') { ?>
-                          <button type="button" class="btn btn-success" onclick="fetchstatus(<?php echo $array['ID']?>);">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } else if($array['status']=='IN-PROGRESS') { ?>
-                          <button type="button" class="btn btn-danger" onclick="fetchstatus(<?php echo $array['ID']?>);">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } else if($array['status']=='COMPLETED') { ?>
-                          <button type="button" class="btn btn-warning">
-                          <?php echo $array['status']; ?>
-                          </button>
-                          <?php } ?>
-                          <div class="modal fade" id="updatestatus" tabindex="-1" data-id="<?php echo $array['ID'] ?>">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title">Update Case Status</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <form method="post" action="./updatecasestatus.php">
-                                  <div class="select">
-                                  <span class="arr"></span>
-                                  <select for="status" id="status" name="status">
-                                    <option>ASSIGNED</option>
-                                    <option>IN-PROGRESS</option>
-                                    <option>COMPLETED</option>
-                                  </select>
-                                  <div class="row">
-                                  <div class="form-group" id="date" style="display:none">
-                                    <label for="date" class="ml-3 mt-3">Date</label>
-                                    <br>
-                                    <input type="date" class="form-control ml-3" name="date" value="<?php echo $array['date'] ?>">
-                                  </div>
-                                  </div>
-                                  <div class="row">
-                                  <div class="form-group" id="time" style="display:none">
-                                    <label for="time" class="ml-3 mt-3">Time</label>
-                                    <br>
-                                    <input type="time" class="form-control ml-3" name="time" value="<?php echo $array['time'] ?>">
-                                  </div>
-                                  </div>
-                                  </div>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                  <button type="button" class="btn btn-primary" name='submit' id='submit'>Save changes</button>
-                                </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    <?php endwhile; ?>
-                    </tbody>
-                  </table>
+                <div class="card-body">
+                  <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
+                    <div class="row">
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="clientname" class="text-primary">Client</label>
+                        <select class="form-control" name="clientname">
+                        <option></option>
+                        <?php while($array = mysqli_fetch_assoc($result)): ?>
+                        <option><?php echo $array['name']; ?></option>
+                        <?php endwhile; ?>
+                        </select>
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <div class="form-check form-check-radio">
+                            <label class="form-check-label text-primary">
+                                <input class="form-check-input" type="radio" name="clienttype" value="petitioner" checked>
+                                Petitioner
+                                <span class="circle">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <div class="form-check form-check-radio">
+                            <label class="form-check-label text-primary">
+                                <input class="form-check-input" type="radio" name="clienttype" value="respondent">
+                                Respondent
+                                <span class="circle">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row"> 
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="oppositionname" class="text-primary pl-3">Opposition Name</label>
+                        <input type="text" class="form-control" name="oppositionname">
+                      </div>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="oppositionadvocate" class="text-primary pl-3">Opposition Advocate</label>
+                        <input type="text" class="form-control" name="oppositionadvocate">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Case Details</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="row pt-3"> 
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="Case Number" class="text-primary pl-3">Case Number</label>
+                        <input type="number" class="form-control" name="casenumber">
+                      </div>
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="casetype" class="text-primary pl-3">Case Type</label>
+                        <input type="text" class="form-control" name="casetype">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="act" class="pt-3 text-primary pl-3">Act</label>
+                        <br>
+                        <input type="text" class="form-control pt-3" name="act">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="filingnumber" class="pt-3 text-primary pl-3">Filing Number</label>
+                        <br>
+                        <input type="number" class="form-control" name="filingnumber">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="filingdate" class="pt-3 text-primary pl-3">Filing Date</label>
+                        <br>
+                        <input type="date" class="form-control" name="filingdate">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="regno" class="pt-3 text-primary pl-3">Registration Number</label>
+                        <br>
+                        <input type="text" class="form-control pt-3" name="regno">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="regdate" class="pt-3 text-primary pl-3">Registration Date</label>
+                        <br>
+                        <input type="date" class="form-control" name="regdate">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="hearingdate" class="pt-3 text-primary pl-3">Hearing Date</label>
+                        <br>
+                        <input type="date" class="form-control" name="hearingdate">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="cnrno" class="pt-3 text-primary pl-3">CNR Number</label>
+                        <br>
+                        <input type="text" class="form-control pt-3" name="cnrno">
+                      </div>
+                      <div class="col-md-8 col-lg-4 form-group">
+                        <label for="description" class="pt-3 text-primary pl-3">Description</label>
+                        <br>
+                        <input type="textarea" class="form-control" name="description">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header card-header-primary">
+                    <h4 class="card-title">Court Details</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="courtno" class="pt-3 text-primary pl-3">Court Number</label>
+                        <br>
+                        <input type="number" class="form-control pt-3" name="courtno">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="courttype" class="pt-3 text-primary pl-3">Court Type</label>
+                        <br>
+                        <input type="text" class="form-control" name="courttype">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="courtname" class="pt-3 text-primary pl-3">Court</label>
+                        <br>
+                        <input type="text" class="form-control" name="courtname">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="judgename" class="pt-3 text-primary pl-3">Judge Name</label>
+                        <br>
+                        <input type="text" class="form-control pt-3" name="judgename">
+                      </div>
+                      <div class="col-md-8 col-lg-4 form-group">
+                        <label for="remarks" class="pt-3 text-primary pl-3">Remarks</label>
+                        <br>
+                        <input type="textarea" class="form-control" name="remarks">
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+          </form>
       </div>
+    </div>
       <footer class="footer">
         <div class="container-fluid">
           <nav class="float-left">
@@ -368,97 +377,6 @@
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  <script>
-  console.log("here");
-
-  $(document).ready(function(){
-
-    // Search all columns
-    $('#search').keyup(function(){
-      // Search Text
-      var search = $(this).val();
-
-      // Hide all table tbody rows
-      $('table tbody tr').hide();
-
-      // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
-
-      if(len > 0){
-        // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
-        });
-      }else{
-        $('.notfound').show();
-      }
-
-    });
-    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
-      return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-      };
-    });
-    });
-
-  function fetchstatus(id){
-    console.log(id);
-    $(document).ready(function(){
-      $.get("fetchtaskstatus.php?id="+id, function(data, status){
-        jQuery.noConflict();
-        console.log("Data: " + data + "\nStatus: " + status);
-        $("#updatestatus").modal('show');
-        if(data == "ASSIGNED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 0);
-            $("#submit").val(id);
-        }
-        if(data == "IN-PROGRESS") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 1);
-            $("#submit").val(id);
-        }
-        if(data == "COMPLETED") {
-            console.log(data);
-            $("#status").prop("selectedIndex", 2);
-            $("#submit").val(id);
-        }
-      });     
-    });
-  }
-
-  $(document).ready(function(){
-    $("#submit").on('click', function(){
-      let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
-      console.log(id + " " + selectedValue);
-      $.post("updatetaskstatus.php", {
-        "id": id,
-        "selectedValue": selectedValue,
-      }, function(result){
-        console.log(result);
-        if(result) {
-          alert("Updated status successfully!");
-          $("#updatestatus").modal('hide');
-          location.reload();
-        }
-        else {
-          alert("Error in updating. Please try again later!");
-          $("#updatestatus").modal('hide');
-        }
-      });
-    });
-  });
-  
-    function showdiv(){
-      var status = document.getElementById("status").value;
-      if(status=="POSTPONED") {
-        document.getElementById("date").style.display = "block";
-        document.getElementById("time").style.display = "block";
-      }
-    }
-  </script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -545,9 +463,55 @@
     });
   </script>
 </body>
-
 </html>
+
 <?php
+if(isset($_POST['submit'])) {
+  require_once "../functions/database_functions.php";
+  $clientname = $_POST['clientname'];
+  $clienttype = $_POST['clienttype'];
+  $oppositionname = trim($_POST['oppositionname']);
+  $oppositionadvocate = trim($_POST['oppositionadvocate']);
+  $casenumber = trim($_POST['casenumber']);
+  $casetype = trim($_POST['casetype']);
+  $act = trim($_POST['act']);
+  $filingnumber = trim($_POST['filingnumber']);
+  $filingdate = trim($_POST['filingdate']);
+  $regno = trim($_POST['regno']);
+  $regdate = trim($_POST['regdate']);
+  $hearingdate = trim($_POST['hearingdate']);
+  $cnrno = trim($_POST['cnrno']);
+  $description = trim($_POST['description']);
+  $courtno = trim($_POST['courtno']);
+  $courtname = trim($_POST['courtname']);
+  $courttype = trim($_POST['courttype']);
+  $judgename = trim($_POST['judgename']);
+  $remarks = trim($_POST['remarks']);
+  $status = "PRE-TRIAL";
+  $priority = "NORMAL";
+  $phyloc = trim($_POST['phyloc']);
+
+  $prioritynumbers = 2;
+
+  $conn = db_connect();
+  $query = "INSERT INTO cases(ID, clientname, clienttype, oppositionname, oppositionadvocate, casenumber, casetype, act, filingnumber, filingdate, regno, 
+  regdate, hearingdate, cnrno, description, courtno, courtname, courttype, judgename, remarks, status, priority, prioritynumber, phyloc) 
+  VALUES('', '$clientname', '$clienttype', '$oppositionname', '$oppositionadvocate', '$casenumber', '$casetype', '$act', '$filingnumber', '$filingdate', '$regno',
+  '$regdate', '$hearingdate', '$cnrno', '$description', '$courtno', '$courtname', '$courttype', '$judgename', '$remarks', '$status', '$priority', '$prioritynumber', '$phyloc');";
+  $result = mysqli_query($conn, $query);
+
+  if(!$result) {
+      echo "<script>alert('Insertion Failed. Please retry!');
+            window.location.href='./addcase.php';
+		  </script>";
+  }
+  
+  else {
+      echo "<script>alert('Case has been successfully added!');
+			window.location.href='./cases.php';
+		  </script>";
+  }
+}
 }
 else {
   header("Location: ../index.php");
