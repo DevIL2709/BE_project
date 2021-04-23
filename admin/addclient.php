@@ -412,11 +412,6 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $username = substr($email, strpos($email,"<"), strrpos($email, "@")-strpos($email,"<"));
-  $mob = sha1($mobno);
-  $insert = "INSERT INTO users(username, email, password, role) VALUES ('$username', '$email', '$mob', 'Client')";
-  $add = mysqli_query($conn, $insert);
-  
   $query1 = "SELECT `AUTO_INCREMENT`
   FROM  INFORMATION_SCHEMA.TABLES
   WHERE TABLE_SCHEMA = 'softwareforadvocates'
@@ -429,10 +424,7 @@ if(isset($_POST['submit'])) {
   $query = "INSERT INTO clients(ID, oname, oemail, website, name, gender, email, mobno, alternateno, address) VALUES ('$clientid', '$oname', '$oemail', '$website','$name', '$gender', '$email', '$mobno', '$alternateno', '$address');";
   $result = mysqli_query($conn, $query);
 
-  $query2 = "INSERT INTO profile(ID, username, gender, email, mobno, alternateno, address) VALUES ('$clientid', '$name', '$gender', '$email', '$mobno', '$alternateno', '$address');";
-  $result2 = mysqli_query($conn, $query2);
-
-  if(!$result || !$add) {
+  if(!$result) {
       echo "<script>alert('Insertion Failed. Please retry!');
 			window.location.href='./client.php';
 		  </script>";

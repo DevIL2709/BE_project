@@ -176,7 +176,7 @@
         <div class="container-fluid">
           <div class="row justify-content">
             <div class="col-md-4 col-lg-2">
-              <a href="./addclient.php" class="btn btn-primary ml-4" role="button">Add Clients</a>
+              <a href="./addclient.php" class="btn btn-primary" role="button">Add Clients</a>
             </div>  
           </div>  
           <div class="row">

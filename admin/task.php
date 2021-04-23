@@ -231,7 +231,7 @@
         <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 col-lg-2">
-              <a href="./addtask.php" class="btn btn-primary ml-4" role="button">Add Task</a>
+              <a href="./addtask.php" class="btn btn-primary" role="button">Add Task</a>
             </div>  
           </div>  
           <div class="row">
