@@ -8,6 +8,7 @@
         <title>Software for Advocates</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="./manifest.webmanifest">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -345,8 +346,21 @@
               </div>
             <!-- </div>
           </div> -->
+          <script type="text/javascript">
+            if (navigator.serviceWorker.controller) {
+              console.log('[PWA Builder] active service worker found, no need to register')
+            } else {
+              //Register the ServiceWorker
+              navigator.serviceWorker.register('pwabuilder-sw.js', {
+                scope: './'
+              }).then(function(reg) {
+                console.log('Service worker has been registered for scope:'+ reg.scope);
+              });
+            }
+          </script>
     </body>
     <script>
+
         /* ====================== *
         *  Toggle Between        *
         *  Sign Up / Login       *

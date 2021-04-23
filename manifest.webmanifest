@@ -1,0 +1,16 @@
+{
+    "name": "Software for Advocates",
+    "short_name": "Software for Advocates",
+    "description": "Progressive Web App that is developed for advocates to manage their data & files consistently.",
+    "icons": [
+      {
+        "src": "assets/img/logo.png",
+        "sizes": "260x260",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "index.php",
+    "display": "minimal-ui",
+    "theme_color": "#9c27b0",
+    "background_color": "#9c27b0"
+  }
