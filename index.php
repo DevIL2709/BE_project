@@ -48,7 +48,7 @@
             left: 0;
             width: 50%;
             height: 100%;
-            background: #673AB7;
+            background: #9c27b0;
             }
 
             #back {
@@ -247,7 +247,7 @@
             background: #03A9F4;
             } */
             button.login {
-            background: #673AB7;
+            background: #9c27b0;
             }
             button.off {
             background: none;
@@ -338,7 +338,7 @@
               </div> -->
               <div class="right">
                 <div class="content">
-                  <h2>Login</h2>
+                  <h2 style="color: #9c27b0">Login</h2>
                   <form id="form-login" method="post" onsubmit="action='login.php';">
                     <div class="form-element form-stack">
                       <label for="username-login" class="form-label">Username</label>

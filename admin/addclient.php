@@ -6,18 +6,22 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $conn = db_connect();
   $query = "SELECT * from clients";
   $result = mysqli_query($conn, $query);
+
+  $query2 = "SELECT * from users";
+  $result2 = mysqli_query($conn, $query2);
+  
   //casenotif query
-  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
   //tasknotif query
-  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
   $tasknotifquery = mysqli_query($conn, $tasknotifquery);
   $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
   //appnotif query
-  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
   $appnotifquery = mysqli_query($conn, $appnotifquery);
   $appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
@@ -233,11 +237,23 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
                     <div class="row">
                       <div class="col-md-4 col-lg-2 form-group">
                         <label for="alternateno" class="text-primary pl-3">Alternate No.</label>
-                        <input type="number" class="form-control" name="alternateno">
+                        <input type="text" class="form-control" name="alternateno" pattern="[0-9]{10}">
                       </div>
                       <div class="col-md-8 col-lg-4 form-group">
                         <label for="address" class="text-primary pl-3">Address</label>
                         <input type="text" class="form-control" name="address">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 col-lg-3 form-group">
+                        <label for="assto" class="text-primary">Assigned To</label>
+                        <br>
+                        <select class="form-control" name="assto">
+                        <option></option>
+                        <?php while($array2 = mysqli_fetch_assoc($result2)): ?>
+                        <option><?php echo $array2['username']; ?></option>
+                        <?php endwhile; ?>
+                        </select>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
@@ -308,28 +324,28 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <script>
-    $(document).ready(function() {
-      $().ready(function() {
-        $sidebar = $('.sidebar');
+    jQuery(document).ready(function() {
+      jQuery().ready(function() {
+        jQuerysidebar = jQuery('.sidebar');
 
-        $full_page = $('.full-page');
+        jQueryfull_page = jQuery('.full-page');
 
-        $sidebar_responsive = $('body > .navbar-collapse');
+        jQuerysidebar_responsive = jQuery('body > .navbar-collapse');
 
-        window_width = $(window).width();
+        window_width = jQuery(window).width();
 
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+        fixed_plugin_open = jQuery('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
         if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-            $('.fixed-plugin .dropdown').addClass('open');
+          if (jQuery('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            jQuery('.fixed-plugin .dropdown').addClass('open');
           }
 
         }
 
-        $('.fixed-plugin a').click(function(event) {
+        jQuery('.fixed-plugin a').click(function(event) {
           // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-          if ($(this).hasClass('switch-trigger')) {
+          if (jQuery(this).hasClass('switch-trigger')) {
             if (event.stopPropagation) {
               event.stopPropagation();
             } else if (window.event) {
@@ -338,44 +354,44 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
           }
         });
 
-        $('.fixed-plugin .active-color span').click(function() {
-          $full_page_background = $('.full-page-background');
+        jQuery('.fixed-plugin .active-color span').click(function() {
+          jQueryfull_page_background = jQuery('.full-page-background');
 
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
+          jQuery(this).siblings().removeClass('active');
+          jQuery(this).addClass('active');
 
-          var new_color = $(this).data('color');
+          var new_color = jQuery(this).data('color');
 
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
+          if (jQuerysidebar.length != 0) {
+            jQuerysidebar.attr('data-color', new_color);
           }
 
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
+          if (jQueryfull_page.length != 0) {
+            jQueryfull_page.attr('filter-color', new_color);
           }
 
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
+          if (jQuerysidebar_responsive.length != 0) {
+            jQuerysidebar_responsive.attr('data-color', new_color);
           }
         });
 
-        $('.switch-sidebar-mini input').change(function() {
-          $body = $('body');
+        jQuery('.switch-sidebar-mini input').change(function() {
+          jQuerybody = jQuery('body');
 
-          $input = $(this);
+          jQueryinput = jQuery(this);
 
           if (md.misc.sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
+            jQuery('body').removeClass('sidebar-mini');
             md.misc.sidebar_mini_active = false;
 
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
 
           } else {
 
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
 
             setTimeout(function() {
-              $('body').addClass('sidebar-mini');
+              jQuery('body').addClass('sidebar-mini');
 
               md.misc.sidebar_mini_active = true;
             }, 300);
@@ -384,11 +400,11 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
       });
     });
 
-    $(document).ready(function(){
-      if ($(window).width() < 768) {
-        $("a").css("white-space", "wrap");
+    jQuery(document).ready(function(){
+      if (jQuery(window).width() < 768) {
+        jQuery("a").css("white-space", "wrap");
         } else {
-        $("a").css("white-space", "nowrap");
+        jQuery("a").css("white-space", "nowrap");
       }
     });
   </script>
@@ -409,6 +425,7 @@ if(isset($_POST['submit'])) {
   $mobno = trim($_POST['mobno']);
   $alternateno = trim($_POST['alternateno']);
   $address = trim($_POST['address']);
+  $assto = trim($_POST['assto']);
 
   $conn = db_connect();
 
@@ -421,7 +438,7 @@ if(isset($_POST['submit'])) {
   $clientid = $array['AUTO_INCREMENT']-1;
 
   $name = $fname." ".$mname." ".$lname;
-  $query = "INSERT INTO clients(ID, oname, oemail, website, name, gender, email, mobno, alternateno, address) VALUES ('$clientid', '$oname', '$oemail', '$website','$name', '$gender', '$email', '$mobno', '$alternateno', '$address');";
+  $query = "INSERT INTO clients(ID, oname, oemail, website, name, gender, email, mobno, alternateno, address, assto) VALUES ('$clientid', '$oname', '$oemail', '$website','$name', '$gender', '$email', '$mobno', '$alternateno', '$address', '$assto');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

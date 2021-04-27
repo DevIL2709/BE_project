@@ -17,34 +17,34 @@
     $adminemail = 'yash.hn@somaiya.edu';
 
     //casenotif query
-    $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate = '$tomorrow' ORDER BY hearingdate LIMIT 1";
+    $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate = '$tomorrow' AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
     $casenotifresult = mysqli_query($conn, $casenotifquery);
     $casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
     //tasknotif query
-    $tasknotifquery = "SELECT related, deadline FROM tasks WHERE deadline = '$tomorrow' ORDER BY deadline LIMIT 1";
+    $tasknotifquery = "SELECT related, deadline FROM tasks WHERE deadline = '$today' AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
     $tasknotifquery = mysqli_query($conn, $tasknotifquery);
     $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
     //appnotif query
-    $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date = '$tomorrow' ORDER BY date LIMIT 1";
+    $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date = '$today' AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
     $appnotifquery = mysqli_query($conn, $appnotifquery);
     $appnotifresult = mysqli_fetch_assoc($appnotifquery);
 
     //casenotif clientemail
-    $caseclientemailidquery = "SELECT email FROM clients, cases WHERE name = (SELECT clientname FROM cases WHERE hearingdate = '$tomorrow' ORDER BY hearingdate LIMIT 1)";
+    $caseclientemailidquery = "SELECT email FROM clients, cases WHERE name = (SELECT clientname FROM cases WHERE hearingdate = '$tomorrow' AND status!='CLOSED' ORDER BY hearingdate LIMIT 1)";
     $caseclientemailid = mysqli_query($conn, $caseclientemailidquery);
     $caseclientemail = mysqli_fetch_assoc($caseclientemailid);
     $caseclientemail = $caseclientemail['email'];
 
     //tasknotif clientemail
-    $taskuseremailidquery = "SELECT email FROM users, tasks WHERE username = (SELECT assto FROM tasks WHERE deadline = '$tomorrow' AND status!='COMPLETED' ORDER BY deadline LIMIT 1)";
+    $taskuseremailidquery = "SELECT email FROM users, tasks WHERE username = (SELECT assto FROM tasks WHERE deadline = '$today' AND status!='COMPLETED' ORDER BY deadline LIMIT 1)";
     $taskuseremailid = mysqli_query($conn, $taskuseremailidquery);
     $taskuseremail = mysqli_fetch_assoc($taskuseremailid);
     $taskuseremail = $taskuseremail['email'];
 
     //appnotif clientemail
-    $appclientemailidquery = "SELECT email FROM clients, appointment WHERE name = (SELECT cname FROM appointment WHERE date = '$tomorrow' ORDER BY date LIMIT 1)";
+    $appclientemailidquery = "SELECT email FROM clients, appointment WHERE name = (SELECT cname FROM appointment WHERE date = '$today' AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1)";
     $appclientemailid = mysqli_query($conn, $appclientemailidquery);
     $appclientemail = mysqli_fetch_assoc($appclientemailid);
     $appclientemail = $appclientemail['email'];
