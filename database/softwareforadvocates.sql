@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2021 at 01:11 PM
+-- Generation Time: Apr 27, 2021 at 03:29 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.9
 
@@ -42,7 +42,7 @@ CREATE TABLE `appointment` (
 --
 
 INSERT INTO `appointment` (`ID`, `cname`, `mobno`, `date`, `time`, `subject`, `status`) VALUES
-(1, 'Meena Tarun Khurana', '9833648990', '2021-05-01', '12:45', 'Progress of mortgage deed', 'OPEN'),
+(1, 'Meena Tarun Khurana', '9833648990', '2021-04-19', '12:45', 'Progress of mortgage deed', 'OPEN'),
 (2, 'Darshan Rajesh Sharma', '9320411419', '2021-05-01', '12:45', 'Client consulting', 'POSTPONED'),
 (3, 'Munir Javed Merchant', '9863276510', '2021-05-01', '12:45', 'Explanation of remedies available', 'CLOSED'),
 (4, 'Krishnava Ranjit Shetty', '9956824387', '2021-05-01', '12:45', 'Terms of hypothecation deed', 'CANCELLED'),
@@ -89,12 +89,12 @@ CREATE TABLE `cases` (
 --
 
 INSERT INTO `cases` (`ID`, `clientname`, `clienttype`, `oppositionname`, `oppositionadvocate`, `casenumber`, `casetype`, `act`, `filingnumber`, `filingdate`, `regno`, `regdate`, `hearingdate`, `cnrno`, `description`, `courtno`, `courttype`, `courtname`, `judgename`, `remarks`, `status`, `priority`, `prioritynumber`, `phyloc`) VALUES
-(1, 'Darshan Rajesh Sharma', 'Petitioner', 'Maharashtra Electricity Regulatory Commission', 'Sudha Naik', 45, 'Appeal', 'Electricity Act, 200', 498, '2020-12-16', 69, '2020-11-11', '2021-04-09', 'TNCB0A1234562017', 'Kidnapping and Murder 13 year old child', 2, 'Appellate Tribunal for Electricity', 'Delhi', 'Colabawalla', 'Scheduled', 'ACTIVE TRIAL', 'HIGH PRIORITY', 1, ''),
-(2, 'Krishnava Ranjit Shetty', 'Petitioner', 'Priyadarshini Limited', 'Mohan Tripathi', 99, 'Civil', 'Contracts Act, 1978', 769, '2020-11-17', 8009, '2021-01-14', '2021-04-28', 'MHCB0A1234562987', 'Praecipe', 9, 'High Court', 'Dindoshi', 'Pathak', 'Adjourned', 'FINAL HEARING', 'NORMAL', 2, ''),
+(1, 'Darshan Rajesh Sharma', 'Petitioner', 'Maharashtra Electricity Regulatory Commission', 'Sudha Naik', 45, 'Appeal', 'Electricity Act, 200', 498, '2020-12-16', 69, '2020-11-11', '2021-04-09', 'TNCB0A1234562017', 'Kidnapping and Murder 13 year old child', 2, 'Appellate Tribunal for Electricity', 'Delhi', 'Colabawalla', 'Scheduled', 'CLOSED', 'HIGH PRIORITY', 3, ''),
+(2, 'Krishnava Ranjit Shetty', 'Petitioner', 'Priyadarshini Limited', 'Mohan Tripathi', 99, 'Civil', 'Contracts Act, 1978', 769, '2020-11-17', 8009, '2021-01-14', '2021-04-28', 'MHCB0A1234562987', 'Praecipe', 9, 'High Court', 'Dindoshi', 'Pathak', 'Adjourned', 'FINAL HEARING', 'HIGH PRIORITY', 1, ''),
 (3, 'Anirudha Jayant Sen', 'Petitioner', 'Jayant Sen', 'Trupti Lathi', 1007, 'Divorce', 'Family & Marriage Ac', 897, '2020-10-21', 4589, '2020-11-04', '2021-01-13', 'DSCK0258921', 'Proceedings going on', 7, 'Family Court', 'Bandra', 'Sambre', 'Trial going on', 'CLOSED', 'LOW PRIORITY', 3, ''),
-(4, 'Sharanya Nikhil Ranga', 'Petitioner', 'Nirmal Nagda', 'Khushi Mehta', 9563, 'Original', 'Indian Penal Code, 1', 8956, '2020-10-23', 8912, '2020-12-17', '2021-04-23', '7856', 'Molestation', 6, 'District Sessions Court', 'Vikhroli', 'Naidu', 'Ongoing', 'ACTIVE TRIAL', 'NORMAL', 2, ''),
-(5, 'Manjula Sawant Singh', 'Petitioner', 'Pertinent Infrastructure Limited', 'Tanvi Nandu', 1977, 'Civil', 'The National Highway', 5638, '2020-10-05', 7853, '2020-12-15', '2021-01-14', 'TNHB0A1234562017', 'Unfinished road', 2, 'Civil Court', 'Andheri', 'Daruwalla', 'Hearing stage', 'CLOSED', 'NORMAL', 2, ''),
-(6, 'Rohan Paresh Shukla', 'Petitioner', 'Hindustan Unilever Limited', 'Yash Shah', 7184, 'Original', 'Consumer Protection', 739, '2020-10-15', 648, '2020-11-27', '2021-04-27', 'TNFT0A1234562017', 'Dispute on Sanyo LCD Television', 5, 'District Consumer Dispute Redressal Forum', 'Mumbai Suburban', 'Subramaniam', 'Hearing going on', 'ACTIVE TRIAL', 'NORMAL', 2, ''),
+(4, 'Sharanya Nikhil Ranga', 'Petitioner', 'Nirmal Nagda', 'Khushi Mehta', 9563, 'Original', 'Indian Penal Code, 1', 8956, '2020-10-23', 8912, '2020-12-17', '2021-04-30', '7856', 'Molestation', 6, 'District Sessions Court', 'Vikhroli', 'Naidu', 'Ongoing', 'ACTIVE TRIAL', 'NORMAL', 2, ''),
+(5, 'Manjula Sawant Singh', 'Petitioner', 'Pertinent Infrastructure Limited', 'Tanvi Nandu', 1977, 'Civil', 'The National Highway', 5638, '2020-10-05', 7853, '2020-12-15', '2021-04-28', 'TNHB0A1234562017', 'Unfinished road', 2, 'Civil Court', 'Andheri', 'Daruwalla', 'Hearing stage', 'CLOSED', 'NORMAL', 2, ''),
+(6, 'Rohan Paresh Shukla', 'Petitioner', 'Hindustan Unilever Limited', 'Yash Shah', 7184, 'Original', 'Consumer Protection', 739, '2020-10-15', 648, '2020-11-27', '2021-04-27', 'TNFT0A1234562017', 'Dispute on Sanyo LCD Television', 5, 'District Consumer Dispute Redressal Forum', 'Mumbai Suburban', 'Subramaniam', 'Hearing going on', 'CLOSED', 'NORMAL', 3, ''),
 (7, 'Karan Manoj Vaswani', 'petitioner', 'Nishtha Mehta & Associates', 'Nishtha Mehta', 879, 'Original', 'The Industrial Emplo', 5462, '2020-08-07', 55, '2021-02-25', '2021-03-26', 'FBBB0A1234752017', 'Hire and Fire Case', 6, 'Labor Court', 'Bandra', 'Vyas', 'Filed complaint', 'PRE-TRIAL', 'NORMAL', 2, '');
 
 -- --------------------------------------------------------
@@ -113,24 +113,25 @@ CREATE TABLE `clients` (
   `email` varchar(50) NOT NULL,
   `mobno` varchar(10) NOT NULL,
   `alternateno` varchar(10) DEFAULT NULL,
-  `address` varchar(300) NOT NULL
+  `address` varchar(300) NOT NULL,
+  `assto` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`ID`, `oname`, `oemail`, `website`, `name`, `gender`, `email`, `mobno`, `alternateno`, `address`) VALUES
-(3, 'DSK Legal', 'dsk@gmail.com', 'www.dsklegal.com', 'Darshan Rajesh Sharma', 'Male', 'darshan.s@gmail.com', '9320411419', '9321611619', 'Ghatkopar'),
-(4, 'Khurana & Khurana- Advocates and IP Attorney', 'info@khuranaandkhurana.com', 'www.khuranaandkhurana.com', 'Meena Tarun Khurana', 'Female', 'meena.k@khuranaandkhurana.com', '9833648990', '9765382764', 'Goregaon'),
-(5, 'MZM Legal', 'lawyers@mzmlegal.com', 'www.mzmlegal.com', 'Munir Javed Merchant', 'Male', 'mjmerchant@gmail.com', '9863276510', '9327639007', 'Nariman Point'),
-(6, 'Argus Partners', 'contact@argusp.com', 'www.argus-p.com', 'Krishnava Ranjit Shetty', 'Male', 'krs@argusp.com', '9956824387', '9344278790', 'Malad'),
-(7, 'Trilegal', 'www.trilegal.com', 'www.trilegal.com', 'Anirudha Jayant Sen', 'Female', 'ani273@gmail.com', '9973400893', '0222407910', 'Borivali'),
-(8, 'Advaya Legal', 'contact@advayalegal.com', 'www.advayalegal.com', 'Sharanya Nikhil Ranga', 'Female', 'sharanyaranga@hotmail.com', '9900456239', '9821115639', 'Sion'),
-(9, 'Solomon & Co.', 'solomonco@slmnco.in', 'www.solomonco.in', 'Aaron Jonathon Solomon', 'Male', 'aaron.solomon@slmnco.in', '9321574908', '9362887470', 'Dadar'),
-(10, 'Phoenix Legal', 'mumbai@phoenixlegal.in', 'www.phoenixlegal.in', 'Manjula Sawant Singh', 'Female', 'mssingh@phoenixlegal.in', '9870632660', '1149830000', 'Mahalaxmi'),
-(11, 'Parinam Law Associates', 'info@parinamlaw.com', 'www.parinamlaw.com', 'Rohan Paresh Shukla', 'Male', 'rohan@gmail.com', '9810062367', '9810400635', 'Byculla'),
-(12, 'Prudentia Advisory LLP', 'info@prudentia.com', 'www.prudentiaadvisory.com', 'Karan Manoj Vaswani', 'Male', 'yash.hn@somaiya.edu', '9897276008', '9377709265', 'Colaba');
+INSERT INTO `clients` (`ID`, `oname`, `oemail`, `website`, `name`, `gender`, `email`, `mobno`, `alternateno`, `address`, `assto`) VALUES
+(3, 'DSK Legal', 'dsk@gmail.com', 'www.dsklegal.com', 'Darshan Rajesh Sharma', 'Male', 'darshan.s@gmail.com', '9320411419', '9321611619', 'Ghatkopar', 'Mayur'),
+(4, 'Khurana & Khurana- Advocates and IP Attorney', 'info@khuranaandkhurana.com', 'www.khuranaandkhurana.com', 'Meena Tarun Khurana', 'Female', 'neha.shewale@somaiya.edu', '9833648990', '9765382764', 'Goregaon', 'Nirmal'),
+(5, 'MZM Legal', 'lawyers@mzmlegal.com', 'www.mzmlegal.com', 'Munir Javed Merchant', 'Male', 'mjmerchant@gmail.com', '9863276510', '9327639007', 'Nariman Point', 'Mayur'),
+(6, 'Argus Partners', 'contact@argusp.com', 'www.argus-p.com', 'Krishnava Ranjit Shetty', 'Male', 'krs@argusp.com', '9956824387', '9344278790', 'Malad', ''),
+(7, 'Trilegal', 'www.trilegal.com', 'www.trilegal.com', 'Anirudha Jayant Sen', 'Female', 'ani273@gmail.com', '9973400893', '0222407910', 'Borivali', ''),
+(8, 'Advaya Legal', 'contact@advayalegal.com', 'www.advayalegal.com', 'Sharanya Nikhil Ranga', 'Female', 'yash.hn@somaiya.edu', '9900456239', '9821115639', 'Sion', ''),
+(9, 'Solomon & Co.', 'solomonco@slmnco.in', 'www.solomonco.in', 'Aaron Jonathon Solomon', 'Male', 'aaron.solomon@slmnco.in', '9321574908', '9362887470', 'Dadar', ''),
+(10, 'Phoenix Legal', 'mumbai@phoenixlegal.in', 'www.phoenixlegal.in', 'Manjula Sawant Singh', 'Female', 'mssingh@phoenixlegal.in', '9870632660', '1149830000', 'Mahalaxmi', ''),
+(11, 'Parinam Law Associates', 'info@parinamlaw.com', 'www.parinamlaw.com', 'Rohan Paresh Shukla', 'Male', 'rohan@gmail.com', '9810062367', '9810400635', 'Byculla', ''),
+(12, 'Prudentia Advisory LLP', 'info@prudentia.com', 'www.prudentiaadvisory.com', 'Karan Manoj Vaswani', 'Male', 'karan@prudentia.com', '9897276008', '9377709265', 'Colaba', 'Kinjal');
 
 -- --------------------------------------------------------
 
@@ -142,6 +143,15 @@ CREATE TABLE `evidence` (
   `cid` int(100) NOT NULL,
   `files` varchar(10000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `evidence`
+--
+
+INSERT INTO `evidence` (`cid`, `files`) VALUES
+(1, '[\"../admin/upload/1619528636_ERP 3B.pdf\",[\"[\"../admin/upload/1619528587_ERP 2A.pdf\"\",\"[\"[\"../admin/upload/1619527716_GPL.txt\"\"\",\"\"\"../admin/upload/1619527716_README_License.txt\"]\"]]\"]]'),
+(2, '[\"upload/1619528765_ERP 3B.pdf\",\"upload/1619528765_IOE 2B.pdf\",\"upload/1619528765_IOE 3A.pdf\"]'),
+(6, '[\"upload/1619528814_ERP 3B.pdf\"]');
 
 -- --------------------------------------------------------
 
@@ -220,7 +230,7 @@ CREATE TABLE `profile` (
 --
 
 INSERT INTO `profile` (`ID`, `username`, `gender`, `email`, `mobno`, `alternateno`, `address`) VALUES
-(1, 'admin', 'Male', 'admin@admin.com', '', '', ''),
+(1, 'admin', 'Male', 'admin@admin.com', '9870676203', '9870676203', 'Ghatkopar East'),
 (3, 'Darshan Rajesh Sharm', 'Male', 'darshan.s@gmail.com', '9320411419', '9321611619', 'Ghatkopar'),
 (4, 'Meena Tarun Khurana', 'Female', 'meena.k@khuranaandkhurana.com', '9833648990', '9765382764', 'Goregaon'),
 (5, 'Munir Javed Merchant', 'Male', 'mjmerchant@gmail.com', '9863276510', '9327639007', 'Nariman Point'),
@@ -237,8 +247,7 @@ INSERT INTO `profile` (`ID`, `username`, `gender`, `email`, `mobno`, `alternaten
 (16, 'Karan', '', 'kabarvalia@gmail.com', '', '', ''),
 (18, 'Kinjal', '', 'kinjal86@gmail.com', '', '', ''),
 (19, 'Rashi', '', 'rashivaidya@gmail.com', '', '', ''),
-(20, 'Manan', '', 'manan15@yahoo.com', '', '', ''),
-(21, 'Kashish', '', 'kasharora@gmail.com', '', '', '');
+(20, 'Manan', '', 'manan15@yahoo.com', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -262,10 +271,10 @@ CREATE TABLE `tasks` (
 
 INSERT INTO `tasks` (`ID`, `taskname`, `related`, `start`, `deadline`, `assto`, `status`) VALUES
 (1, 'Draft mortgage deed', 'Meena Tarun Khurana', '2021-02-28', '2021-03-02', 'Apurva', 'COMPLETED'),
-(2, 'File petition before', 'Darshan Rajesh Sharma', '2021-04-05', '2021-05-12', 'Mayur', 'ASSIGNED'),
-(3, 'Draft a hypothecation deed', 'Krishnava Ranjit Shetty', '2021-03-03', '2021-04-30', 'Nirmal', 'IN-PROGRESS'),
+(2, 'File petition before', 'Darshan Rajesh Sharma', '2021-04-04', '2021-04-29', 'Mayur', 'ASSIGNED'),
+(3, 'Draft a hypothecation deed', 'Krishnava Ranjit Shetty', '2021-03-03', '2021-04-30', 'Nirmal', 'COMPLETED'),
 (4, 'Send February newsletter', 'Sharanya Nikhil Ranga', '2021-02-28', '2021-03-01', 'Karan', 'COMPLETED'),
-(5, 'Update file of Case', 'Manjula Sawant Singh', '2021-03-01', '2021-03-31', 'Kinjal', 'COMPLETED'),
+(5, 'Update file of Case', 'Manjula Sawant Singh', '2021-03-01', '2021-03-31', 'Mayur', 'COMPLETED'),
 (6, 'Send review petition', 'Karan Manoj Vaswani', '2021-04-16', '2021-04-30', 'Rashi', 'ASSIGNED'),
 (7, 'Follow up for documents', 'Aaron Jonathon Solomon', '2021-03-30', '2021-04-19', 'Manan', 'IN-PROGRESS'),
 (8, 'Conference call of Case No. 190', 'Rohan Paresh Shukla', '2021-04-17', '2021-05-30', 'Kashish', 'ASSIGNED');
@@ -301,13 +310,12 @@ INSERT INTO `users` (`ID`, `username`, `email`, `password`, `role`) VALUES
 (11, 'rohan', 'rohan@gmail.com', 'bad67475e631dacf3ecad6b1f015468d91fe0eba', 'Client'),
 (12, 'karanvaswani23', 'karanvaswani23@gmail.com', '86045c5fd879aa4dfd42711719f7ce8440c965eb', 'Client'),
 (13, 'Apurva', 'apurvadoshi@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
-(14, 'Mayur', 'mayur@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
-(15, 'Nirmal', 'nirmalnagda@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
+(14, 'Mayur', 'luy.n@somaiya.edu', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
+(15, 'Nirmal', 'nirmalnagda@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Assistant'),
 (16, 'Karan', 'kabarvalia@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
 (18, 'Kinjal', 'kinjal86@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
 (19, 'Rashi', 'rashivaidya@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
-(20, 'Manan', 'manan15@yahoo.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff'),
-(21, 'Kashish', 'kasharora@gmail.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff');
+(20, 'Manan', 'manan15@yahoo.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Staff');
 
 --
 -- Indexes for dumped tables
@@ -381,31 +389,31 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT for table `cases`
 --
 ALTER TABLE `cases`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `income`
 --
 ALTER TABLE `income`
-  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `ID` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
