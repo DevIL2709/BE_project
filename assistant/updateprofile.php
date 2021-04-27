@@ -1,25 +1,27 @@
 <?php
-  session_start();
-  error_reporting(0);
-  if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
-  require_once "../functions/database_functions.php";
-  $conn = db_connect();
-  $query = "SELECT * from users WHERE role!='Client' || role!='CLIENT' || role!='client'";
-  $result = mysqli_query($conn, $query);
-  //casenotif query
-  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
-  $casenotifresult = mysqli_query($conn, $casenotifquery);
-  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+session_start();
+error_reporting(0);
+if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+require_once "../functions/database_functions.php";
+$conn = db_connect();
+$user = $_SESSION['user'];
+$query = "SELECT * from profile WHERE username='$user'";
+$result = mysqli_query($conn, $query);
+$array = mysqli_fetch_assoc($result);
+//casenotif query
+$casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
+$casenotifresult = mysqli_query($conn, $casenotifquery);
+$casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
-  //tasknotif query
-  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
-  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
-  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+//tasknotif query
+$tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
+$tasknotifquery = mysqli_query($conn, $tasknotifquery);
+$tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
-  //appnotif query
-  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
-  $appnotifquery = mysqli_query($conn, $appnotifquery);
-  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
+//appnotif query
+$appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
+$appnotifquery = mysqli_query($conn, $appnotifquery);
+$appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +77,7 @@
               <p>Appointment</p>
             </a>
           </li>
-          <li class="nav-item active ">
+          <li class="nav-item ">
             <a class="nav-link" href="./teammembers.php">
               <i class="material-icons">groups</i>
               <p>Team members</p>
@@ -89,7 +91,7 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Team Members</a>
+            <a class="navbar-brand">Profile</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -98,12 +100,12 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
+            <form class="navbar-form" style="display: none">
               <div class="input-group no-border">
-                <input type="text" id="search" name="search" class="form-control" placeholder="Search..." onkeyup="searchItem()">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                <button type="button" class="btn btn-white btn-round btn-just-icon">
+                <i class="material-icons">search</i>
+                <div class="ripple-container"></div>
                 </button>
               </div>
             </form>
@@ -160,33 +162,54 @@
       <!-- End Navbar -->
       <div class="content">
         <div class="container-fluid">
-          </div>  
           <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Users</h4>
-                  <p class="card-category">Total Users</p>
+                  <h4 class="card-title">Update Profile</h4>
                 </div>
-                <div class="card-body table-responsive">
-                  <table class="table table-hover" id="myTable">
-                    <thead class="text-primary">
-                      <th>ID</th>
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>Role</th>
-                    </thead>
-                    <tbody>
-                    <?php while($array = mysqli_fetch_assoc($result)): ?>
-                      <tr>
-                        <td><?php echo $array['ID']; ?></td>
-                        <td><?php echo $array['username']; ?></td>
-                        <td><?php echo $array['email']; ?></td>
-                        <td><?php echo $array['role']; ?></td>
-                      </tr>
-                    <?php endwhile; ?>
-                    </tbody>
-                  </table>
+                <div class="card-body">
+                  <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
+                    <div class="row">
+                      <div class="col-12 form-group">
+                        <label for="username" class="text-primary pl-3">Username</label>
+                        <input type="text" class="form-control" name="username" value="<?php echo $user ?>">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <div class="form-check form-check-radio">
+                          <label for="country" class="text-primary">Gender</label>
+                          <select class="form-control" name="gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Rather not say</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="email" class="text-primary pl-3 pt-3">Email address</label>
+                        <br>
+                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" value="<?php echo $array['email'] ?>">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="mobno" class="text-primary pl-3 pt-3">Mobile Number</label>
+                        <br>
+                        <input type="text" class="form-control" name="mobno" pattern="[0-9]{10}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="alternateno" class="text-primary pl-3">Alternate No.</label>
+                        <input type="text" class="form-control" name="alternateno" pattern="[0-9]{10}">
+                      </div>
+                      <div class="col-8 form-group">
+                        <label for="address" class="text-primary pl-3">Address</label>
+                        <input type="text" class="form-control" name="address">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                  </form>
                 </div>
               </div>
             </div>
@@ -202,7 +225,6 @@
                   Software for Advocates
                 </a>
               </li>
-              <li>
             </ul>
           </nav>
           <div class="copyright float-right">
@@ -254,28 +276,28 @@
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
   <script>
-    $(document).ready(function() {
-      $().ready(function() {
-        $sidebar = $('.sidebar');
+    jQuery(document).ready(function() {
+      jQuery().ready(function() {
+        jQuerysidebar = jQuery('.sidebar');
 
-        $full_page = $('.full-page');
+        jQueryfull_page = jQuery('.full-page');
 
-        $sidebar_responsive = $('body > .navbar-collapse');
+        jQuerysidebar_responsive = jQuery('body > .navbar-collapse');
 
-        window_width = $(window).width();
+        window_width = jQuery(window).width();
 
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+        fixed_plugin_open = jQuery('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
         if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-            $('.fixed-plugin .dropdown').addClass('open');
+          if (jQuery('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            jQuery('.fixed-plugin .dropdown').addClass('open');
           }
 
         }
 
-        $('.fixed-plugin a').click(function(event) {
+        jQuery('.fixed-plugin a').click(function(event) {
           // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-          if ($(this).hasClass('switch-trigger')) {
+          if (jQuery(this).hasClass('switch-trigger')) {
             if (event.stopPropagation) {
               event.stopPropagation();
             } else if (window.event) {
@@ -284,44 +306,44 @@
           }
         });
 
-        $('.fixed-plugin .active-color span').click(function() {
-          $full_page_background = $('.full-page-background');
+        jQuery('.fixed-plugin .active-color span').click(function() {
+          jQueryfull_page_background = jQuery('.full-page-background');
 
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
+          jQuery(this).siblings().removeClass('active');
+          jQuery(this).addClass('active');
 
-          var new_color = $(this).data('color');
+          var new_color = jQuery(this).data('color');
 
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
+          if (jQuerysidebar.length != 0) {
+            jQuerysidebar.attr('data-color', new_color);
           }
 
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
+          if (jQueryfull_page.length != 0) {
+            jQueryfull_page.attr('filter-color', new_color);
           }
 
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
+          if (jQuerysidebar_responsive.length != 0) {
+            jQuerysidebar_responsive.attr('data-color', new_color);
           }
         });
 
-        $('.switch-sidebar-mini input').change(function() {
-          $body = $('body');
+        jQuery('.switch-sidebar-mini input').change(function() {
+          jQuerybody = jQuery('body');
 
-          $input = $(this);
+          jQueryinput = jQuery(this);
 
           if (md.misc.sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
+            jQuery('body').removeClass('sidebar-mini');
             md.misc.sidebar_mini_active = false;
 
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
 
           } else {
 
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
 
             setTimeout(function() {
-              $('body').addClass('sidebar-mini');
+              jQuery('body').addClass('sidebar-mini');
 
               md.misc.sidebar_mini_active = true;
             }, 300);
@@ -329,44 +351,12 @@
         });
       });
     });
-  </script>
-  <script>
-    $(document).ready(function(){
 
-    // Search all columns
-    $('#search').keyup(function(){
-      // Search Text
-      var search = $(this).val();
-
-      // Hide all table tbody rows
-      $('table tbody tr').hide();
-
-      // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
-
-      if(len > 0){
-        // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
-        });
-      }else{
-        $('.notfound').show();
-      }
-
-    });
-    // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
-      return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-      };
-    });
-    });
-
-    $(document).ready(function(){
-      if ($(window).width() < 768) {
-        $("a").css("white-space", "wrap");
+    jQuery(document).ready(function(){
+      if (jQuery(window).width() < 768) {
+        jQuery("a").css("white-space", "wrap");
         } else {
-        $("a").css("white-space", "nowrap");
+        jQuery("a").css("white-space", "nowrap");
       }
     });
   </script>
@@ -374,6 +364,30 @@
 
 </html>
 <?php
+if(isset($_POST['submit'])) {
+  $username = trim($_POST['username']);
+  $gender = trim($_POST['gender']);
+  $email = trim($_POST['email']);
+  $mobno = trim($_POST['mobno']);
+  $alternateno = trim($_POST['alternateno']);
+  $address = trim($_POST['address']);
+  $query1 = "UPDATE profile SET username='$username', gender='$gender', email='$email', mobno='$mobno', alternateno='$alternateno', address='$address' WHERE username='$user'";
+  $update = mysqli_query($conn, $query1);
+
+  if(!$update) {
+  echo "<script>
+			alert('Error in updating. Please try again!');
+			window.location.href='./profile.php';
+		  </script>";
+  }
+  else {
+    echo "<script>
+        alert('Profile updated successfully!');
+        window.location.href='./profile.php';
+        </script>";
+    $_SESSION['user']=$username;
+  }
+}
 }
 else {
   header("Location: ../index.php");

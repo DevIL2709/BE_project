@@ -7,17 +7,17 @@
  $query = "SELECT * from cases ORDER BY prioritynumber ASC";
  $result = mysqli_query($conn, $query);
  //casenotif query
-  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
   //tasknotif query
-  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
   $tasknotifquery = mysqli_query($conn, $tasknotifquery);
   $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
   //appnotif query
-  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
   $appnotifquery = mysqli_query($conn, $appnotifquery);
   $appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
@@ -241,7 +241,7 @@
                       <th>Court Detail</th>
                       <th>Petitioner vs Respondent</th>
                       <th>Next Date</th>
-                      <th>Status</th>
+                      <th>status</th>
                       <th>Priority</th>
                       <th>Action</th>
                     </thead>
@@ -276,7 +276,7 @@
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title">Update Case Status</h5>
+                                  <h5 class="modal-title">Update Case status</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
@@ -451,133 +451,58 @@
   <!--  Notifications Plugin    -->
   <script src="../assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <script src="../assets/js/material-dashboard.js" type="text/javascript"></script>
   <script>
-    $(document).ready(function() {
-      $().ready(function() {
-        $sidebar = $('.sidebar');
-
-        $full_page = $('.full-page');
-
-        $sidebar_responsive = $('body > .navbar-collapse');
-
-        window_width = $(window).width();
-
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
-
-        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-            $('.fixed-plugin .dropdown').addClass('open');
-          }
-
-        }
-
-        $('.fixed-plugin a').click(function(event) {
-          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-          if ($(this).hasClass('switch-trigger')) {
-            if (event.stopPropagation) {
-              event.stopPropagation();
-            } else if (window.event) {
-              window.event.cancelBubble = true;
-            }
-          }
-        });
-
-        $('.fixed-plugin .active-color span').click(function() {
-          $full_page_background = $('.full-page-background');
-
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
-
-          var new_color = $(this).data('color');
-
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
-          }
-
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
-          }
-
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
-          }
-        });
-
-        $('.switch-sidebar-mini input').change(function() {
-          $body = $('body');
-
-          $input = $(this);
-
-          if (md.misc.sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
-            md.misc.sidebar_mini_active = false;
-
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
-
-          } else {
-
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
-
-            setTimeout(function() {
-              $('body').addClass('sidebar-mini');
-
-              md.misc.sidebar_mini_active = true;
-            }, 300);
-          }
-        });
-      });
-    });
     console.log("here");
     function fetchstatus(id){
       console.log(id);
-      $(document).ready(function(){
-        $.get("fetchcasestatus.php?id="+id, function(data, status){
+      jQuery(document).ready(function(){
+        jQuery.get("fetchcasestatus.php?id="+id, function(data, status){
           jQuery.noConflict();
-          console.log("Data: " + data + "\nStatus: " + status);
-          $("#updatestatus").modal('show');
+          console.log("Data: " + data + "\nstatus: " + status);
+          jQuery("#updatestatus").modal('show');
           if(data == "PRE-TRIAL") {
               console.log(data);
-              $("#status").prop("selectedIndex", 0);
-              $("#submit").val(id);
+              jQuery("#status").prop("selectedIndex", 0);
+              jQuery("#submit").val(id);
           }
           if(data == "ACTIVE TRIAL") {
               console.log(data);
-              $("#status").prop("selectedIndex", 1);
-              $("#submit").val(id);
+              jQuery("#status").prop("selectedIndex", 1);
+              jQuery("#submit").val(id);
           }
           if(data == "FINAL HEARING") {
               console.log(data);
-              $("#status").prop("selectedIndex", 2);
-              $("#submit").val(id);
+              jQuery("#status").prop("selectedIndex", 2);
+              jQuery("#submit").val(id);
           }
           if(data == "CLOSED") {
               console.log(data);
-              $("#status").prop("selectedIndex", 3);
-              $("#submit").val(id);
+              jQuery("#status").prop("selectedIndex", 3);
+              jQuery("#submit").val(id);
           }
         });     
       });
     }
 
-    $(document).ready(function(){
-      $("#submit").on('click', function(){
-        let id = $("#submit").val();
-        var selectedValue = $('#status').find(":selected").text();
+    jQuery(document).ready(function(){
+      jQuery("#submit").on('click', function(){
+        let id = jQuery("#submit").val();
+        var selectedValue = jQuery('#status').find(":selected").text();
         console.log(id + " " + selectedValue);
-        $.post("updatecasestatus.php", {
+        jQuery.post("updatecasestatus.php", {
           "id": id,
           "selectedValue": selectedValue,
         }, function(result){
           console.log(result);
           if(result) {
             alert("Updated status successfully!");
-            $("#updatestatus").modal('hide');
+            jQuery("#updatestatus").modal('hide');
             location.reload();
           }
           else {
             alert("Error in updating. Please try again later!");
-            $("#updatestatus").modal('hide');
+            jQuery("#updatestatus").modal('hide');
           }
         });
       });
@@ -585,80 +510,80 @@
 
     function fetchpriority(id){
       console.log(id);
-      $(document).ready(function(){
-        $.get("fetchcasepriority.php?id="+id, function(data, status){
+      jQuery(document).ready(function(){
+        jQuery.get("fetchcasepriority.php?id="+id, function(data, status){
           jQuery.noConflict();
           console.log("Data: " + data);
-          $("#updatepriority").modal('show');
+          jQuery("#updatepriority").modal('show');
           if(data == "NORMAL") {
               console.log(data);
-              $("#priority").prop("selectedIndex", 0);
-              $("#prioritysubmit").val(id);
+              jQuery("#priority").prop("selectedIndex", 0);
+              jQuery("#prioritysubmit").val(id);
           }
           if(data == "HIGH PRIORITY") {
               console.log(data);
-              $("#priority").prop("selectedIndex", 1);
-              $("#prioritysubmit").val(id);
+              jQuery("#priority").prop("selectedIndex", 1);
+              jQuery("#prioritysubmit").val(id);
           }
           if(data == "LOW PRIORITY") {
               console.log(data);
-              $("#priority").prop("selectedIndex", 2);
-              $("#prioritysubmit").val(id);
+              jQuery("#priority").prop("selectedIndex", 2);
+              jQuery("#prioritysubmit").val(id);
           }
         });     
       });
     }
 
-    $(document).ready(function(){
-      $("#prioritysubmit").on('click', function(){
-        let id = $("#prioritysubmit").val();
-        var selectedValue = $('#priority').find(":selected").text();
+    jQuery(document).ready(function(){
+      jQuery("#prioritysubmit").on('click', function(){
+        let id = jQuery("#prioritysubmit").val();
+        var selectedValue = jQuery('#priority').find(":selected").text();
         console.log(id + " " + selectedValue);
-        $.post("updatecasepriority.php", {
+        jQuery.post("updatecasepriority.php", {
           "id": id,
           "selectedValue": selectedValue,
         }, function(result){
           console.log(result);
           if(result) {
             alert("Updated priority successfully!");
-            $("#updatepriority").modal('hide');
+            jQuery("#updatepriority").modal('hide');
             location.reload();
           }
           else {
             alert("Error in updating. Please try again later!");
-            $("#updatepriority").modal('hide');
+            jQuery("#updatepriority").modal('hide');
           }
         });
       });
     });
 
-    $(document).ready(function(){
+    jQuery(document).ready(function(){
 
     // Search all columns
-    $('#search').keyup(function(){
+    jQuery('#search').keyup(function(){
       // Search Text
-      var search = $(this).val();
+      var search = jQuery(this).val();
 
       // Hide all table tbody rows
-      $('table tbody tr').hide();
+      jQuery('table tbody tr').hide();
 
       // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+      var len = jQuery('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
 
       if(len > 0){
         // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
+        jQuery('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+          jQuery(this).closest('tr').show();
         });
       }else{
-        $('.notfound').show();
+        jQuery('.notfound').show();
       }
 
     });
     // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+    jQuery.expr[":"].contains = jQuery.expr.createPseudo(function(arg) {
       return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+        return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
       };
     });
     });
@@ -671,12 +596,89 @@
       }
     }
 
-    $(document).ready(function(){
-      if ($(window).width() < 768) {
-        $("a").css("white-space", "wrap");
+    jQuery(document).ready(function(){
+      if (jQuery(window).width() < 768) {
+        jQuery("a").css("white-space", "wrap");
         } else {
-        $("a").css("white-space", "nowrap");
+        jQuery("a").css("white-space", "nowrap");
       }
+    });
+
+    jQuery(document).ready(function() {
+      jQuery().ready(function() {
+        jQuerysidebar = jQuery('.sidebar');
+
+        jQueryfull_page = jQuery('.full-page');
+
+        jQuerysidebar_responsive = jQuery('body > .navbar-collapse');
+
+        window_width = jQuery(window).width();
+
+        fixed_plugin_open = jQuery('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+          if (jQuery('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            jQuery('.fixed-plugin .dropdown').addClass('open');
+          }
+
+        }
+
+        jQuery('.fixed-plugin a').click(function(event) {
+          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+          if (jQuery(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        jQuery('.fixed-plugin .active-color span').click(function() {
+          jQueryfull_page_background = jQuery('.full-page-background');
+
+          jQuery(this).siblings().removeClass('active');
+          jQuery(this).addClass('active');
+
+          var new_color = jQuery(this).data('color');
+
+          if (jQuerysidebar.length != 0) {
+            jQuerysidebar.attr('data-color', new_color);
+          }
+
+          if (jQueryfull_page.length != 0) {
+            jQueryfull_page.attr('filter-color', new_color);
+          }
+
+          if (jQuerysidebar_responsive.length != 0) {
+            jQuerysidebar_responsive.attr('data-color', new_color);
+          }
+        });
+
+        jQuery('.switch-sidebar-mini input').change(function() {
+          jQuerybody = jQuery('body');
+
+          jQueryinput = jQuery(this);
+
+          if (md.misc.sidebar_mini_active == true) {
+            jQuery('body').removeClass('sidebar-mini');
+            md.misc.sidebar_mini_active = false;
+
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+          } else {
+
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+            setTimeout(function() {
+              jQuery('body').addClass('sidebar-mini');
+
+              md.misc.sidebar_mini_active = true;
+            }, 300);
+          }
+        });
+      });
+      jQuery.noConflict();
     });
   </script>
 </body>

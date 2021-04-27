@@ -4,24 +4,24 @@ error_reporting(0);
 if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
 require_once "../functions/database_functions.php";
 $conn = db_connect();
-$query1 = "SELECT * from clients";
-$result1 = mysqli_query($conn, $query1);
-$query2 = "SELECT * from users";
-$result2 = mysqli_query($conn, $query2);
-  //casenotif query
-  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
-  $casenotifresult = mysqli_query($conn, $casenotifquery);
-  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+$id = $_POST['view'];
+$query = "SELECT * from profile WHERE ID='$id'";
+$result = mysqli_query($conn, $query);
+$array = mysqli_fetch_assoc($result);
+//casenotif query
+$casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
+$casenotifresult = mysqli_query($conn, $casenotifquery);
+$casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
-  //tasknotif query
-  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
-  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
-  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+//tasknotif query
+$tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
+$tasknotifquery = mysqli_query($conn, $tasknotifquery);
+$tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
-  //appnotif query
-  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
-  $appnotifquery = mysqli_query($conn, $appnotifquery);
-  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
+//appnotif query
+$appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
+$appnotifquery = mysqli_query($conn, $appnotifquery);
+$appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +65,7 @@ $result2 = mysqli_query($conn, $query2);
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
@@ -91,7 +91,7 @@ $result2 = mysqli_query($conn, $query2);
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Add Task</a>
+            <a class="navbar-brand">Profile</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -164,54 +164,20 @@ $result2 = mysqli_query($conn, $query2);
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <div class="card">
+            <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Add Task</h4>
+                  <h4 class="card-title">Your Details</h4>
+                  <!-- <p class="card-category">Total Cases</p> -->
                 </div>
-                <div class="card-body">
-                  <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
-                    <div class="row">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="taskname" class="text-primary pl-3">Task Name</label>
-                        <input type="text" class="form-control" name="taskname">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="related" class="text-primary">Related To</label>
-                        <select class="form-control" name="related">
-                        <option></option>
-                        <?php while($array1 = mysqli_fetch_assoc($result1)): ?>
-                        <option><?php echo $array1['name']; ?></option>
-                        <?php endwhile; ?>
-                        <option>Other</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="start" class="text-primary pl-3">Start Date</label>
-                        <input type="date" class="form-control" name="start" id="start">
-                      </div>
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="deadline" class="text-primary pl-3">Deadline</label>
-                        <input type="date" class="form-control" name="deadline">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="assto" class="text-primary">Assigned To</label>
-                        <br>
-                        <select class="form-control" name="assto">
-                        <option></option>
-                        <?php while($array2 = mysqli_fetch_assoc($result2)): ?>
-                        <option><?php echo $array2['username']; ?></option>
-                        <?php endwhile; ?>
-                        </select>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
-                  </form>
+                <div class="card-body table-responsive">
+                <table class="table table-hover" style="font-size:18px; font-weight:500">
+                <tr><td><?php echo "Username"?></td><td> : </td><td><?php echo $array['username']; ?></tr>
+                <tr><td><?php echo "Gender"?></td><td> : </td><td><?php echo $array['gender']; ?></td></tr>
+                <tr><td><?php echo "Email Address"?></td><td> : </td><td><?php echo $array['email']; ?></td></tr>
+                <tr><td><?php echo "Mobile Number"?></td><td> : </td><td><?php echo $array['mobno']; ?></td></tr>
+                <tr><td><?php echo "Alternate Number"?></td><td> : </td><td><?php echo $array['alternateno']; ?></td></tr>
+                <tr><td><?php echo "Address"?></td><td> : </td><td><?php echo $array['address']; ?></td></tr>
+                </table>
                 </div>
               </div>
             </div>
@@ -353,7 +319,7 @@ $result2 = mysqli_query($conn, $query2);
         });
       });
     });
-    
+
     jQuery(document).ready(function(){
       if (jQuery(window).width() < 768) {
         jQuery("a").css("white-space", "wrap");
@@ -363,34 +329,9 @@ $result2 = mysqli_query($conn, $query2);
     });
   </script>
 </body>
+
 </html>
-
 <?php
-if(isset($_POST['submit'])) {
-  require_once "../functions/database_functions.php";
-  $taskname = trim($_POST['taskname']);
-  $related = trim($_POST['related']);
-  $start = trim($_POST['start']);
-  $deadline = trim($_POST['deadline']);
-  $assto = trim($_POST['assto']);
-  $status = "ASSIGNED";
-
-  $conn = db_connect();
-  $query = "INSERT INTO tasks(ID, taskname, related, start, deadline, assto, status) VALUES ('', '$taskname', '$related', '$start','$deadline', '$assto', '$status');";
-  $result = mysqli_query($conn, $query);
-
-  if(!$result) {
-      echo "<script>alert('Task insertion failed. Please retry!');
-			window.location.href='./task.php';
-		  </script>";
-  }
-  
-  else {
-      echo "<script>alert('Successfully assigned!');
-			window.location.href='./task.php';
-		  </script>";
-  }
-}
 }
 else {
   header("Location: ../index.php");

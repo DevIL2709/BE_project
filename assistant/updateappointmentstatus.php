@@ -5,7 +5,7 @@ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
   $id = trim($_POST['id']);
-  $status = $_POST['selectedStatusValue'];
+  $status = $_POST['selectedstatusValue'];
   $date = $_POST['selectedDateValue'];
   $time = $_POST['selectedTimeValue'];
   $conn = db_connect();

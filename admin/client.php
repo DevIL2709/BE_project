@@ -138,7 +138,7 @@
                     notifications
                   </p>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right col-md-4 col-lg-2" aria-labelledby="navbarDropdownMenuLink">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                   <?php if($casenotifresult == NULL) { ?>
                   <a class="dropdown-item" href="./cases.php">No Upcoming Cases</a>
                   <?php } else { ?>

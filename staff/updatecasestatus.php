@@ -8,8 +8,12 @@ if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
   $status = $_POST['selectedValue'];
 
   $conn = db_connect();
-
-  $query = "UPDATE cases SET status='$status' WHERE ID='$id'";
+  if($status=="CLOSED") {
+    $query = "UPDATE cases SET status='$status', prioritynumber='3' WHERE ID='$id'";
+  }
+  else {
+    $query = "UPDATE cases SET status='$status' WHERE ID='$id'";
+  }
   $result = mysqli_query($conn, $query);
   header('Content-type: application/json');
   echo json_encode($result);

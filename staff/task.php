@@ -4,20 +4,21 @@
   if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
-  $query = "SELECT * from tasks";
+  $user = $_SESSION['user'];
+  $query = "SELECT * from tasks WHERE assto='$user' ORDER BY ID DESC";
   $result = mysqli_query($conn, $query);
   //casenotif query
-  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() ORDER BY hearingdate LIMIT 1";
+  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE clientname IN (SELECT name FROM clients WHERE assto='$user') AND hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
   $casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
   //tasknotif query
-  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() ORDER BY deadline LIMIT 1";
+  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE assto='$user' AND deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
   $tasknotifquery = mysqli_query($conn, $tasknotifquery);
   $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
   //appnotif query
-  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() ORDER BY date LIMIT 1";
+  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE cname IN (SELECT name FROM clients WHERE assto='$user') AND date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
   $appnotifquery = mysqli_query($conn, $appnotifquery);
   $appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
@@ -132,12 +133,6 @@
               <p>Appointment</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./teammembers.php">
-              <i class="material-icons">groups</i>
-              <p>Team members</p>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -231,7 +226,6 @@
                       <th>Related To</th>
                       <th>Start Date</th>
                       <th>Deadline</th>
-                      <th>Assigned To</th>
                       <th>Status</th>
                     </thead>
                     <tbody>
@@ -241,7 +235,6 @@
                         <td><?php echo $array['related']; ?></td>
                         <td><?php echo $array['start']; ?></td>
                         <td><?php echo $array['deadline']; ?></td>
-                        <td><?php echo $array['assto']; ?></td>
                         <td>
                           <?php if($array['status']=='ASSIGNED') { ?>
                           <button type="button" class="btn btn-success" onclick="fetchstatus(<?php echo $array['ID']?>);">
@@ -260,7 +253,7 @@
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title">Update Case Status</h5>
+                                  <h5 class="modal-title">Update Case status</h5>
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
@@ -371,81 +364,81 @@
   <script>
   console.log("here");
 
-  $(document).ready(function(){
+  jQuery(document).ready(function(){
 
     // Search all columns
-    $('#search').keyup(function(){
+    jQuery('#search').keyup(function(){
       // Search Text
-      var search = $(this).val();
+      var search = jQuery(this).val();
 
       // Hide all table tbody rows
-      $('table tbody tr').hide();
+      jQuery('table tbody tr').hide();
 
       // Count total search result
-      var len = $('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
+      var len = jQuery('table tbody tr:not(.notfound) td:contains("'+search+'")').length;
 
       if(len > 0){
         // Searching text in columns and show match row
-        $('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
-          $(this).closest('tr').show();
+        jQuery('table tbody tr:not(.notfound) td:contains("'+search+'")').each(function(){
+          jQuery(this).closest('tr').show();
         });
       }else{
-        $('.notfound').show();
+        jQuery('.notfound').show();
       }
 
     });
     // Case-insensitive searching (Note - remove the below script for Case sensitive search )
-    $.expr[":"].contains = $.expr.createPseudo(function(arg) {
+    jQuery.expr[":"].contains = jQuery.expr.createPseudo(function(arg) {
       return function( elem ) {
-        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+        return jQuery(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
       };
     });
     });
 
   function fetchstatus(id){
     console.log(id);
-    $(document).ready(function(){
-      $.get("fetchtaskstatus.php?id="+id, function(data, status){
+    jQuery(document).ready(function(){
+      jQuery.get("fetchtaskstatus.php?id="+id, function(data, status){
         jQuery.noConflict();
-        console.log("Data: " + data + "\nStatus: " + status);
-        $("#updatestatus").modal('show');
+        console.log("Data: " + data + "\nstatus: " + status);
+        jQuery("#updatestatus").modal('show');
         if(data == "ASSIGNED") {
             console.log(data);
-            $("#status").prop("selectedIndex", 0);
-            $("#submit").val(id);
+            jQuery("#status").prop("selectedIndex", 0);
+            jQuery("#submit").val(id);
         }
         if(data == "IN-PROGRESS") {
             console.log(data);
-            $("#status").prop("selectedIndex", 1);
-            $("#submit").val(id);
+            jQuery("#status").prop("selectedIndex", 1);
+            jQuery("#submit").val(id);
         }
         if(data == "COMPLETED") {
             console.log(data);
-            $("#status").prop("selectedIndex", 2);
-            $("#submit").val(id);
+            jQuery("#status").prop("selectedIndex", 2);
+            jQuery("#submit").val(id);
         }
       });     
     });
   }
 
-  $(document).ready(function(){
-    $("#submit").on('click', function(){
-      let id = $("#submit").val();
-      var selectedValue = $('#status').find(":selected").text();
+  jQuery(document).ready(function(){
+    jQuery("#submit").on('click', function(){
+      let id = jQuery("#submit").val();
+      var selectedValue = jQuery('#status').find(":selected").text();
       console.log(id + " " + selectedValue);
-      $.post("updatetaskstatus.php", {
+      jQuery.post("updatetaskstatus.php", {
         "id": id,
         "selectedValue": selectedValue,
       }, function(result){
         console.log(result);
         if(result) {
           alert("Updated status successfully!");
-          $("#updatestatus").modal('hide');
+          jQuery("#updatestatus").modal('hide');
           location.reload();
         }
         else {
           alert("Error in updating. Please try again later!");
-          $("#updatestatus").modal('hide');
+          jQuery("#updatestatus").modal('hide');
         }
       });
     });
@@ -460,28 +453,28 @@
     }
   </script>
   <script>
-    $(document).ready(function() {
-      $().ready(function() {
-        $sidebar = $('.sidebar');
+    jQuery(document).ready(function() {
+      jQuery().ready(function() {
+        jQuerysidebar = jQuery('.sidebar');
 
-        $full_page = $('.full-page');
+        jQueryfull_page = jQuery('.full-page');
 
-        $sidebar_responsive = $('body > .navbar-collapse');
+        jQuerysidebar_responsive = jQuery('body > .navbar-collapse');
 
-        window_width = $(window).width();
+        window_width = jQuery(window).width();
 
-        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+        fixed_plugin_open = jQuery('.sidebar .sidebar-wrapper .nav li.active a p').html();
 
         if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
-          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
-            $('.fixed-plugin .dropdown').addClass('open');
+          if (jQuery('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            jQuery('.fixed-plugin .dropdown').addClass('open');
           }
 
         }
 
-        $('.fixed-plugin a').click(function(event) {
+        jQuery('.fixed-plugin a').click(function(event) {
           // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
-          if ($(this).hasClass('switch-trigger')) {
+          if (jQuery(this).hasClass('switch-trigger')) {
             if (event.stopPropagation) {
               event.stopPropagation();
             } else if (window.event) {
@@ -490,44 +483,44 @@
           }
         });
 
-        $('.fixed-plugin .active-color span').click(function() {
-          $full_page_background = $('.full-page-background');
+        jQuery('.fixed-plugin .active-color span').click(function() {
+          jQueryfull_page_background = jQuery('.full-page-background');
 
-          $(this).siblings().removeClass('active');
-          $(this).addClass('active');
+          jQuery(this).siblings().removeClass('active');
+          jQuery(this).addClass('active');
 
-          var new_color = $(this).data('color');
+          var new_color = jQuery(this).data('color');
 
-          if ($sidebar.length != 0) {
-            $sidebar.attr('data-color', new_color);
+          if (jQuerysidebar.length != 0) {
+            jQuerysidebar.attr('data-color', new_color);
           }
 
-          if ($full_page.length != 0) {
-            $full_page.attr('filter-color', new_color);
+          if (jQueryfull_page.length != 0) {
+            jQueryfull_page.attr('filter-color', new_color);
           }
 
-          if ($sidebar_responsive.length != 0) {
-            $sidebar_responsive.attr('data-color', new_color);
+          if (jQuerysidebar_responsive.length != 0) {
+            jQuerysidebar_responsive.attr('data-color', new_color);
           }
         });
 
-        $('.switch-sidebar-mini input').change(function() {
-          $body = $('body');
+        jQuery('.switch-sidebar-mini input').change(function() {
+          jQuerybody = jQuery('body');
 
-          $input = $(this);
+          jQueryinput = jQuery(this);
 
           if (md.misc.sidebar_mini_active == true) {
-            $('body').removeClass('sidebar-mini');
+            jQuery('body').removeClass('sidebar-mini');
             md.misc.sidebar_mini_active = false;
 
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
 
           } else {
 
-            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+            jQuery('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
 
             setTimeout(function() {
-              $('body').addClass('sidebar-mini');
+              jQuery('body').addClass('sidebar-mini');
 
               md.misc.sidebar_mini_active = true;
             }, 300);
@@ -536,11 +529,11 @@
       });
     });
 
-    $(document).ready(function(){
-      if ($(window).width() < 768) {
-        $("a").css("white-space", "wrap");
+    jQuery(document).ready(function(){
+      if (jQuery(window).width() < 768) {
+        jQuery("a").css("white-space", "wrap");
         } else {
-        $("a").css("white-space", "nowrap");
+        jQuery("a").css("white-space", "nowrap");
       }
     });
   </script>

@@ -1,27 +1,27 @@
 <?php
 session_start();
 error_reporting(0);
-if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+if(isset($_SESSION['staff']) && $_SESSION['staff']==true) {
 require_once "../functions/database_functions.php";
 $conn = db_connect();
-$query1 = "SELECT * from clients";
-$result1 = mysqli_query($conn, $query1);
-$query2 = "SELECT * from users";
-$result2 = mysqli_query($conn, $query2);
-  //casenotif query
-  $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
-  $casenotifresult = mysqli_query($conn, $casenotifquery);
-  $casenotifresult = mysqli_fetch_assoc($casenotifresult);
+$user = $_SESSION['user'];
+$query = "SELECT * from profile WHERE username='$user'";
+$result = mysqli_query($conn, $query);
+$array = mysqli_fetch_assoc($result);
+//casenotif query
+$casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
+$casenotifresult = mysqli_query($conn, $casenotifquery);
+$casenotifresult = mysqli_fetch_assoc($casenotifresult);
 
-  //tasknotif query
-  $tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
-  $tasknotifquery = mysqli_query($conn, $tasknotifquery);
-  $tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
+//tasknotif query
+$tasknotifquery = "SELECT assto, deadline FROM tasks WHERE deadline >= CURDATE() AND status!='COMPLETED' ORDER BY deadline LIMIT 1";
+$tasknotifquery = mysqli_query($conn, $tasknotifquery);
+$tasknotifresult = mysqli_fetch_assoc($tasknotifquery);
 
-  //appnotif query
-  $appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
-  $appnotifquery = mysqli_query($conn, $appnotifquery);
-  $appnotifresult = mysqli_fetch_assoc($appnotifquery);
+//appnotif query
+$appnotifquery = "SELECT cname, date, time FROM appointment WHERE date >= CURDATE() AND status!='CLOSED' AND status!='CANCELLED' ORDER BY date LIMIT 1";
+$appnotifquery = mysqli_query($conn, $appnotifquery);
+$appnotifresult = mysqli_fetch_assoc($appnotifquery);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,7 +65,7 @@ $result2 = mysqli_query($conn, $query2);
               <p>Case</p>
             </a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item ">
             <a class="nav-link" href="./task.php">
               <i class="material-icons">add_task</i>
               <p>Task</p>
@@ -77,12 +77,6 @@ $result2 = mysqli_query($conn, $query2);
               <p>Appointment</p>
             </a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./teammembers.php">
-              <i class="material-icons">groups</i>
-              <p>Team members</p>
-            </a>
-          </li>
         </ul>
       </div>
     </div>
@@ -91,7 +85,7 @@ $result2 = mysqli_query($conn, $query2);
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand">Add Task</a>
+            <a class="navbar-brand">Profile</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -166,48 +160,46 @@ $result2 = mysqli_query($conn, $query2);
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Add Task</h4>
+                  <h4 class="card-title">Update Profile</h4>
                 </div>
                 <div class="card-body">
                   <form method="post" action="<?=$_SERVER['PHP_SELF'];?>">
                     <div class="row">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="taskname" class="text-primary pl-3">Task Name</label>
-                        <input type="text" class="form-control" name="taskname">
+                      <div class="col-12 form-group">
+                        <label for="username" class="text-primary pl-3">Username</label>
+                        <input type="text" class="form-control" name="username" value="<?php echo $user ?>">
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="related" class="text-primary">Related To</label>
-                        <select class="form-control" name="related">
-                        <option></option>
-                        <?php while($array1 = mysqli_fetch_assoc($result1)): ?>
-                        <option><?php echo $array1['name']; ?></option>
-                        <?php endwhile; ?>
-                        <option>Other</option>
-                        </select>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <div class="form-check form-check-radio">
+                          <label for="country" class="text-primary">Gender</label>
+                          <select class="form-control" name="gender">
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Rather not say</option>
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                    <div class="row pt-3">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="start" class="text-primary pl-3">Start Date</label>
-                        <input type="date" class="form-control" name="start" id="start">
-                      </div>
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="deadline" class="text-primary pl-3">Deadline</label>
-                        <input type="date" class="form-control" name="deadline">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6 col-lg-3 form-group">
-                        <label for="assto" class="text-primary">Assigned To</label>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="email" class="text-primary pl-3 pt-3">Email address</label>
                         <br>
-                        <select class="form-control" name="assto">
-                        <option></option>
-                        <?php while($array2 = mysqli_fetch_assoc($result2)): ?>
-                        <option><?php echo $array2['username']; ?></option>
-                        <?php endwhile; ?>
-                        </select>
+                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp" value="<?php echo $array['email'] ?>">
+                      </div>
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="mobno" class="text-primary pl-3 pt-3">Mobile Number</label>
+                        <br>
+                        <input type="text" class="form-control" name="mobno" pattern="[0-9]{10}">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4 col-lg-2 form-group">
+                        <label for="alternateno" class="text-primary pl-3">Alternate No.</label>
+                        <input type="text" class="form-control" name="alternateno" pattern="[0-9]{10}">
+                      </div>
+                      <div class="col-8 form-group">
+                        <label for="address" class="text-primary pl-3">Address</label>
+                        <input type="text" class="form-control" name="address">
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary" name="submit">Submit</button>
@@ -353,7 +345,7 @@ $result2 = mysqli_query($conn, $query2);
         });
       });
     });
-    
+
     jQuery(document).ready(function(){
       if (jQuery(window).width() < 768) {
         jQuery("a").css("white-space", "wrap");
@@ -363,32 +355,31 @@ $result2 = mysqli_query($conn, $query2);
     });
   </script>
 </body>
-</html>
 
+</html>
 <?php
 if(isset($_POST['submit'])) {
-  require_once "../functions/database_functions.php";
-  $taskname = trim($_POST['taskname']);
-  $related = trim($_POST['related']);
-  $start = trim($_POST['start']);
-  $deadline = trim($_POST['deadline']);
-  $assto = trim($_POST['assto']);
-  $status = "ASSIGNED";
+  $username = trim($_POST['username']);
+  $gender = trim($_POST['gender']);
+  $email = trim($_POST['email']);
+  $mobno = trim($_POST['mobno']);
+  $alternateno = trim($_POST['alternateno']);
+  $address = trim($_POST['address']);
+  $query1 = "UPDATE profile SET username='$username', gender='$gender', email='$email', mobno='$mobno', alternateno='$alternateno', address='$address' WHERE username='$user'";
+  $update = mysqli_query($conn, $query1);
 
-  $conn = db_connect();
-  $query = "INSERT INTO tasks(ID, taskname, related, start, deadline, assto, status) VALUES ('', '$taskname', '$related', '$start','$deadline', '$assto', '$status');";
-  $result = mysqli_query($conn, $query);
-
-  if(!$result) {
-      echo "<script>alert('Task insertion failed. Please retry!');
-			window.location.href='./task.php';
+  if(!$update) {
+  echo "<script>
+			alert('Error in updating. Please try again!');
+			window.location.href='./profile.php';
 		  </script>";
   }
-  
   else {
-      echo "<script>alert('Successfully assigned!');
-			window.location.href='./task.php';
-		  </script>";
+    echo "<script>
+        alert('Profile updated successfully!');
+        window.location.href='./profile.php';
+        </script>";
+    $_SESSION['user']=$username;
   }
 }
 }

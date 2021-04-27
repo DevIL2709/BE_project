@@ -6,6 +6,11 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   $conn = db_connect();
   $query = "SELECT * FROM cases";
   $result = mysqli_query($conn, $query);
+
+  $evidencequery = "SELECT * FROM evidence";
+  $evidenceresult = mysqli_query($conn, $evidencequery);
+  $evidenceresult = mysqli_fetch_assoc($evidenceresult);
+
   //casenotif query
   $casenotifquery = "SELECT clientname, hearingdate FROM cases WHERE hearingdate >= CURDATE() AND status!='CLOSED' ORDER BY hearingdate LIMIT 1";
   $casenotifresult = mysqli_query($conn, $casenotifquery);
@@ -412,8 +417,21 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
         $temparray = $location;
         array_push($finalarray, $temparray);
     }
-    $jsondata = json_encode($finalarray);
-    $finalresult = mysqli_query($conn,"INSERT INTO evidence (cid, files) VALUES ('$ID', '$jsondata')");
+    if ($ID == $evidenceresult['cid']) {
+      $ev1 = "SELECT files FROM evidence WHERE cid='$ID'";
+      $evresult = mysqli_query($conn, $ev1);
+      $evidence = mysqli_fetch_assoc($evresult);
+      $evidence = $evidence['files'];
+      $evidencearray = explode(',',$evidence);
+      array_push($finalarray, $evidencearray);
+      $jsondata = json_encode($finalarray);
+      $finalresult = mysqli_query($conn, "UPDATE evidence SET files='$jsondata' WHERE cid='$ID'");
+    }
+    else {
+      $jsondata = json_encode($finalarray);
+      $finalresult = mysqli_query($conn,"INSERT INTO evidence (cid, files) VALUES ('$ID', '$jsondata')");
+    }
+
     if(!$finalresult) {
       echo "<script>alert('Uploading Failed. Please retry again later!');
             window.location.href='./cases.php';
