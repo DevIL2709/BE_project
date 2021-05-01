@@ -505,10 +505,18 @@ if(isset($_POST['submit'])) {
 
   $prioritynumbers = 2;
 
+  $query1 = "SELECT `AUTO_INCREMENT`
+  FROM  INFORMATION_SCHEMA.TABLES
+  WHERE TABLE_SCHEMA = 'softwareforadvocates'
+  AND   TABLE_NAME   = 'cases';";
+  $id = mysqli_query($conn, $query1);
+  $array =  mysqli_fetch_assoc($id);
+  $caseid = $array['AUTO_INCREMENT']-1;
+
   $conn = db_connect();
   $query = "INSERT INTO cases(ID, clientname, clienttype, oppositionname, oppositionadvocate, casenumber, casetype, act, filingnumber, filingdate, regno, 
   regdate, hearingdate, cnrno, description, courtno, courtname, courttype, judgename, remarks, status, priority, prioritynumber, phyloc) 
-  VALUES('', '$clientname', '$clienttype', '$oppositionname', '$oppositionadvocate', '$casenumber', '$casetype', '$act', '$filingnumber', '$filingdate', '$regno',
+  VALUES('$caseid', '$clientname', '$clienttype', '$oppositionname', '$oppositionadvocate', '$casenumber', '$casetype', '$act', '$filingnumber', '$filingdate', '$regno',
   '$regdate', '$hearingdate', '$cnrno', '$description', '$courtno', '$courtname', '$courttype', '$judgename', '$remarks', '$status', '$priority', '$prioritynumber', '$phyloc');";
   $result = mysqli_query($conn, $query);
 

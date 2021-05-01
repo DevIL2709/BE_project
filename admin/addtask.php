@@ -388,7 +388,16 @@ if(isset($_POST['submit'])) {
   $status = "ASSIGNED";
 
   $conn = db_connect();
-  $query = "INSERT INTO tasks(ID, taskname, related, start, deadline, assto, status) VALUES ('', '$taskname', '$related', '$start','$deadline', '$assto', '$status');";
+
+  $query1 = "SELECT `AUTO_INCREMENT`
+  FROM  INFORMATION_SCHEMA.TABLES
+  WHERE TABLE_SCHEMA = 'softwareforadvocates'
+  AND   TABLE_NAME   = 'tasks';";
+  $id = mysqli_query($conn, $query1);
+  $array =  mysqli_fetch_assoc($id);
+  $taskid = $array['AUTO_INCREMENT']-1;
+
+  $query = "INSERT INTO tasks(ID, taskname, related, start, deadline, assto, status) VALUES ('$taskid', '$taskname', '$related', '$start','$deadline', '$assto', '$status');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

@@ -374,7 +374,15 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query = "INSERT INTO income(ID, name, date, amount_paid, total_amount) VALUES('', '$in', '$date', '$amount_paid', '$total_amount');";
+  $query1 = "SELECT `AUTO_INCREMENT`
+  FROM  INFORMATION_SCHEMA.TABLES
+  WHERE TABLE_SCHEMA = 'softwareforadvocates'
+  AND   TABLE_NAME   = 'income';";
+  $id = mysqli_query($conn, $query1);
+  $array =  mysqli_fetch_assoc($id);
+  $incid = $array['AUTO_INCREMENT']-1;
+
+  $query = "INSERT INTO income(ID, name, date, amount_paid, total_amount) VALUES('$incid', '$in', '$date', '$amount_paid', '$total_amount');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {
