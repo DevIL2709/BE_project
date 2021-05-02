@@ -369,15 +369,7 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query1 = "SELECT `AUTO_INCREMENT`
-  FROM  INFORMATION_SCHEMA.TABLES
-  WHERE TABLE_SCHEMA = 'softwareforadvocates'
-  AND   TABLE_NAME   = 'expense';";
-  $id = mysqli_query($conn, $query1);
-  $array =  mysqli_fetch_assoc($id);
-  $expid = $array['AUTO_INCREMENT']-1;
-
-  $query = "INSERT INTO expense(ID, name, expense, date, note) VALUES('$expid', '$in', '$expense', '$date', '$note');";
+  $query = "INSERT INTO expense(ID, name, expense, date, note) VALUES('', '$in', '$expense', '$date', '$note');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

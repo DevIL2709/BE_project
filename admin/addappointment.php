@@ -427,15 +427,7 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query1 = "SELECT `AUTO_INCREMENT`
-  FROM  INFORMATION_SCHEMA.TABLES
-  WHERE TABLE_SCHEMA = 'softwareforadvocates'
-  AND   TABLE_NAME   = 'appointment';";
-  $id = mysqli_query($conn, $query1);
-  $array =  mysqli_fetch_assoc($id);
-  $appid = $array['AUTO_INCREMENT']-1;
-
-  $query = "INSERT INTO appointment(ID, cname, mobno, date, time, subject, status) VALUES('$appid', '$cname', '$mobno', '$date', '$time', '$subject', '$status');";
+  $query = "INSERT INTO appointment(ID, cname, mobno, date, time, subject, status) VALUES('', '$cname', '$mobno', '$date', '$time', '$subject', '$status');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {
