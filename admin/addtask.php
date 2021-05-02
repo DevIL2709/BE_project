@@ -388,7 +388,7 @@ if(isset($_POST['submit'])) {
   $status = "ASSIGNED";
 
   $conn = db_connect();
-  $query = "INSERT INTO tasks(ID, taskname, related, start, deadline, assto, status) VALUES ('', '$taskname', '$related', '$start','$deadline', '$assto', '$status');";
+  $query = "INSERT INTO tasks(taskname, related, start, deadline, assto, status) VALUES ('$taskname', '$related', '$start','$deadline', '$assto', '$status');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

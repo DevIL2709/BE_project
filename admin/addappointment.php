@@ -427,7 +427,7 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query = "INSERT INTO appointment(ID, cname, mobno, date, time, subject, status) VALUES('', '$cname', '$mobno', '$date', '$time', '$subject', '$status');";
+  $query = "INSERT INTO appointment(cname, mobno, date, time, subject, status) VALUES('$cname', '$mobno', '$date', '$time', '$subject', '$status');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

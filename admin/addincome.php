@@ -374,7 +374,7 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query = "INSERT INTO income(ID, name, date, amount_paid, total_amount) VALUES('', '$in', '$date', '$amount_paid', '$total_amount');";
+  $query = "INSERT INTO income(name, date, amount_paid, total_amount) VALUES('$in', '$date', '$amount_paid', '$total_amount');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

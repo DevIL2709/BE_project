@@ -369,7 +369,7 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query = "INSERT INTO expense(ID, name, expense, date, note) VALUES('', '$in', '$expense', '$date', '$note');";
+  $query = "INSERT INTO expense(name, expense, date, note) VALUES('$in', '$expense', '$date', '$note');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {
