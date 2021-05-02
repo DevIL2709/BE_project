@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
   $query = "SELECT * from clients";
@@ -80,6 +80,18 @@ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
             <a class="nav-link" href="./teammembers.php">
               <i class="material-icons">groups</i>
               <p>Team members</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./income.php">
+              <i class="material-icons">money</i>
+              <p>Income</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./expense.php">
+              <i class="material-icons">monetization_on</i>
+              <p>Expense</p>
             </a>
           </li>
         </ul>
@@ -415,7 +427,7 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query = "INSERT INTO appointment(ID, cname, mobno, date, time, subject, status) VALUES('', '$cname', '$mobno', '$date', '$time', '$subject', '$status');";
+  $query = "INSERT INTO appointment(cname, mobno, date, time, subject, status) VALUES('$cname', '$mobno', '$date', '$time', '$subject', '$status');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
   $query = "SELECT * from clients";
@@ -79,6 +79,18 @@ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
             <a class="nav-link" href="./teammembers.php">
               <i class="material-icons">groups</i>
               <p>Team members</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./income.php">
+              <i class="material-icons">money</i>
+              <p>Income</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./expense.php">
+              <i class="material-icons">monetization_on</i>
+              <p>Expense</p>
             </a>
           </li>
         </ul>
@@ -249,7 +261,7 @@ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
                       <div class="col-md-4 col-lg-2 form-group">
                         <label for="regno" class="pt-3 text-primary pl-3">Registration Number</label>
                         <br>
-                        <input type="text" class="form-control pt-3" name="regno">
+                        <input type="number" class="form-control pt-3" name="regno">
                       </div>
                       <div class="col-md-4 col-lg-2 form-group">
                         <label for="regdate" class="pt-3 text-primary pl-3">Registration Date</label>
@@ -308,6 +320,13 @@ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
                         <label for="remarks" class="pt-3 text-primary pl-3">Remarks</label>
                         <br>
                         <input type="textarea" class="form-control" name="remarks">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-8 col-lg-4 form-group">
+                        <label for="phyloc" class="pt-3 text-primary pl-3">Physical Location of Files</label>
+                        <br>
+                        <input type="textarea" class="form-control" name="phyloc">
                       </div>
                     </div>
                   </div>
@@ -491,12 +510,12 @@ if(isset($_POST['submit'])) {
   $priority = "NORMAL";
   $phyloc = trim($_POST['phyloc']);
 
-  $prioritynumbers = 2;
+  $prioritynumber = 2;
 
   $conn = db_connect();
-  $query = "INSERT INTO cases(ID, clientname, clienttype, oppositionname, oppositionadvocate, casenumber, casetype, act, filingnumber, filingdate, regno, 
+  $query = "INSERT INTO cases(clientname, clienttype, oppositionname, oppositionadvocate, casenumber, casetype, act, filingnumber, filingdate, regno, 
   regdate, hearingdate, cnrno, description, courtno, courtname, courttype, judgename, remarks, status, priority, prioritynumber, phyloc) 
-  VALUES('', '$clientname', '$clienttype', '$oppositionname', '$oppositionadvocate', '$casenumber', '$casetype', '$act', '$filingnumber', '$filingdate', '$regno',
+  VALUES('$clientname', '$clienttype', '$oppositionname', '$oppositionadvocate', '$casenumber', '$casetype', '$act', '$filingnumber', '$filingdate', '$regno',
   '$regdate', '$hearingdate', '$cnrno', '$description', '$courtno', '$courtname', '$courttype', '$judgename', '$remarks', '$status', '$priority', '$prioritynumber', '$phyloc');";
   $result = mysqli_query($conn, $query);
 

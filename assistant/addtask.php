@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 require_once "../functions/database_functions.php";
 $conn = db_connect();
 $query1 = "SELECT * from clients";
@@ -81,6 +81,18 @@ $result2 = mysqli_query($conn, $query2);
             <a class="nav-link" href="./teammembers.php">
               <i class="material-icons">groups</i>
               <p>Team members</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./income.php">
+              <i class="material-icons">money</i>
+              <p>Income</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./expense.php">
+              <i class="material-icons">monetization_on</i>
+              <p>Expense</p>
             </a>
           </li>
         </ul>
@@ -376,7 +388,7 @@ if(isset($_POST['submit'])) {
   $status = "ASSIGNED";
 
   $conn = db_connect();
-  $query = "INSERT INTO tasks(ID, taskname, related, start, deadline, assto, status) VALUES ('', '$taskname', '$related', '$start','$deadline', '$assto', '$status');";
+  $query = "INSERT INTO tasks(taskname, related, start, deadline, assto, status) VALUES ('$taskname', '$related', '$start','$deadline', '$assto', '$status');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {

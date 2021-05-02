@@ -365,16 +365,8 @@ if(isset($_POST['submit'])) {
     
   $query = "INSERT INTO users(username, email, password, role) VALUES ('$username', '$email', '$password', '$role');";
   $result = mysqli_query($conn, $query);
-    
-  $query1 = "SELECT `AUTO_INCREMENT`
-  FROM  INFORMATION_SCHEMA.TABLES
-  WHERE TABLE_SCHEMA = 'softwareforadvocates'
-  AND   TABLE_NAME   = 'users';";
-  $id = mysqli_query($conn, $query1);
-  $array =  mysqli_fetch_assoc($id);
-  $userid = $array['AUTO_INCREMENT']-1;
 
-  $query2 = "INSERT INTO profile(ID, username, gender, email, mobno, alternateno, address) VALUES ('$userid', '$username', '', '$email', '', '', '');";
+  $query2 = "INSERT INTO profile(username, gender, email, mobno, alternateno, address) VALUES ('$username', '', '$email', '', '', '');";
   $profile = mysqli_query($conn, $query2);
 
   if(!$result || !$profile) {

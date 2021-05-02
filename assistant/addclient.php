@@ -1,7 +1,7 @@
 <?php
 session_start();
 error_reporting(0);
-if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
+if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
   require_once "../functions/database_functions.php";
   $conn = db_connect();
   $query = "SELECT * from clients";
@@ -83,6 +83,18 @@ if(isset($_SESSION['assistant']) && $_SESSION['assistant']==true) {
             <a class="nav-link" href="./teammembers.php">
               <i class="material-icons">groups</i>
               <p>Team members</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./income.php">
+              <i class="material-icons">money</i>
+              <p>Income</p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="./expense.php">
+              <i class="material-icons">monetization_on</i>
+              <p>Expense</p>
             </a>
           </li>
         </ul>
@@ -417,16 +429,8 @@ if(isset($_POST['submit'])) {
 
   $conn = db_connect();
 
-  $query1 = "SELECT `AUTO_INCREMENT`
-  FROM  INFORMATION_SCHEMA.TABLES
-  WHERE TABLE_SCHEMA = 'softwareforadvocates'
-  AND   TABLE_NAME   = 'users';";
-  $id = mysqli_query($conn, $query1);
-  $array =  mysqli_fetch_assoc($id);
-  $clientid = $array['AUTO_INCREMENT']-1;
-
   $name = $fname." ".$mname." ".$lname;
-  $query = "INSERT INTO clients(ID, oname, oemail, website, name, gender, email, mobno, alternateno, address, assto) VALUES ('$clientid', '$oname', '$oemail', '$website','$name', '$gender', '$email', '$mobno', '$alternateno', '$address', '$assto');";
+  $query = "INSERT INTO clients(oname, oemail, website, name, gender, email, mobno, alternateno, address, assto) VALUES ('$oname', '$oemail', '$website','$name', '$gender', '$email', '$mobno', '$alternateno', '$address', '$assto');";
   $result = mysqli_query($conn, $query);
 
   if(!$result) {
