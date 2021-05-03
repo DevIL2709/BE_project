@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 require_once "./functions/database_functions.php";
-$username = trim($_POST['username']);
+$username = tolower(trim($_POST['username']));
 $password = trim($_POST['password']);
 
 $conn = db_connect();

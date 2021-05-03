@@ -366,7 +366,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 <?php
 if(isset($_POST['submit'])) {
   require_once "../functions/database_functions.php";
-  $username = trim($_POST['username']);
+  $username = tolower(trim($_POST['username']));
   $email = trim($_POST['email']);
   $role = trim($_POST['role']);
   $password = trim($_POST['password']);
