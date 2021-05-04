@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 require_once "./functions/database_functions.php";
-$username = tolower(trim($_POST['username']));
+$username = strtolower(trim($_POST['username']));
 $password = trim($_POST['password']);
 
 $conn = db_connect();
@@ -36,7 +36,6 @@ if($username != $row['username'] OR $password != $row['password']){
 			alert('Username and Password Mismatch. Please fill again!');
 			window.location.href='index.php';
 		  </script>";
-	$_SESSION['admin'] = false;
 }
 
 else if($username == $row['username'] AND $password == $row['password'] AND $role == 'admin' OR $role == 'Admin'){

@@ -342,11 +342,11 @@
                   <form id="form-login" method="post" onsubmit="action='login.php';">
                     <div class="form-element form-stack">
                       <label for="username-login" class="form-label">Username</label>
-                      <input id="username-login" type="text" name="username">
+                      <input id="username-login" type="text" name="username" required>
                     </div>
                     <div class="form-element form-stack">
                       <label for="password-login" class="form-label">Password</label>
-                      <input id="password-login" type="password" name="password">
+                      <input id="password-login" type="password" name="password" required>
                     </div>
                     <div class="form-element form-submit">
                       <button id="logIn" class="login" type="submit" name="login">Log In</button>
