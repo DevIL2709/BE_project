@@ -9,7 +9,7 @@ if(isset($_SESSION['admin']) && $_SESSION['admin']==true) {
 
   $conn = db_connect();
   if($status=="CLOSED") {
-    $query = "UPDATE cases SET status='$status', prioritynumber='3' WHERE ID='$id'";
+    $query = "UPDATE cases SET status='$status', priority='LOW PRIORITY', prioritynumber='4' WHERE ID='$id'";
   }
   else {
     $query = "UPDATE cases SET status='$status' WHERE ID='$id'";

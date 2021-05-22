@@ -253,7 +253,7 @@
                       <th>Court Detail</th>
                       <th>Petitioner vs Respondent</th>
                       <th>Next Date</th>
-                      <th>status</th>
+                      <th>Status</th>
                       <th>Priority</th>
                       <th>Action</th>
                     </thead>
